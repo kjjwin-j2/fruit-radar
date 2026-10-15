@@ -3,2092 +3,1090 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#16202E">
+<meta name="theme-color" content="#5E1739">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="과일레이더">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAGzElEQVR42u2dPXIUMRBGhylfgghSjuIAruE7sPEewtdw4qOQknENAlcBhXc10qj/9b7Y3pFaTy21WtPz4funrxtCt7RjAgQcCDgQcCDgQMCBgAMBBwIOBBwIOBACDgQcCDgQcCDgQMCBgAMBBwIOBBwIAQcCDgQcCDgQcCDgQMCBgAMBBwIOhIADAQca18OyPb++Pvf/8eXxaUETfVik7NMQCuBSHw5xIFYDpSAcZkyUp6QOHI5MVKWkAhznsBgaP4NHAIcbFuLj5Pho4JAZG4OBidMS4OgaDJeRCNuwVeBoD0AQ06doZCk40lm8ACI54GgYOriV87Y8ARypjZu9F6HhuGfTpMFhuu7smNJM91oe6mw3uueoh0XSDu4YLrILuf58AY6FyOjn440MRz4CLSs3yVDFIsLJ971e/8fE5fO3deGwIUNk62fRqi8fbzzXnI8QcGiToRQOqLTwFhZefPjDoUdGrmuC19fnUGRsMW+fz9va+OTg7XGzzQ5Ghr/neD+KkybWeOHA4CWGdkjiQoYzHLJk2IQeGk9pkfHjl2Mk7waHMRn2gU+vWzoiwyCczrTnEBwnPZv++eV7T7++Ph8+vZMML/l4Dim3EScVfqIlDTIun7+J78ZywKFNhuNZe2eTOref7nz451bKkLGNZEx6AhP3jNIeZG7N/8jl8SlCfu5eM97aPBmyGp/fmC4rIn7SPj8nRvD9Y64GFo6Ly+47yaqScaNVp8jw7d3uOZMkHE/kqx5/m3eWDN/FZc/iNiKEdic1TYZXT/cUbiMpGdefL+3DDN99/aEeUrgNR2pPN/Xget/gAejl8cn+krpFtDI57zXcxglDi+XS/iHD3Q7h4HC0iM01wSGfMWMNbTh2e7fhQsb19VnKLbd/qr3JeL/PkLVP7mglbOUMkd9U2n56WS9uyt4gc3v4s+3//S8p30nG+61lT3LfRQ9ZpqzUcerQD/Zc2mifZNz0GYKhhypYpp6jvxsax6kz7qdFicTF4P4xtoxpcxTGnz9OlVqz+zMmbTJSHOIpwnEacPHj1E00C9OTMTmxA/UyVwjPcXps5Ke7iJoZkx4yHA1SallxORppPUU5ZK2/rNg7SXcyth+/Ih9qRYFD6qB3JsCxJ2N0jKXMokTVul9qksRiC/GaSfFlRXDHLus2Ri8GBww9qm1Ig+zne8iIH3qwrIgR8PfNojUCk7JwzB6a3Rr+wzJtPe+YZK9ztxuMlrGNBgKc5h3PUTJ8u6mxWdnDOgBtW58u4Si+mtjEpdU2pAG390NkhK1bvQoc53y74GqSJfQAjig+AziKRK3aexTgQMCBgAMh4EDAIRF3EK0gVBeO3vLTg26g//UT4Ii0RsQu+wQcKqbUnoX9zkN7t+GbxLaGwzfNOHC/9+gFk843UCJ0UwOpCnuOSbvcJGAIi5JrysY1wZUj1dyeI9Ed7hrXzUPDIXiH29Logi9GhFqMOARD5nBIBSwzrxbaOI8ZtyFlFiV/E85zzPTTng/ZN+2iBTj175Dq8ZG4HHs0OBz382alJosFOLvlJLbxrvc+lKRdpFaj2b6LUY5lZXRce761JtsSqZJ26+45DKqa9PBxwou0/8uyapklVbrH577VWN/+/qC+7EQF402tqHKQACdubkWqDPQhoKeHSoqMsDFOyk+HRpheZSr8e8IR5FBLpUitt9so+DGebYEvNWWxgz8c23QuQM8uet94E++C/W1Cnw1pnJJIWQ68XfZqe4ox8L2uEcFtuDC9Z5kKefkQX1AKhrIax4iCGRMlLDR2S0t8NUEqZIjJh1RyzrF3pnCILA0p+NAjw3IHnfLTodpJefGlRLXjNZeVmUmvl5TX6It7fu6cjA7BlLxlw3zGk0y8JRHycz5wbNKfIndEROPpQTK3FV6HbCTley5tKK2GBS4bu3kO8fnRW7ZlbswMnhLnwocnHBqGGNrE9dbCVvjN+GT4w7GFychHiDOjXRKLePt8fmgFr/aYPS7gOa+/59jkzhON7a7dQvctbQg4zKwjQolNqyIEO1HgcLGRTYCTlIxYcGzSx8/BFb+zOSr7FCv+mmUapKnPUYmPLA4y1rJSfonJ1am4b9nXcyHpcI/rOQ5RSORCkvYiOhzZEUkNdw44DleTgIZO1+DEcCSyeAEsUsLRuSENWx8hV6iVD46hmMX3mmD2CDwrHKNhrWMOL+/BTG44Rsfp9JgZPAI4wiGipBqZwjpwRKCkWPa4IBz2lJS8UVAcDlVQqgKxIhyTuKyAAnCgAfEZLwQcCDgQcCDgQMCBgAMBBwIOBBwIOBACDgQcCDgQcCDgQMCBgAMBBwIOtJ5+A4gBXFrEsoZFAAAAAElFTkSuQmCC">
+<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAGzElEQVR42u2dPXIUMRBGhylfgghSjuIAruE7sPEewtdw4qOQknENAlcBhXc10qj/9b7Y3pFaTy21WtPz4funrxtCt7RjAgQcCDgQcCDgQMCBgAMBBwIOBBwIOBACDgQcCDgQcCDgQMCBgAMBBwIOBBwIAQcCDgQcCDgQcCDgQMCBgAMBBwIOhIADAQca18OyPb++Pvf/8eXxaUETfVik7NMQCuBSHw5xIFYDpSAcZkyUp6QOHI5MVKWkAhznsBgaP4NHAIcbFuLj5Pho4JAZG4OBidMS4OgaDJeRCNuwVeBoD0AQ06doZCk40lm8ACI54GgYOriV87Y8ARypjZu9F6HhuGfTpMFhuu7smNJM91oe6mw3uueoh0XSDu4YLrILuf58AY6FyOjn440MRz4CLSs3yVDFIsLJ971e/8fE5fO3deGwIUNk62fRqi8fbzzXnI8QcGiToRQOqLTwFhZefPjDoUdGrmuC19fnUGRsMW+fz9va+OTg7XGzzQ5Ghr/neD+KkybWeOHA4CWGdkjiQoYzHLJk2IQeGk9pkfHjl2Mk7waHMRn2gU+vWzoiwyCczrTnEBwnPZv++eV7T7++Ph8+vZMML/l4Dim3EScVfqIlDTIun7+J78ZywKFNhuNZe2eTOref7nz451bKkLGNZEx6AhP3jNIeZG7N/8jl8SlCfu5eM97aPBmyGp/fmC4rIn7SPj8nRvD9Y64GFo6Ly+47yaqScaNVp8jw7d3uOZMkHE/kqx5/m3eWDN/FZc/iNiKEdic1TYZXT/cUbiMpGdefL+3DDN99/aEeUrgNR2pPN/Xget/gAejl8cn+krpFtDI57zXcxglDi+XS/iHD3Q7h4HC0iM01wSGfMWMNbTh2e7fhQsb19VnKLbd/qr3JeL/PkLVP7mglbOUMkd9U2n56WS9uyt4gc3v4s+3//S8p30nG+61lT3LfRQ9ZpqzUcerQD/Zc2mifZNz0GYKhhypYpp6jvxsax6kz7qdFicTF4P4xtoxpcxTGnz9OlVqz+zMmbTJSHOIpwnEacPHj1E00C9OTMTmxA/UyVwjPcXps5Ke7iJoZkx4yHA1SallxORppPUU5ZK2/rNg7SXcyth+/Ih9qRYFD6qB3JsCxJ2N0jKXMokTVul9qksRiC/GaSfFlRXDHLus2Ri8GBww9qm1Ig+zne8iIH3qwrIgR8PfNojUCk7JwzB6a3Rr+wzJtPe+YZK9ztxuMlrGNBgKc5h3PUTJ8u6mxWdnDOgBtW58u4Si+mtjEpdU2pAG390NkhK1bvQoc53y74GqSJfQAjig+AziKRK3aexTgQMCBgAMh4EDAIRF3EK0gVBeO3vLTg26g//UT4Ii0RsQu+wQcKqbUnoX9zkN7t+GbxLaGwzfNOHC/9+gFk843UCJ0UwOpCnuOSbvcJGAIi5JrysY1wZUj1dyeI9Ed7hrXzUPDIXiH29Logi9GhFqMOARD5nBIBSwzrxbaOI8ZtyFlFiV/E85zzPTTng/ZN+2iBTj175Dq8ZG4HHs0OBz382alJosFOLvlJLbxrvc+lKRdpFaj2b6LUY5lZXRce761JtsSqZJ26+45DKqa9PBxwou0/8uyapklVbrH577VWN/+/qC+7EQF402tqHKQACdubkWqDPQhoKeHSoqMsDFOyk+HRpheZSr8e8IR5FBLpUitt9so+DGebYEvNWWxgz8c23QuQM8uet94E++C/W1Cnw1pnJJIWQ68XfZqe4ox8L2uEcFtuDC9Z5kKefkQX1AKhrIax4iCGRMlLDR2S0t8NUEqZIjJh1RyzrF3pnCILA0p+NAjw3IHnfLTodpJefGlRLXjNZeVmUmvl5TX6It7fu6cjA7BlLxlw3zGk0y8JRHycz5wbNKfIndEROPpQTK3FV6HbCTley5tKK2GBS4bu3kO8fnRW7ZlbswMnhLnwocnHBqGGNrE9dbCVvjN+GT4w7GFychHiDOjXRKLePt8fmgFr/aYPS7gOa+/59jkzhON7a7dQvctbQg4zKwjQolNqyIEO1HgcLGRTYCTlIxYcGzSx8/BFb+zOSr7FCv+mmUapKnPUYmPLA4y1rJSfonJ1am4b9nXcyHpcI/rOQ5RSORCkvYiOhzZEUkNdw44DleTgIZO1+DEcCSyeAEsUsLRuSENWx8hV6iVD46hmMX3mmD2CDwrHKNhrWMOL+/BTG44Rsfp9JgZPAI4wiGipBqZwjpwRKCkWPa4IBz2lJS8UVAcDlVQqgKxIhyTuKyAAnCgAfEZLwQcCDgQcCDgQMCBgAMBBwIOBBwIOBACDgQcCDgQcCDgQMCBgAMBBwIOtJ5+A4gBXFrEsoZFAAAAAElFTkSuQmCC">
 <title>JJ 과일 레이더</title>
-<meta name="app-version" content="2026.10.15c">
 <style>
 :root{
-  --ink:#16202E; --ink2:#4A5568; --ink3:#8A96A6;
-  --paper:#EFF2F6; --card:#FFFFFF; --line:#D7DEE7;
-  --lotte:#C8102E; --emart:#E5A100;
-  --up:#C0392B; --down:#1B6FC4;
-  --hot:#B3261E; --warm:#B26A00; --cool:#1B6FC4; --calm:#2E7D52;
-  --r:14px;
+  --ink:#16202E;--ink2:#4A5568;--ink3:#8A96A6;--paper:#F2F3F6;--card:#fff;--line:#DCE1E8;--soft:#F6F7F9;
+  --brand:#5E1739;--brand2:#7A1F4D;--lotte:#C8102E;--emart:#B07800;
+  --down:#1B5FB4;--up:#C0392B;--good:#2E7D52;--warn:#B26A00;--mute:#9AA3AF;
 }
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+*{box-sizing:border-box}
 html,body{margin:0;padding:0}
-body{
-  font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif;
-  background:var(--paper); color:var(--ink);
-  font-size:15px; line-height:1.55;
-  padding-bottom:calc(72px + env(safe-area-inset-bottom));
-  -webkit-text-size-adjust:100%;
-}
-.num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
-header{
-  position:sticky;top:0;z-index:50;background:var(--ink);color:#fff;
-  padding:calc(10px + env(safe-area-inset-top)) 0 10px;
-  display:flex;align-items:baseline;gap:10px;
-}
-header>*{max-width:none}
-.hdin{display:flex;align-items:baseline;gap:10px;width:100%;max-width:760px;margin:0 auto;padding:0 16px}
-header h1{margin:0;font-size:17px;font-weight:700;letter-spacing:-.02em}
-header .wk{margin-left:auto;white-space:nowrap;font-size:13px;color:#9FB0C4}
-main{padding:14px 14px 20px;max-width:760px;margin:0 auto}
-.panel{display:none}
-.panel.on{display:block}
-h2{font-size:15px;margin:22px 0 10px;font-weight:700;letter-spacing:-.01em}
-h2:first-child{margin-top:4px}
-p.help{color:var(--ink2);font-size:13px;margin:0 0 12px;line-height:1.6}
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:12px}
-textarea,input,select{
-  width:100%;font:inherit;font-size:16px;color:var(--ink);background:#fff;
-  border:1.5px solid var(--line);border-radius:10px;padding:12px 13px;
-}
-textarea{min-height:200px;resize:vertical;line-height:1.75;font-size:16px;overflow:hidden}
-textarea#inRaw{letter-spacing:.01em}
-/* 폰에서 16px 미만이면 사파리가 화면을 확대해 커서가 튄다 */
-textarea:focus,input:focus,select:focus{outline:none;border-color:var(--ink)}
-.row{display:flex;gap:8px;align-items:center}
-.row>*{flex:1}
-button{
-  font:inherit;font-weight:600;border:none;border-radius:10px;
-  padding:13px 16px;background:var(--ink);color:#fff;cursor:pointer;
-}
-button:active{opacity:.75}
+body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif;
+  background:var(--paper);color:var(--ink);font-size:15px;line-height:1.55;-webkit-text-size-adjust:100%;
+  padding-bottom:calc(92px + env(safe-area-inset-bottom))}
+button,[data-tap],summary,a{-webkit-tap-highlight-color:rgba(94,23,57,.14);touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.num{font-variant-numeric:tabular-nums}
+header{position:sticky;top:0;z-index:40;background:var(--brand);color:#fff;padding:calc(10px + env(safe-area-inset-top)) 0 10px}
+.hd{max-width:720px;margin:0 auto;padding:0 16px;display:flex;align-items:center;gap:10px}
+.hd h1{margin:0;font-size:17px;font-weight:800;letter-spacing:-.02em}
+.hd .st{margin-left:auto;font-size:12.5px;color:#F3D3E1;white-space:nowrap}
+main{max-width:720px;margin:0 auto;padding:14px 14px 24px}
+.pane{display:none}.pane.on{display:block}
+h2{font-size:15.5px;margin:20px 2px 9px;font-weight:800;letter-spacing:-.01em}
+h2:first-child{margin-top:2px}
+.help{color:var(--ink2);font-size:13px;margin:0 2px 10px;line-height:1.6}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+.row{display:flex;gap:8px;align-items:center}.row>*{flex:1}
+textarea,input,select{width:100%;font:inherit;font-size:16px;color:var(--ink);background:#fff;border:1.5px solid var(--line);border-radius:11px;padding:12px 13px}
+textarea{min-height:150px;resize:none;line-height:1.75;overflow:hidden}
+textarea:focus,input:focus{outline:none;border-color:var(--brand2)}
+button{font:inherit;font-weight:700;border:none;border-radius:11px;padding:14px 16px;min-height:50px;background:var(--brand);color:#fff;cursor:pointer;transition:transform .08s,filter .08s}
+button:active{transform:scale(.97);filter:brightness(1.18)}
 button.ghost{background:#fff;color:var(--ink);border:1.5px solid var(--line)}
-button.sm{padding:8px 12px;font-size:13px;border-radius:8px}
-button:disabled{opacity:.4}
-.tabs{
-  position:fixed;left:0;right:0;bottom:0;z-index:60;display:flex;
-  background:#fff;border-top:1px solid var(--line);
-  padding-bottom:env(safe-area-inset-bottom);
-  max-width:760px;margin:0 auto;
-  border-left:1px solid var(--line);border-right:1px solid var(--line);
-}
-@media(min-width:800px){
-  body{background:#E4E9F0}
-  main{background:var(--paper);min-height:calc(100vh - 46px);
-       box-shadow:0 0 0 1px var(--line);padding-bottom:90px}
-  .tabs{border-radius:14px 14px 0 0}
-}
-.tabs button{
-  flex:1;background:none;color:var(--ink3);border-radius:0;
-  padding:11px 1px 12px;font-size:10.5px;font-weight:600;line-height:1.3;
-}
-.tabs button .ic{display:block;font-size:19px;margin-bottom:1px;font-weight:400}
-.tabs button.on{color:var(--ink)}
-.tabs button.on .ic{transform:translateY(-1px)}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th{text-align:left;font-weight:600;color:var(--ink2);font-size:11.5px;padding:0 6px 6px;border-bottom:1px solid var(--line)}
-td{padding:7px 6px;border-bottom:1px solid #EDF1F5;vertical-align:middle}
-td.n,th.n{text-align:right}
-tr:last-child td{border-bottom:none}
-.pill{display:inline-block;padding:1.5px 7px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap}
-.p-lotte{background:#FBE9EC;color:var(--lotte)}
-.p-emart{background:#FCF3DA;color:#8A6200}
-.p-nh{background:#E4F1E9;color:var(--calm)}
-.ev{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid #EDF1F5}
-.ev:last-child{border-bottom:none}
-.ev .bar{width:3px;border-radius:3px;flex:none}
-.ev .bd{flex:1;min-width:0}
-.ev .tg{font-size:11px;font-weight:700;letter-spacing:-.01em}
-.ev .tx{font-size:13.5px;line-height:1.5;margin-top:1px}
-.empty{color:var(--ink3);font-size:13.5px;padding:18px 0;text-align:center}
-.idxbar{height:7px;border-radius:4px;background:#E7ECF2;overflow:hidden;margin-top:4px}
-.idxbar i{display:block;height:100%;border-radius:4px}
-.kpi{display:flex;gap:8px;margin-bottom:12px}
-.kpi>div{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 10px;text-align:center}
-.kpi .v{font-size:21px;font-weight:800;letter-spacing:-.03em;line-height:1.15}
-.kpi .l{font-size:10.5px;color:var(--ink3);margin-top:3px;font-weight:600}
-pre.rep{
-  white-space:pre-wrap;word-break:break-word;font:inherit;font-size:13.5px;
-  line-height:1.72;margin:0;background:#fff;border:1px solid var(--line);
-  border-radius:var(--r);padding:14px;max-height:60vh;overflow:auto;
-}
-.toast{
-  position:fixed;left:50%;transform:translateX(-50%);bottom:86px;z-index:99;
-  background:var(--ink);color:#fff;padding:11px 18px;border-radius:24px;
-  font-size:13.5px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s;
-}
+button.ghost:active{background:#EEF1F5;filter:none}
+button.sm{min-height:38px;padding:8px 12px;font-size:13px;border-radius:9px}
+button:disabled{opacity:.55}
+.badge{display:inline-flex;align-items:center;justify-content:center;background:var(--brand);color:#fff;font-weight:800;border-radius:11px;padding:0 14px;min-height:50px;flex:0 0 auto;font-size:15px}
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;background:#fff;border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom);max-width:720px;margin:0 auto}
+.tabs button{flex:1;background:none;color:var(--ink3);border-radius:0;min-height:62px;padding:8px 2px 10px;font-size:12px;font-weight:700;position:relative}
+.tabs button .ic{display:block;font-size:21px;line-height:1.1;margin-bottom:2px;font-weight:400}
+.tabs button.on{color:var(--brand)}
+.tabs button.on::before{content:"";position:absolute;top:0;left:22%;right:22%;height:3px;background:var(--brand);border-radius:0 0 3px 3px}
+.tabs button:active{background:#F3EEF1}
+.pill{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11.5px;font-weight:700;white-space:nowrap;line-height:1.5}
+.p-l{background:#FBE9EC;color:var(--lotte)}.p-e{background:#FCF3DA;color:#7A5300}
+.p-g{background:#E4F1E9;color:var(--good)}.p-c{background:#E7EEFB;color:var(--down)}.p-o{background:#F5E8EF;color:var(--brand2)}
+.p-n{background:#EEF1F5;color:var(--ink2)}.p-w{background:#FDF0DC;color:#8A5A00}
+.mini{font-size:12.5px;color:var(--ink3);line-height:1.6}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom));z-index:99;background:var(--ink);color:#fff;
+  padding:13px 22px;border-radius:24px;font-size:14px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .2s;max-width:90vw;text-align:center;box-shadow:0 6px 20px rgba(0,0,0,.25)}
 .toast.on{opacity:1}
-.cardwrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -14px;padding:0 14px 6px}
-.cardstrip{display:flex;gap:12px;width:max-content}
-.cw{width:216px;flex:none}
-.cw .lb{font-size:11.5px;color:var(--ink3);margin:5px 2px 0;font-weight:600}
-.nc{
-  width:1080px;height:1350px;transform:scale(.2);transform-origin:top left;
-  position:relative;overflow:hidden;background:#fff;
-  font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif;
-}
-.ncbox{width:216px;height:270px;overflow:hidden;border-radius:10px;border:1px solid var(--line)}
-.wtag{font-size:12px;color:var(--ink3);font-weight:600}
-.stat{display:flex;justify-content:space-between;padding:6px 0;font-size:13.5px;border-bottom:1px solid #EDF1F5}
-.stat:last-child{border-bottom:none}
-.stat b{font-weight:700}
-details{border:1px solid var(--line);border-radius:10px;background:#fff;padding:10px 12px;margin-bottom:10px}
-summary{font-size:13.5px;font-weight:600;cursor:pointer}
-.mini{font-size:12px;color:var(--ink3);margin-top:6px;line-height:1.6}
-@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+.stat{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.kv{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #EEF1F4;font-size:13.5px}.kv:last-child{border-bottom:none}
+/* 신호등 */
+.board{width:100%;border-collapse:collapse}
+.board th{font-size:11.5px;color:var(--ink3);font-weight:700;padding:0 4px 6px;text-align:center}
+.board th:first-child{text-align:left}
+.board td{padding:9px 4px;border-top:1px solid #EEF1F4;text-align:center;font-size:13px;font-weight:700}
+.board td:first-child{text-align:left;font-size:14px;font-weight:800}
+.board tr[data-tap]:active td{background:#F6F2F4}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px;vertical-align:1px}
+/* 품목 카드 */
+.fc{background:#fff;border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden}
+.fc-h{display:flex;align-items:center;gap:8px;padding:13px 14px 10px}
+.fc-h .nm{font-size:18px;font-weight:800;letter-spacing:-.02em}
+.fc-b{padding:0 14px 12px}
+.sec{padding:10px 0;border-top:1px solid #EEF1F4}
+.sec .lb{font-size:11.5px;font-weight:800;color:var(--ink3);margin-bottom:5px;letter-spacing:.02em}
+.vs{display:flex;gap:8px;align-items:stretch}
+.vs .bx{flex:1;text-align:center;border-radius:10px;padding:9px 4px;background:var(--soft)}
+.vs .bx.win{background:#E8F3EC}
+.vs .bx .r{font-size:11.5px;font-weight:800}.vs .bx .v{font-size:19px;font-weight:800;margin-top:1px}
+.vs .bx .s{font-size:11px;color:var(--ink3);margin-top:1px;line-height:1.35}
+.vs .mid{flex:0 0 64px;text-align:center;align-self:center;font-size:12px;font-weight:800;color:var(--down)}
+.seg{display:inline-flex;background:var(--soft);border-radius:9px;padding:3px;gap:2px}
+.seg button{min-height:30px;padding:4px 11px;font-size:12px;border-radius:7px;background:none;color:var(--ink2)}
+.seg button.on{background:#fff;color:var(--brand);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+/* 사다리 */
+.ld{position:relative}
+.ld-r{display:flex;align-items:center;gap:8px;padding:5px 0}
+.ld-v{flex:0 0 66px;text-align:right;font-size:13px;font-weight:800}
+.ld-t{flex:0 0 64px;height:6px;background:#EDF0F4;border-radius:3px;position:relative}
+.ld-t i{position:absolute;top:-3px;width:12px;height:12px;border-radius:50%;margin-left:-6px;border:2px solid #fff}
+.ld-n{flex:1;min-width:0;font-size:12.5px;line-height:1.35}
+.gap{margin:4px 0;padding:7px 10px;border:1.5px dashed #C9B3BF;border-radius:9px;background:#FBF6F8;font-size:12.5px;color:var(--brand2);font-weight:700}
+.tier{font-size:11.5px;color:var(--ink3);font-weight:800;margin:8px 0 2px}
+details>summary{list-style:none;cursor:pointer;padding:10px 0 2px;font-size:13px;font-weight:700;color:var(--brand2)}
+details>summary::-webkit-details-marker{display:none}
+.clock{width:100%;border-collapse:collapse;font-size:11.5px}
+.clock td{padding:2px 1px;height:18px}
+.clock td.n{font-weight:800;padding-right:6px;white-space:nowrap;font-size:12.5px;width:1%}
+.clock span{display:block;height:13px;border-radius:2px}
+.ph{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
+.ph .it{flex:0 0 112px}
+.ph img{width:112px;height:112px;object-fit:cover;border-radius:10px;display:block}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}
+.chips button{min-height:30px;padding:3px 9px;font-size:12px;border-radius:15px;background:var(--soft);color:var(--ink2);font-weight:700}
+.chips button.on{background:var(--brand);color:#fff}
+.cw{overflow-x:auto;margin:0 -14px;padding:0 14px 6px}
+.cs{display:flex;gap:10px;width:max-content}
+.cb{width:216px;height:270px;overflow:hidden;border-radius:10px;border:1px solid var(--line);background:#fff}
+.nc{width:1080px;height:1350px;transform:scale(.2);transform-origin:top left;position:relative;overflow:hidden;background:#fff;
+  font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif}
+pre.rep{white-space:pre-wrap;word-break:break-word;font:inherit;font-size:13.5px;line-height:1.75;margin:0;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;max-height:62vh;overflow:auto}
+@media(min-width:760px){body{background:#E6E8EE}main{background:var(--paper);min-height:calc(100vh - 48px)}}
 </style>
 </head>
 <body>
-<header>
-  <div class="hdin">
-    <h1>JJ 과일 레이더</h1>
-    <span class="wk" id="hdWeek"></span>
-  </div>
-</header>
-
+<header><div class="hd"><h1>JJ 과일 레이더</h1><span class="st" id="hdSt"></span></div></header>
 <main>
 
-<!-- ============ 입력 ============ -->
-<section class="panel on" id="p-input">
-  <h2>이번 주 조사 입력</h2>
-  <p class="help">카톡에 보낸 텍스트를 그대로 붙여넣으세요. 매장 이름을 한 줄에 쓰고 그 아래 품목을 나열하면 됩니다.<br>
-  매대 위치는 줄 끝에 한 글자만 띄어 적으세요. <b>전</b>=전면 <b>엔</b>=엔드 <b>독</b>=독립매대 <b>평</b>=평대 <b>특</b>=특설 <b>일</b>=일반. 안 적으셔도 됩니다.</p>
+<!-- ───────── 입력 ───────── -->
+<section class="pane on" id="pg-in">
+  <div class="row" style="margin-bottom:10px">
+    <button type="button" class="badge" id="wkBadge" onclick="pickWeek()">Week 1</button>
+    <input id="inLabel" placeholder="2026-10-3주" oninput="draftLater()">
+  </div>
 
+  <h2>가격</h2>
+  <p class="help">매장 이름을 한 줄에 쓰고 그 아래 품목을 적습니다.<br>
+    <b>할인</b>은 할인가를 적고 끝에 <b>농활 · 카드 · 회원 · 포인트</b>. 정상가를 알면 할인가 앞에 같이 적습니다.<br>
+    <b>매대</b>는 줄 끝에 한 글자 — 전 엔 독 평 특 일.</p>
+  <textarea id="inRaw" placeholder="롯데&#10;상생사과 4-8봉 9990 768 일&#10;홍시10-12입 8990 전&#10;샤인1.5박스 11920 농활 독&#10;이마트&#10;샤인1.5 11240 8991 카드 엔&#10;보조개사과2.5키로 9980 회원"></textarea>
+
+  <h2>시장 메모</h2>
+  <p class="help">산지 상황은 한 줄씩. 도매 시세는 <b>시장 품목 등급 중량 가격</b> 순서로 — 예) 가락 사과 상 10kg 45000</p>
+  <textarea id="inNotes" style="min-height:110px" placeholder="샤인 공급과잉으로 시세 하락&#10;사과 품종이 다양해짐&#10;가락 사과 상 10kg 45000&#10;안동 홍로 상 10kg 52000"></textarea>
+
+  <h2>매대 사진 <span class="mini" style="font-weight:600">카드뉴스용 · 카드 저장 후 자동 삭제</span></h2>
+  <div class="card" style="padding:12px">
+    <div class="ph" id="phList"></div>
+    <label style="display:block;margin-top:8px">
+      <input type="file" id="phIn" accept="image/*" multiple style="display:none" onchange="addPhotos(this)">
+      <span class="ghost" style="display:block;text-align:center;border:1.5px dashed var(--line);border-radius:11px;padding:13px;font-weight:700;color:var(--ink2)" data-tap>＋ 사진 추가</span>
+    </label>
+  </div>
+
+  <div id="preview"></div>
+  <button style="width:100%;margin-top:6px;min-height:56px;font-size:16px" onclick="saveAll(this)">저장하고 분석</button>
+  <div id="draftNote" class="mini" style="margin-top:8px"></div>
+</section>
+
+<!-- ───────── 이번 주 ───────── -->
+<section class="pane" id="pg-wk">
+  <div class="row" style="margin-bottom:10px">
+    <button class="ghost sm" style="flex:0 0 46px" onclick="stepWeek(-1)" aria-label="이전 주">◀</button>
+    <div style="text-align:center"><div id="wkTitle" style="font-weight:800;font-size:16px"></div><div id="wkSub" class="mini"></div></div>
+    <button class="ghost sm" style="flex:0 0 46px" onclick="stepWeek(1)" aria-label="다음 주">▶</button>
+  </div>
+  <div id="wkBody"></div>
+</section>
+
+<!-- ───────── 기록 ───────── -->
+<section class="pane" id="pg-hs">
+  <h2>저장된 주차</h2><div class="card" id="hsWeeks"></div>
+  <h2>품목 흐름</h2><div class="card" id="hsTrend"></div>
+  <h2>도매 시세 자동 연결 (KAMIS)</h2>
   <div class="card">
-    <div class="row" style="margin-bottom:10px">
-      <div style="flex:0 0 92px">
-        <input id="inWeek" type="number" inputmode="numeric" placeholder="주차" title="직전 주차 +1 로 자동 입력됩니다">
-      </div>
-      <input id="inLabel" placeholder="2026-10-3주">
-    </div>
-    <textarea id="inRaw" placeholder="롯데&#10;홍로사과 4-8봉 5960 농활 전&#10;추희자두800 9990&#10;샤인1.5박스 11920 농활&#10;&#10;이마트&#10;샤인1.5 8991 농활&#10;보조개사과2.5키로 9980"></textarea>
-    <div id="draftNote"></div>
-    <div class="row" style="margin-top:10px">
-      <button class="ghost" onclick="clearRaw()">지우기</button>
-      <button onclick="doParse()">읽어들이기</button>
-    </div>
+    <p class="help" style="margin:0 0 10px">kamis.or.kr 회원가입 후 발급받은 인증키와 아이디를 넣으면 저장할 때 서울 도매가를 자동으로 가져옵니다. 연결이 막히면 메모에 직접 적으신 시세를 씁니다.</p>
+    <input id="kKey" placeholder="인증키" style="margin-bottom:8px">
+    <input id="kId" placeholder="KAMIS 아이디" style="margin-bottom:8px">
+    <div class="row"><button class="ghost" onclick="saveKamis()">저장</button><button class="ghost" onclick="testKamis(this)">연결 시험</button></div>
+    <div class="mini" id="kState" style="margin-top:8px"></div>
   </div>
-
-  <div id="parseOut"></div>
-  <div id="firstRun"></div>
-</section>
-
-<!-- ============ 분석 ============ -->
-<section class="panel" id="p-events">
-  <h2>이번 주 무엇이 달라졌나</h2>
-  <div id="evKpi" class="kpi"></div>
-  <div class="card"><div id="evList"></div></div>
-
-  <h2>매장 가격 비교</h2>
-  <p class="help">같은 규격끼리 두 매장 가격을 나란히 놓았습니다. 초록색이 더 싼 쪽이고, 가운데 숫자가 가격 차이입니다.</p>
-  <div class="card"><div id="idxList"></div></div>
-
-  <h2>품목별 추이</h2>
-  <div class="card"><div id="trendList"></div></div>
-</section>
-
-
-<!-- ============ 산지 ============ -->
-<section class="panel" id="p-supply">
-  <h2>산지 메모</h2>
-  <p class="help">아시는 산지 상황을 한 줄씩 적어주세요. 품목과 공급 방향을 자동으로 읽어 가격 변화와 대조합니다.</p>
-  <div class="card">
-    <textarea id="inNotes" style="min-height:150px" placeholder="추희는 저장물량으로 운영, 농가 저장분 일부가 아직 시장출하 전임&#10;복숭아는 금년 수확작기가 미뤄져 예년보다 장기 출하 예상&#10;샤인은 하우스 물량이 마무리되고 노지 출하가 본격화됨&#10;거봉은 샤인작목으로 전환되어 생산량이 줄고 수매가가 상향되는 흐름"></textarea>
-    <div class="row" style="margin-top:10px">
-      <button class="ghost" onclick="loadWeather()" id="btnWx">산지 기상 불러오기</button>
-      <button onclick="saveNotes()">메모 저장</button>
-    </div>
-  </div>
-  <div id="supOut"></div>
-</section>
-
-<!-- ============ 리포트 ============ -->
-<section class="panel" id="p-report">
-  <h2>배포용 리포트</h2>
-  <p class="help">카톡에 그대로 붙여넣을 수 있는 형식입니다. 사건이 있는 품목만 앞에 나옵니다.</p>
-  <div class="row" style="margin-bottom:12px">
-    <button class="ghost" onclick="buildReport()">다시 만들기</button>
-    <button class="ghost" onclick="copyReport()">복사</button>
-    <button onclick="shareReport()" id="btnShare">카톡으로 보내기</button>
-  </div>
-  <pre class="rep" id="repOut">주차를 저장하면 리포트가 만들어집니다.</pre>
-</section>
-
-<!-- ============ 카드 ============ -->
-<section class="panel" id="p-cards">
-  <h2>카드뉴스</h2>
-  <p class="help">인스타 규격 1080×1350으로 만듭니다. 카드를 눌러 크게 보고, 아래 버튼으로 이미지를 저장하세요.</p>
-  <div class="row" style="margin-bottom:12px">
-    <button class="ghost" onclick="buildCards()">다시 만들기</button>
-    <button class="ghost" onclick="saveCards()" id="btnSave">저장</button>
-    <button onclick="shareCards()" id="btnShareC">공유</button>
-  </div>
-  <div class="row" style="margin-bottom:12px">
-    <button class="ghost" onclick="postInstagram()" id="btnIG">인스타 게시</button>
-  </div>
-  <div class="cardwrap"><div class="cardstrip" id="cardStrip"></div></div>
-  <div class="mini" id="cardNote"></div>
-</section>
-
-<!-- ============ 데이터 ============ -->
-<section class="panel" id="p-data">
-  <h2>저장된 주차</h2>
-  <div class="card"><div id="weekList"></div></div>
-
   <h2>백업</h2>
-  <p class="help">데이터는 이 브라우저 안에 저장됩니다. 캐시를 지우거나 폰을 바꾸면 사라지니 가끔 내려받아 두세요.</p>
-  <div class="row">
-    <button class="ghost" onclick="exportData()">내려받기</button>
-    <button class="ghost" onclick="document.getElementById('impFile').click()">불러오기</button>
+  <div class="card">
+    <p class="help" style="margin:0 0 10px">데이터는 이 폰 브라우저에만 저장됩니다. 한 달에 한 번 내려받아 카톡 나에게 보내기로 보관하세요. 사진은 포함되지 않습니다.</p>
+    <div class="row"><button class="ghost" onclick="exportData()">내려받기</button><button class="ghost" onclick="$('impIn').click()">불러오기</button></div>
+    <input type="file" id="impIn" accept=".json,application/json" style="display:none" onchange="importData(this)">
   </div>
-  <input type="file" id="impFile" accept=".json" style="display:none" onchange="importData(this)">
-
-  <h2>인스타그램 게시</h2>
-  <p class="help">게시 서버를 연결하면 카드뉴스를 앱에서 바로 올릴 수 있습니다. 서버 없이 쓰시려면 카드 탭에서 저장 후 직접 올리시면 됩니다.</p>
-  <div class="row" style="margin-bottom:12px">
-    <button class="ghost" onclick="igSetup()">게시 서버 설정</button>
-  </div>
-  <div class="mini" id="igState" style="margin-bottom:8px"></div>
-
-  <h2>프로그램 정보</h2>
-  <div class="mini" id="verInfo" style="margin-bottom:12px"></div>
-
-  <h2>기준값</h2>
-  <details>
-    <summary>사건 감지 기준 보기</summary>
-    <div class="mini">
-      급변동은 전주 대비 ±8% 이상일 때 잡습니다.<br>
-      격차 국면은 10%·20% 선을 넘나들 때 알립니다.<br>
-      가격 동결은 3주 이상 같은 값일 때입니다.<br>
-      채널(대형마트·슈퍼·창고형)이 다르면 지수를 따로 냅니다. 창고형은 대용량 구조라 섞으면 왜곡됩니다.<br>규격대는 소포장(1kg 미만) · 표준(1~2kg) · 대용량(2kg 초과)으로 나눕니다. 중량이 없으면 낱개 · 묶음 · 통으로 나눠 같은 종류끼리만 비교합니다.
-    </div>
-  </details>
-  <details>
-    <summary>등록된 중량 사전</summary>
-    <div id="dictList" class="mini"></div>
-  </details>
-  <details>
-    <summary>품목 분류 규칙</summary>
-    <div class="mini" id="catRules"></div>
-  </details>
+  <h2>중량 사전</h2><div class="card" id="hsDict"></div>
+  <h2>정보</h2><div class="card" id="hsInfo"></div>
 </section>
 
 </main>
 
 <nav class="tabs">
-  <button class="on" data-t="input"><span class="ic">✎</span>입력</button>
-  <button data-t="events"><span class="ic">◈</span>분석</button>
-  <button data-t="supply"><span class="ic">☘</span>산지</button>
-  <button data-t="report"><span class="ic">▤</span>리포트</button>
-  <button data-t="cards"><span class="ic">▣</span>카드</button>
-  <button data-t="data"><span class="ic">⛁</span>데이터</button>
+  <button class="on" data-t="in" onclick="go('in')"><span class="ic">✎</span>입력</button>
+  <button data-t="wk" onclick="go('wk')"><span class="ic">◉</span>이번 주</button>
+  <button data-t="hs" onclick="go('hs')"><span class="ic">▤</span>기록</button>
 </nav>
-
 <div class="toast" id="toast"></div>
-<script>const SEED='{}';</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
-/* ===================== 저장소 ===================== */
-const KEY='jjfr_v1';
-const APP_VER='2026.10.15c';
-let DB={};
-function load(){
-  try{const s=localStorage.getItem(KEY); DB = s? JSON.parse(s) : JSON.parse(SEED);}
-  catch(e){DB=JSON.parse(SEED);}
-}
-function save(){ try{localStorage.setItem(KEY,JSON.stringify(DB));}catch(e){toast('저장 공간이 부족합니다');} }
-function weeks(){ return Object.keys(DB).map(Number).sort((a,b)=>a-b); }
-function latest(){ const w=weeks(); return w.length? w[w.length-1] : null; }
-/* 조사를 거른 주가 있어도 비교가 끊기지 않도록, 번호가 아니라 '직전에 저장된 주차'를 찾는다 */
-function prevWeek(wk){
-  const w=weeks().filter(x=>x<wk);
-  return w.length? w[w.length-1] : null;
-}
-function weekGap(wk){ const p=prevWeek(wk); return p==null? null : wk-p; }
-/* 라벨 날짜로 실제 간격을 센다. 주차 번호는 조사 횟수라 거른 주를 반영하지 못한다. */
-function realGap(wk){
-  const p=prevWeek(wk); if(p==null) return null;
-  const a=surveyDate(p), b=surveyDate(wk);
-  if(!a||!b) return null;
-  const d=Math.round((b-a)/(7*864e5));
-  return d>0? d : null;
-}
-/* 오늘이 그 달의 몇 번째 목요일인지로 라벨을 만든다 (조사일이 목·금) */
-function todayLabel(){
-  const now=new Date();
-  const dow=now.getDay();
-  const base=new Date(now);
-  if(dow>=0&&dow<4) base.setDate(now.getDate()-((dow+3)%7));  // 지난 목요일 쪽으로
-  const y=base.getFullYear(), mo=base.getMonth();
-  const first=new Date(y,mo,1);
-  const firstThu=1+((4-first.getDay()+7)%7);
-  const nth=Math.floor((base.getDate()-firstThu)/7)+1;
-  return `${y}-${mo+1}-${Math.max(nth,1)}주`;
-}
-
-/* ===================== 분류 ===================== */
-const CATS=[
-  ['산딸기',['산딸기']],
-  ['블루베리',['블루베리']],
-  ['딸기',['딸기']],
-  ['천도복숭아',['천도','대극천']],
-  ['복숭아',['복숭아','신비','황도','백도','부드복','아삭복','햇사레','임실','천도']],
-  ['자두',['자두','후무사','대석','추희','타이벡','속빨간']],
-  ['포도',['샤인','켐벨','캠벨','거봉','머스켓','머스캣','포도','데라','델라','머스켇']],
-  ['사과',['사과','홍로','부사','아리수','썸머킹','연두','보조개','맛난이사과']],
-  ['수박',['수박']],
-  ['참외',['참외']],
-  ['무화과',['무화과']],
-  ['살구',['살구']],
-  ['토마토',['토마토','대저','짭짤이']],
-  ['단감',['단감','부유','대봉','반시','홍시','곶감']],
-  ['감귤',['감귤','귤','한라봉','천혜향','레드향','만감']],
-  ['석류',['석류']],
-  ['대추',['대추','사과대추']],
-  ['키위',['키위','참다래','골드키위']],
-  ['멜론',['멜론','머스크멜론']],
-  ['배',['원황','신고배','화산배','나주배','저탄소배','상생배','당찬배','실속배','배']],
-];
-function classify(name){
-  const n=name.replace(/\s/g,'');
-  for(const [cat,keys] of CATS){ for(const k of keys){ if(n.includes(k)) return cat; } }
-  return '기타';
-}
-/* 천도는 복숭아 큰 분류에 묶되 별도 표기 */
-function bigCat(c){ return c==='천도복숭아' ? '복숭아' : c; }
-
-/* ===================== 파서 ===================== */
-const RETAIL=[
-  ['이마트에브리데이',['에브리','everyday','이브리']],
-  ['트레이더스',['트레이더스','traders']],
-  ['코스트코',['코스트코','costco']],
-  ['롯데',['롯데','lotte','롯마']],
-  ['이마트',['이마트','emart','e마트']],
-  ['홈플러스',['홈플','홈플러스']],
-  ['GS슈퍼',['gs','지에스','지에스슈퍼']],
-];
-/* 채널: 창고형은 대용량 저단가 구조라 대형마트와 같은 지수로 비교하면 왜곡됨 */
-const CHANNEL={'롯데':'대형마트','이마트':'대형마트','홈플러스':'대형마트',
-  '이마트에브리데이':'슈퍼','GS슈퍼':'슈퍼','트레이더스':'창고형','코스트코':'창고형'};
-const chOf=r=>CHANNEL[r]||'대형마트';
-function detectRetailer(line){
-  const l=line.toLowerCase().replace(/[\s:()·\-]/g,'');
-  if(l.length>16) return null;
-  for(const [r,keys] of RETAIL){ for(const k of keys){ if(l.includes(k)) return r; } }
-  return null;
-}
-const TAGS=['농활','고래잇','오픈런','통큰','행사','품절'];
-
-/* 진열 위치. 전면·입구가 가장 강한 밀기 신호.
-   현장에서 빨리 적도록 한 글자로 쓴다.  전=전면  엔=엔드  평=평대  특=특설  일=일반
-   # 은 붙여도 되고 안 붙여도 된다. 줄 맨 끝에만 두면 된다. */
-const SPOT=[
-  ['전면',5,['전면','입구','정문','전방','메인','노출'],'전'],
-  ['엔드',4,['엔드','end','매대끝','끝단','코너'],'엔'],
-  ['평대',3,['평대','평매','아일랜드'],'평'],
-  ['특설',3,['특설','기획','행사대','판매대'],'특'],
-  ['일반',1,['일반','곤도라','선반','정상'],'일'],
-];
-const SPOT1={};                       // 한 글자 대응표
-for(const [name,score,,ch] of SPOT) SPOT1[ch]={spot:name,score};
-SPOT1['독']={spot:'독립',score:4};     // 독립매대
-SPOT1['섬']={spot:'평대',score:3};     // 아일랜드
-SPOT1['벽']={spot:'벽면',score:2};
-SPOT1['냉']={spot:'냉장',score:2};
-
-function parseSpot(line){
-  const x=String(line).trim();
-  /* ① # 표기 — 어디에 있어도 인식 */
-  const m=x.replace(/\s/g,'').match(/#([^\s#]+)/);
-  if(m){
-    const tok=m[1];
-    if(SPOT1[tok[0]]&&tok.length<=2) return SPOT1[tok[0]];
-    for(const [name,score,keys] of SPOT)
-      for(const k of keys) if(tok.includes(k)) return {spot:name,score};
-    const n=tok.match(/^(\d+)$/);
-    if(n) return {spot:'칸'+n[1],score:Math.min(+n[1],5)};
-    return {spot:tok.slice(0,6),score:2};
-  }
-  /* ② # 없이 줄 맨 끝 한 글자 — 앞에 공백이 있어야 품목명과 섞이지 않는다 */
-  const t=x.match(/\s([전엔평특일독섬벽냉])\s*$/);
-  if(t) return SPOT1[t[1]] || {spot:t[1],score:2,unknown:true};
-  /* ③ 줄 끝 단어 전체가 위치명인 경우 */
-  const w=x.match(/\s(\S+)\s*$/);
-  if(w) for(const [name,score,keys] of SPOT)
-    for(const k of keys) if(w[1]===k) return {spot:name,score};
-  return null;
-}
-
-/* ── 기존 입력에서 더 뽑아내는 정보 (추가 타이핑 불필요) ── */
-
-/* 입수. "4-8봉" "5~10입" → 평균 6개. 과당 단가와 과 크기를 낸다. */
-function countOf(name){
-  const f=String(name).replace(/\s/g,'');
-  let m=f.match(/(\d{1,2})\s*[~\-]\s*(\d{1,2})\s*(입|봉|과|알|개)/);
-  if(m) return {lo:+m[1],hi:+m[2],avg:(+m[1]+ +m[2])/2};
-  m=f.match(/(\d{1,2})\s*(입|과|알|개)(?!월)/);
-  if(m) return {lo:+m[1],hi:+m[1],avg:+m[1]};
-  m=f.match(/(\d{1,2})\s*[~\-]\s*(\d{1,2})(?!\d)/);
-  if(m&&+m[2]<=30) return {lo:+m[1],hi:+m[2],avg:(+m[1]+ +m[2])/2};
-  return null;
-}
-/* 과 하나의 무게로 크기를 가른다 */
-function fruitSize(g){
-  if(g==null) return '';
-  if(g>=330) return '대과'; if(g>=230) return '중대과';
-  if(g>=160) return '중과'; if(g>=90) return '소과';
-  return '소립';
-}
-/* 상품 라인. 같은 사과라도 실속형과 프리미엄형은 다른 시장이다. */
-const LINE=[
-  ['실속',['상생','보조개','못난이','실속','한입','알뜰','5k','프라이스','작아도','반전','꼬마','자투리']],
-  ['프리미엄',['고당도','당도선별','황금당도','gap','저탄소','프리미엄','갓따온','비파괴','유명산지',
-             '국산의힘','한가득','명품','특선','선물','친환경','무농약','유기농']],
-];
-function lineOf(name){
-  const f=String(name).toLowerCase().replace(/\s/g,'');
-  for(const [k,ws] of LINE) for(const w of ws) if(f.includes(w)) return k;
-  return '일반';
-}
-/* 산지명. 표기 비율 자체가 차별화 전략의 강도를 보여준다. */
-const ORIGIN_NAMES=['성주','청도','나주','무주','남원','거제','상주','영천','청송','영주','안동','거창',
-  '의성','함안','고창','영암','경산','진주','사천','창녕','보은','논산','담양','제주','길안','충주',
-  '밀양','김천','봉화','양구','예산','천안','아산','완주','순창','하동','산청','문경','영동','이천','송산'];
-function originOf(name){
-  const f=String(name).replace(/\s/g,'');
-  for(const o of ORIGIN_NAMES) if(f.includes(o)) return o;
-  return '';
-}
-
-/* 규격 표기를 사전 키로 정규화. "4-8봉" "4 ~ 8 봉" → "4~8봉" */
-function specKey(name){
-  const x=String(name).replace(/\s/g,'');
-  let m=x.match(/(\d+)\s*[~\-]\s*(\d+)\s*(봉|입|과|팩|송이|알|망)/);
-  if(m) return m[1]+'~'+m[2]+m[3];
-  m=x.match(/(\d+)\s*(봉|입|과|팩|송이|알|망)/);
-  if(m) return m[1]+m[2];
-  m=x.match(/(\d{1,2})\s*[~\-]\s*(\d{1,2})(?!\d)/);   // 단위 없는 수량 범위
-  if(m) return m[1]+'~'+m[2]+'입';
-  return null;
-}
-/* 중량 사전: {"사과|4~8봉": 1.3} — 한 번 등록하면 이후 자동 적용 */
-const DKEY='jjfr_dict_v2';
-/* 현장에서 확인된 통상 규격. 매장 구분이 필요한 것만 매장명을 쓰고 나머지는 * (공통) */
-const DICT_BASE={
-  '*|사과|4~8봉':1.3, '*|사과|3~8봉':1.3, '*|사과|4~8입':1.3, '*|사과|3~8입':1.3,
-  '*|사과|5~8봉':1.3, '*|사과|5~8입':1.3, '*|사과|4~6봉':1.3, '*|사과|4~7입':1.3,
-  '*|사과|4~6입':1.3, '*|사과|6~11입':1.3, '*|사과|3~7입':1.3,
-  '*|무화과|13~18입':1.0, '*|무화과|12~18입':1.0,
-  '이마트|천도복숭아|5~9입':0.8, '이마트|천도복숭아|6~13입':1.5,
-  '롯데|천도복숭아|1~2입':1.2,
-  '*|포도|1팩':0.5, '*|포도|1송이':0.5, '*|포도|2송이팩':0.7,
-  '이마트|자두|6~10입':0.8, '이마트|자두|6~10':0.8,
-};
-let DICT={};
-function loadDict(){ try{DICT={...DICT_BASE,...JSON.parse(localStorage.getItem(DKEY)||'{}')};}catch(e){DICT={...DICT_BASE};} }
-function saveDict(){
-  const own={}; for(const k in DICT) if(DICT_BASE[k]!==DICT[k]) own[k]=DICT[k];
-  for(const k in DICT_BASE) if(!(k in DICT)) own[k]=null;   // 사용자가 지운 기본값
-  try{localStorage.setItem(DKEY,JSON.stringify(own));}catch(e){}
-}
-/* 천도·샤인처럼 매장마다 규격이 다른 품목이 있어 매장을 키에 포함한다.
-   매장별 값이 없으면 전 매장 공통(*)으로 넘어간다. */
-function dictKey(cat,name,ret){ const k=specKey(name); return k? (ret||'*')+'|'+cat+'|'+k : null; }
-function dictLookup(cat,name,ret){
-  const k=specKey(name); if(!k) return null;
-  const c=cat;
-  const a=DICT[(ret||'*')+'|'+c+'|'+k]; if(a!=null) return a;
-  const b=DICT['*|'+c+'|'+k]; if(b!=null) return b;
-  return null;
-}
-
-function parseWeight(name){
-  let m;
-  if(m=name.match(/(\d+(?:\.\d+)?)\s*(?:kg|KG|Kg|키로|킬로그램|킬로)/)) return +m[1];
-  if(m=name.match(/\((\d+(?:\.\d+)?)\)/)){ const v=+m[1]; if(v>=0.2&&v<=10) return v; }
-  if(m=name.match(/(\d{3,4})\s*g\b/i)){ const v=+m[1]/1000; if(v>=0.1&&v<=5) return v; }
-  if(m=name.match(/(?:^|[^\d.])(\d\.\d)(?!\d)/)){ const v=+m[1]; if(v>=0.3&&v<=9) return v; }
-  if(m=name.match(/(?:^|[^\d.])(\d{3})(?=\s*$|\s)/)){ const v=+m[1]; if(v>=300&&v<=999) return v/1000; }
-  return null;
-}
-function parseLine(line,RET){
-  let s=line.trim().replace(/^[•\-\*\u25cf\u25b6\u2022]\s*/,'');
-  if(!s) return null;
-  const sp=parseSpot(s);
-  if(sp){
-    s=s.replace(/#[^\s#]+/g,' ')
-       .replace(/\s([전엔평특일독섬벽냉])\s*$/,' ')
-       .replace(/\s(전면|입구|정문|전방|메인|노출|엔드|매대끝|끝단|코너|평대|평매|아일랜드|특설|기획|행사대|판매대|일반|곤도라|선반|정상)\s*$/,' ');
-  }
-  let tags=[];
-  for(const t of TAGS){ if(s.includes(t)){ tags.push(t); s=s.split(t).join(' '); } }
-  /* "판매가 100g단가" 처럼 끝에 숫자가 둘이면 뒤엣것을 단가로 먼저 분리 */
-  let per100pre=null;
-  const two=s.match(/(\d[\d,]{2,7})\s+(\d[\d,]{1,5})\s*$/);
-  if(two){
-    const a=+two[1].replace(/,/g,''), b=+two[2].replace(/,/g,'');
-    if(a>=700&&b<a&&b>=100){ per100pre=b; s=s.slice(0,two.index+two[1].length); }
-  }
-  const nums=[...s.matchAll(/(\d[\d,]{2,7})/g)];
-  let pm=null;
-  for(let i=nums.length-1;i>=0;i--){
-    const raw=nums[i][1], v=+raw.replace(/,/g,''), idx=nums[i].index;
-    const after=s.slice(idx+raw.length,idx+raw.length+3);
-    const before=s[idx-1]||'';
-    if(v<700||v>200000) continue;
-    if(/^(g|kg|키로|킬로|G)/i.test(after.trim())) continue;
-    if(before==='.'||before==='-'||before==='~') continue;
-    if(/@\s*$/.test(s.slice(0,idx))) continue;            // 100g 단가 표기
-    if(/100\s*g\s*당?\s*$/i.test(s.slice(0,idx))) continue;
-    pm={v,idx,len:raw.length}; break;
-  }
-  if(!pm) return null;
-  let name=s.slice(0,pm.idx).trim().replace(/[\s,]+$/,'');
-  /* POP 의 100g 당 가격: "@1200" 또는 "100g1200" */
-  let per100=null, tail=s.slice(pm.idx+pm.len);
-  let pm2=tail.match(/@\s*([\d,]+)/)||tail.match(/100g\s*당?\s*([\d,]+)/)||name.match(/@\s*([\d,]+)/)
-        ||tail.match(/^\s+([\d,]{2,5})(?!\s*[gkK])\b/);   // 가격 뒤 맨숫자 = 100g 단가
-  if(pm2){ per100=+pm2[1].replace(/,/g,''); name=name.replace(/@\s*[\d,]+/,'').trim(); }
-  if(per100==null&&per100pre!=null) per100=per100pre;
-  if(!name) return null;
-  const cat=classify(name);
-  let kg=parseWeight(name);
-  let src=kg!=null?'표기':null;
-  if(kg==null&&per100&&per100>0){ kg=Math.round(pm.v/(per100*10)*1000)/1000; src='100g단가'; }
-  if(kg==null){ const d=dictLookup(cat,name,RET); if(d!=null){ kg=d; src='사전'; } }
-  const ct=countOf(name);
-  const per = ct&&ct.avg>0 ? Math.round(pm.v/ct.avg) : null;          // 과당 단가
-  const gpf = (kg&&ct&&ct.avg>0) ? Math.round(kg*1000/ct.avg) : null; // 과 하나 무게
-  return {n:name, p:pm.v, kg, ks:src, c:cat, sp:sp?sp.spot:'', spv:sp?sp.score:0,
-          cnt:ct?ct.avg:null, per, gpf, sz:fruitSize(gpf), ln:lineOf(name), og:originOf(name), g:tags.includes('농활')?'농활':'',
-          s:tags.filter(t=>t!=='농활').join(' ')};
-}
-function parseRaw(text){
-  const out=[]; let cur=null; const unknown=[];
-  for(const raw of text.split(/\r?\n/)){
-    const line=raw.trim(); if(!line) continue;
-    const r=detectRetailer(line);
-    if(r && !/\d{3,}/.test(line)){ cur=r; continue; }
-    if(!cur){ continue; }
-    const it=parseLine(line,cur);
-    if(it){ it.r=cur; out.push(it); } else { unknown.push(line); }
-  }
-  return {items:out, unknown};
-}
-
-/* ===================== 엔진 ===================== */
-function packUnit(n){
-  const x=String(n).replace(/\s/g,'');
-  if(/\d\s*알|한알|1개(?!입)/.test(x)) return '낱개';
-  if(/이상|↑|통|한통/.test(x)) return '통';
-  if(/봉|팩|입|과|송이|박스|망/.test(x)) return '묶음';
-  return '기타';
-}
-function band(kg,name){
-  if(kg==null) return '단위:'+packUnit(name);
-  if(kg<1) return '소포장'; if(kg<=2) return '표준'; return '대용량';
-}
-function cmpVal(it){ return it.kg? it.p/it.kg : it.p; }
-function unitOf(b){ return b.startsWith('단위:')?'원':'원/kg'; }
-
-function catView(wk){
-  const d=DB[wk]; if(!d) return [];
-  const m={};
-  for(const it of d.items){
-    const c=bigCat(it.c), b=band(it.kg,it.n), k=c+'|'+b+'|'+chOf(it.r)+'|'+it.r;
-    const v=cmpVal(it);
-    if(!m[k]||v<m[k].val) m[k]={cat:c,band:b,ch:chOf(it.r),r:it.r,val:v,price:it.p,item:it.n,promo:it.g};
-  }
-  return Object.values(m);
-}
-function groupBy(arr,fn){ const o={}; for(const x of arr){ const k=fn(x); (o[k]=o[k]||[]).push(x);} return o; }
-
-function detect(wk){
-  const ev=[], prev=prevWeek(wk), hasPrev=prev!=null&&!!DB[prev];
-  const cur=catView(wk), prv=hasPrev? catView(prev):[];
-  const gc=groupBy(cur,x=>x.cat+'|'+x.band+'|'+x.ch), gp=groupBy(prv,x=>x.cat+'|'+x.band+'|'+x.ch);
-
-  for(const key in gc){
-    const g=gc[key]; if(new Set(g.map(x=>x.r)).size<2) continue;
-    const [cat,bd,ch]=key.split('|');
-    const label = (bd==='표준' ? cat : cat+'('+bd.replace('단위:','')+')')+(ch!=='대형마트'?' ['+ch+']':'');
-    const srt=[...g].sort((a,b)=>a.val-b.val);
-    const leader=srt[0].r, gap=(srt[srt.length-1].val-srt[0].val)/srt[srt.length-1].val;
-    const pg=gp[key];
-    if(pg&&new Set(pg.map(x=>x.r)).size>=2){
-      const ps=[...pg].sort((a,b)=>a.val-b.val);
-      const pl=ps[0].r, pgap=(ps[ps.length-1].val-ps[0].val)/ps[ps.length-1].val;
-      if(pl!==leader) ev.push({t:'리더역전',w:10,c:cat,
-        x:`${label} 가격 리더가 ${pl}에서 ${leader}로 바뀜 (격차 ${pct(gap)})`});
-      for(const [ln,nm] of [[0.20,'20%'],[0.10,'10%']]){
-        if(pgap<ln&&gap>=ln){ ev.push({t:'격차확대',w:7,c:cat,
-          x:`${label} 격차가 ${nm}선을 넘어섬 (${pct(pgap)} → ${pct(gap)})`}); break; }
-        if(gap<ln&&pgap>=ln){ ev.push({t:'격차축소',w:5,c:cat,
-          x:`${label} 격차가 ${nm}선 아래로 좁혀짐 (${pct(pgap)} → ${pct(gap)})`}); break; }
-      }
-    }
-  }
-  if(hasPrev){
-    const cc=new Set(cur.map(x=>x.cat)), pc=new Set(prv.map(x=>x.cat));
-    for(const c of cc) if(!pc.has(c)) ev.push({t:'신규진입',w:9,c,x:`${c} 매대 신규 등장 — 시즌 진입 신호`});
-    for(const c of pc) if(!cc.has(c)) ev.push({t:'매대퇴장',w:8,c,x:`${c} 이번 주 미관측 — 시즌 종료 가능성`});
-  }
-
-  const hist={};
-  for(const w of weeks()){ if(w>wk) break;
-    for(const it of DB[w].items){ const k=it.r+'|'+bigCat(it.c)+'|'+it.n; (hist[k]=hist[k]||[]).push({w,...it}); } }
-  for(const k in hist){
-    const g=hist[k]; const c=g[g.length-1]; if(c.w!==wk) continue;
-    const [r,cat]=k.split('|');
-    if(g.length>=3){
-      const past=g.slice(0,-1).map(cmpVal), mn=Math.min(...past);
-      if(cmpVal(c)<mn) ev.push({t:'최저가경신',w:9,c:cat,
-        x:`${r} ${c.n} ${fmt(Math.round(cmpVal(c)))}${unitOf(band(c.kg,c.n))} — 관측 ${g.length}주 중 최저`});
-    }
-    let st=1;
-    for(let i=g.length-2;i>=0;i--){ if(g[i].p===c.p&&g[i].w===prevWeek(g[i+1].w)) st++; else break; }
-    if(st>=3) ev.push({t:'가격동결',w:6,c:cat,x:`${r} ${c.n} ${fmt(c.p)}원 — ${st}주 연속 같은 값`});
-    const pr=g[g.length-2];
-    if(pr&&pr.w===prevWeek(wk)){
-      const d=(c.p-pr.p)/pr.p;
-      if(Math.abs(d)>=0.08) ev.push({t:'급변동',w:8,c:cat,
-        x:`${d>0?'▲':'▼'} ${r} ${c.n} ${fmt(pr.p)} → ${fmt(c.p)}원 (${d>0?'+':''}${pct(d)})`});
-      if(pr.g!==c.g) ev.push({t:'농활전환',w:5,c:cat,
-        x:`${r} ${c.n} ${c.g==='농활'?'농활 적용 시작':'농활 해제'}`});
-    }
-  }
-  ev.sort((a,b)=>b.w-a.w);
-  return ev;
-}
-/* 채널마다 기준 매장이 다름. 우선순위가 높은 쪽을 100으로 놓는다. */
-const BASE_ORDER=['롯데','이마트','홈플러스','이마트에브리데이','GS슈퍼','트레이더스','코스트코'];
-function pickBase(arr){
-  for(const r of BASE_ORDER){ const f=arr.find(x=>x.r===r); if(f) return f; }
-  return arr[0];
-}
-function priceIndex(wk){
-  const g=groupBy(catView(wk),x=>x.cat+'|'+x.band+'|'+x.ch), out=[];
-  for(const key in g){
-    const arr=g[key]; if(new Set(arr.map(x=>x.r)).size<2) continue;
-    const b=pickBase(arr);
-    const [cat,bd,ch]=key.split('|');
-    for(const r of arr) if(r.r!==b.r)
-      out.push({cat,band:bd,ch,r:r.r,baseR:b.r,idx:Math.round(r.val/b.val*1000)/10,
-                base:b.item,item:r.item,bp:b.price,rp:r.price,
-                bv:Math.round(b.val),rv:Math.round(r.val),perKg:!bd.startsWith('단위:')});
-  }
-  return out.sort((a,b)=>a.idx-b.idx);
-}
-const fmt=n=>Number(n).toLocaleString('ko-KR');
-const pct=v=>(v*100).toFixed(1)+'%';
-</script>
-<script>
-/* ===================== 화면 ===================== */
+/* ════════════════ 저장소 ════════════════
+   기존 키를 그대로 읽어 지난 기록이 이어진다. */
+const APP_VER='3.0';
+const K={DB:'jjfr_v1',DICT:'jjfr_dict_v2',WX:'jjfr_wx_v2',WS:'jjfr_ws_v3',SET:'jjfr_set_v3',DRAFT:'jjfr_draft_v3'};
+const lsGet=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch(e){return d;}};
+const lsSet=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));return true;}
+  catch(e){toast(e&&e.name==='QuotaExceededError'?'저장 공간이 부족합니다 — 기록 탭에서 백업 후 오래된 주차를 정리하세요':'이 브라우저에서는 저장할 수 없습니다');return false;}};
+let DB={},DICT={},WX={},WS={},SET={};
 const $=id=>document.getElementById(id);
-let PARSED=null;
-function toast(m){ const t=$('toast'); t.textContent=m; t.classList.add('on'); setTimeout(()=>t.classList.remove('on'),1900); }
-function esc(s){ return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
-const TONE={리더역전:'--hot',급변동:'--hot',최저가경신:'--warm',격차확대:'--warm',
-            신규진입:'--calm',매대퇴장:'--cool',격차축소:'--cool',가격동결:'--cool',농활전환:'--calm'};
+const fmt=n=>(n==null||isNaN(n))?'-':Math.round(n).toLocaleString('ko-KR');
+const pct=(v,d=1)=>(v>0?'+':'')+(v*100).toFixed(d)+'%';
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const groupBy=(a,f)=>{const o={};for(const x of a){const k=f(x);(o[k]=o[k]||[]).push(x);}return o;};
+const median=a=>{if(!a.length)return null;const s=[...a].sort((x,y)=>x-y),m=s.length>>1;return s.length%2?s[m]:(s[m-1]+s[m])/2;};
+function toast(m){const t=$('toast');if(!t)return;t.textContent=m;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),2400);}
 
-/* 현장에서 입력하다 앱이 다시 열려도 잃지 않도록 초안을 보관한다 */
-const DRAFT='jjfr_draft_v1';
-function saveDraft(){
-  try{ localStorage.setItem(DRAFT, JSON.stringify({
-    wk:$('inWeek').value, lb:$('inLabel').value, raw:$('inRaw').value, at:Date.now() })); }catch(e){}
+/* ════════════════ 주차 ════════════════ */
+const weeks=()=>Object.keys(DB).map(Number).filter(n=>!isNaN(n)).sort((a,b)=>a-b);
+const latest=()=>{const w=weeks();return w.length?w[w.length-1]:null;};
+const prevWeek=wk=>{const w=weeks().filter(x=>x<wk);return w.length?w[w.length-1]:null;};
+const nextWeek=()=>{const w=latest();return w==null?1:w+1;};
+/* 조사일이 목·금이라 그 주 목요일 기준으로 "연-월-n주" 를 만든다 */
+function todayLabel(d){
+  const now=d||new Date(),b=new Date(now),dow=now.getDay();
+  if(dow<4) b.setDate(now.getDate()-((dow+3)%7));
+  const y=b.getFullYear(),m=b.getMonth(),f=new Date(y,m,1);
+  const thu=1+((4-f.getDay()+7)%7);
+  return `${y}-${m+1}-${Math.max(1,Math.floor((b.getDate()-thu)/7)+1)}주`;
 }
-function loadDraft(){
-  let d=null; try{ d=JSON.parse(localStorage.getItem(DRAFT)||'null'); }catch(e){}
-  if(!d||!d.raw||!d.raw.trim()) return;
-  if($('inRaw').value.trim()) return;
-  $('inRaw').value=d.raw;
-  autoGrow($('inRaw'));
-  if(d.wk) $('inWeek').value=d.wk;
-  if(d.lb) $('inLabel').value=d.lb;
-  const mins=Math.round((Date.now()-(d.at||0))/60000);
-  const when = mins<60? mins+'분 전'
-             : mins<1440? Math.round(mins/60)+'시간 전'
-             : Math.round(mins/1440)+'일 전';
-  const old = mins>=4320;          // 3일 넘으면 지난 주차 것일 가능성
-  $('draftNote').innerHTML='<div class="mini" style="margin-top:6px;color:'
-    +(old?'var(--hot)':'var(--calm)')+'">'
-    +(old? '⚠ 오래된 입력이 남아 있습니다 ('+when+') — 지난 조사분일 수 있으니 확인하세요'
-         : '입력하던 내용을 되살렸습니다 ('+when+')')
-    +' · <a href="#" onclick="clearRaw();return false" style="color:var(--ink2)"><b>지우고 새로 쓰기</b></a></div>';
-}
-function dropDraft(){ try{ localStorage.removeItem(DRAFT); }catch(e){} $('draftNote').innerHTML=''; }
-
-function clearRaw(){ $('inRaw').value=''; $('parseOut').innerHTML=''; PARSED=null; dropDraft(); autoGrow($('inRaw')); }
-
-function doParse(){
-  const txt=$('inRaw').value.trim();
-  if(!txt){ toast('먼저 텍스트를 붙여넣으세요'); return; }
-  const r=parseRaw(txt);
-  if(!r.items.length){ $('parseOut').innerHTML=
-    '<div class="card"><div class="empty">품목을 찾지 못했습니다.<br>매장 이름을 한 줄에 따로 쓰고, 품목 줄마다 가격 숫자가 있는지 확인해주세요.</div></div>';
-    return; }
-  PARSED=r;
-  const byR=groupBy(r.items,x=>x.r);
-  let h='<div class="card"><div class="row" style="margin-bottom:8px"><strong style="font-size:14px">읽은 품목 '+r.items.length+'개</strong>'
-    +'<span style="text-align:right;font-size:12px;color:var(--ink3)">중량 인식 '+r.items.filter(x=>x.kg).length+'개</span></div>';
-  for(const rt in byR){
-    h+='<div style="margin-top:10px"><span class="pill '+(rt==='롯데'?'p-lotte':'p-emart')+'">'+esc(rt)+'</span></div><table><tbody>';
-    for(const it of byR[rt]){
-      h+='<tr><td style="padding:8px 4px">'
-       +'<div style="font-size:13px;line-height:1.35">'+esc(it.n)
-       +(it.g?' <span class="pill p-nh">농활</span>':'')
-       +(it.sp?' <span class="pill" style="background:#FDF0DC;color:#8A5A00">'+esc(it.sp)+'</span>':'')
-       +'</div>'
-       +'<div class="mini" style="margin-top:2px">'+esc(bigCat(it.c))
-       +(it.ln&&it.ln!=='일반'? ' · '+it.ln : '')
-       +(it.og? ' · '+it.og : '')
-       +(it.kg? ' · '+it.kg+'kg'+(it.ks&&it.ks!=='표기'?'('+it.ks+')':'') : ' · 중량없음')
-       +(it.per? ' · 개당 '+fmt(it.per)+'원'+(it.sz?'('+it.sz+')':'') : '')
-       +'</div></td>'
-       +'<td class="n num" style="width:76px;font-size:15px;font-weight:700;vertical-align:middle">'+fmt(it.p)+'</td></tr>';
-    }
-    h+='</tbody></table>';
-  }
-  if(r.unknown.length){
-    h+='<div class="mini" style="margin-top:12px;color:var(--warm)"><b>읽지 못한 줄 '+r.unknown.length+'개</b><br>'
-      +r.unknown.slice(0,6).map(esc).join('<br>')+'</div>';
-  }
-  h+='<div class="row" style="margin-top:14px"><button onclick="saveWeek()">이 주차 저장하기</button></div></div>';
-  h+=weightPrompt(r.items);
-  $('parseOut').innerHTML=h;
-}
-
-/* 중량이 없는 규격을 모아 한 번만 물어본다. 등록하면 다음 주부터 자동 적용. */
-function weightPrompt(items){
-  const miss={};
-  for(const it of items){
-    if(it.kg!=null) continue;
-    const k=dictKey(it.c,it.n,it.r);
-    if(!k) continue;
-    (miss[k]=miss[k]||{cat:it.c,spec:specKey(it.n),ret:it.r,ex:[]}).ex.push(it.n);
-  }
-  const keys=Object.keys(miss);
-  const nofix=items.filter(x=>x.kg==null&&!dictKey(x.c,x.n,x.r));
-  if(!keys.length&&!nofix.length) return '';
-
-  let h='<div class="card" style="border-color:#E8C98A;background:#FFFDF6">';
-  h+='<div style="font-size:14px;font-weight:700;margin-bottom:4px">중량을 알려주면 비교가 됩니다</div>';
-  h+='<div class="mini" style="margin-bottom:12px">봉·입 단위는 중량이 없어 지금은 비교에서 빠집니다. 한 번 등록하면 다음 주부터 자동으로 적용됩니다. 대략치도 괜찮습니다.</div>';
-  for(const k of keys){
-    const m=miss[k];
-    h+='<div style="display:flex;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid #F0E6CE">'
-     +'<div style="flex:1;min-width:0"><b style="font-size:13.5px">'+esc(m.cat)+' '+esc(m.spec)+'</b>'
-     +' <span class="pill '+(m.ret==='롯데'?'p-lotte':'p-emart')+'">'+esc(m.ret)+'</span>'
-     +'<div class="mini" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+esc(m.ex[0])+(m.ex.length>1?' 외 '+(m.ex.length-1)+'개':'')+'</div></div>'
-     +'<input type="number" step="0.1" inputmode="decimal" placeholder="kg" style="width:78px;flex:none;padding:8px" '
-     +'onchange="setDictWeight(\''+k+'\',this.value)">'
-     +'</div>';
-  }
-  if(nofix.length){
-    h+='<div class="mini" style="margin-top:10px;color:var(--ink3)">규격 표기가 없어 사전에 담기 어려운 항목 '+nofix.length+'개: '
-      +nofix.slice(0,4).map(x=>esc(x.n)).join(', ')+'<br>품목명에 <b>(1.3)</b> 처럼 kg 을 적거나, 판매가 뒤에 <b>100g 단가</b>를 한 칸 띄고 적으면 자동 환산합니다.</div>';
-  }
-  h+='</div>';
-  return h;
-}
-function setDictWeight(key,val){
-  const v=parseFloat(val);
-  if(!v||v<=0){ delete DICT[key]; } else { DICT[key]=v; }
-  saveDict();
-  doParse();
-  toast(v? (key.split('|')[1]+' = '+v+'kg 등록') : '등록 해제');
-}
-function saveWeek(){
-  if(!PARSED) return;
-  const w=parseInt($('inWeek').value,10);
-  if(!w){ toast('주차 번호를 입력하세요'); return; }
-  DB[w]={week:w,label:$('inLabel').value.trim()||('Week '+w),
-         items:PARSED.items.map(x=>({r:x.r,c:x.c,n:x.n,s:x.s||'',kg:x.kg,ks:x.ks||'',p:x.p,g:x.g,sp:x.sp||'',spv:x.spv||0,cnt:x.cnt||null,per:x.per||null,gpf:x.gpf||null,sz:x.sz||'',ln:x.ln||'일반',og:x.og||''}))};
-  save(); dropDraft(); renderAll(); go('events');
-  toast('Week '+w+' 저장 완료');
-}
-
-function renderEvents(){
-  const wk=latest();
-  if(!wk){ $('evList').innerHTML='<div class="empty">저장된 주차가 없습니다.</div>'; $('evKpi').innerHTML=''; return; }
-  const ev=detect(wk), idx=priceIndex(wk), d=DB[wk];
-  const nh=d.items.filter(x=>x.g==='농활').length;
-  $('evKpi').innerHTML=
-    '<div><div class="v num">'+ev.length+'</div><div class="l">감지된 사건</div></div>'+
-    '<div><div class="v num">'+d.items.length+'</div><div class="l">조사 품목</div></div>'+
-    '<div><div class="v num">'+idx.length+'</div><div class="l">직접 비교</div></div>'+
-    '<div><div class="v num">'+nh+'</div><div class="l">농활 적용</div></div>';
-  if(!ev.length){ $('evList').innerHTML='<div class="empty">이번 주 기준을 넘은 변동이 없습니다.<br>가격이 안정적인 주간입니다.</div>'; }
-  else{
-    $('evList').innerHTML=ev.map(e=>{
-      const c='var('+(TONE[e.t]||'--ink3')+')';
-      return '<div class="ev"><div class="bar" style="background:'+c+'"></div><div class="bd">'
-        +'<div class="tg" style="color:'+c+'">'+e.t+'</div><div class="tx">'+esc(e.x)+'</div></div></div>';
-    }).join('');
-  }
-  if(!idx.length){ $('idxList').innerHTML='<div class="empty">같은 규격대에서 두 매장이 함께 잡힌 품목이 없습니다.</div>'; }
-  else{
-    $('idxList').innerHTML=idx.map(x=>{
-      const cheapIsRight = x.idx<100;
-      const win = cheapIsRight ? x.r : x.baseR;
-      const diff = x.perKg ? Math.abs(x.rv - x.bv) : Math.abs(x.rp - x.bp);
-      const bC = x.baseR.includes('롯데')?'var(--lotte)':'#8A6200';
-      const rC = x.r.includes('롯데')?'var(--lotte)':'#8A6200';
-      const bw = cheapIsRight?800:900, rw = cheapIsRight?900:800;
-      const pctTxt = Math.abs(x.idx-100)<0.05 ? '같음' : Math.abs(x.idx-100).toFixed(1)+'% 저렴';
-      return '<div style="padding:12px 0;border-bottom:1px solid #EDF1F5">'
-       +'<div style="font-size:13.5px;font-weight:700;margin-bottom:7px">'+esc(x.cat)
-       +' <span style="font-size:11px;color:var(--ink3);font-weight:600">'+esc(x.band.replace('단위:',''))+'</span></div>'
-       +'<div style="display:flex;align-items:stretch;gap:8px">'
-         +'<div style="flex:1;text-align:center;padding:9px 4px;border-radius:9px;background:'+(cheapIsRight?'#F6F8FA':'#EAF4EE')+'">'
-           +'<div style="font-size:10.5px;font-weight:700;color:'+bC+'">'+esc(x.baseR)+'</div>'
-           +'<div class="num" style="font-size:17px;font-weight:'+bw+';margin-top:2px">'+fmt(x.bp)+'</div>'
-           +(x.perKg?'<div class="num" style="font-size:10.5px;color:var(--ink3)">'+fmt(x.bv)+'/kg</div>':'')+'</div>'
-         +'<div style="flex:0 0 74px;text-align:center;align-self:center">'
-           +'<div style="font-size:15px;color:var(--ink3)">'+(cheapIsRight?'▶':'◀')+'</div>'
-           +'<div class="num" style="font-size:12.5px;font-weight:700;color:var(--down)">'+fmt(diff)+'원</div>'
-           +(x.perKg?'<div style="font-size:9.5px;color:var(--ink3)">kg당</div>':'')+'</div>'
-         +'<div style="flex:1;text-align:center;padding:9px 4px;border-radius:9px;background:'+(cheapIsRight?'#EAF4EE':'#F6F8FA')+'">'
-           +'<div style="font-size:10.5px;font-weight:700;color:'+rC+'">'+esc(x.r)+'</div>'
-           +'<div class="num" style="font-size:17px;font-weight:'+rw+';margin-top:2px">'+fmt(x.rp)+'</div>'
-           +(x.perKg?'<div class="num" style="font-size:10.5px;color:var(--ink3)">'+fmt(x.rv)+'/kg</div>':'')+'</div>'
-       +'</div>'
-       +'<div style="text-align:center;margin-top:6px;font-size:12.5px">'
-         +'<b style="color:var(--calm)">'+esc(win)+'</b> 가 '+pctTxt+'</div>'
-       +'<div class="mini" style="text-align:center">'+esc(x.base)+' · '+esc(x.item)+'</div>'
-       +'</div>';
-    }).join('');
-  }
-  renderTrend(wk);
-}
-
-function renderTrend(wk){
-  const ws=weeks().filter(w=>w<=wk).slice(-6);
-  if(ws.length<2){ $('trendList').innerHTML='<div class="empty">두 주차 이상 쌓이면 추이가 보입니다.</div>'; return; }
-  const cats={};
-  for(const w of ws) for(const v of catView(w)){
-    if(v.band.startsWith('단위:')) continue;
-    const k=v.cat; (cats[k]=cats[k]||{})[w+'|'+v.r]=v.val;
-  }
-  let h='';
-  for(const c of Object.keys(cats).sort()){
-    const cells=ws.map(w=>{
-      const L=cats[c][w+'|롯데'],E=cats[c][w+'|이마트'];
-      if(L==null&&E==null) return '<td style="text-align:center;color:#C9D2DC">·</td>';
-      let s='';
-      if(L!=null) s+='<div class="num" style="color:var(--lotte);font-size:11.5px">'+fmt(Math.round(L))+'</div>';
-      if(E!=null) s+='<div class="num" style="color:#8A6200;font-size:11.5px">'+fmt(Math.round(E))+'</div>';
-      return '<td style="text-align:right">'+s+'</td>';
-    }).join('');
-    h+='<tr><td style="font-weight:700;font-size:12.5px">'+esc(c)+'</td>'+cells+'</tr>';
-  }
-  $('trendList').innerHTML='<div style="overflow-x:auto"><table><thead><tr><th>품목</th>'
-    +ws.map(w=>'<th class="n">W'+w+'</th>').join('')+'</tr></thead><tbody>'+h+'</tbody></table></div>'
-    +'<div class="mini">kg 단가 기준. <span style="color:var(--lotte)">위=롯데</span> · <span style="color:#8A6200">아래=이마트</span></div>';
-}
-
-function renderWeeks(){
-  const ws=weeks();
-  if(!ws.length){ $('weekList').innerHTML='<div class="empty">저장된 주차가 없습니다.</div>'; return; }
-  $('weekList').innerHTML=ws.slice().reverse().map(w=>{
-    const d=DB[w], rs=[...new Set(d.items.map(x=>x.r))].join(' · ');
-    return '<div class="stat"><div><b>Week '+w+'</b> <span class="wtag">'+esc(d.label||'')+'</span>'
-      +'<div class="mini">'+esc(rs)+' · '+d.items.length+'품목</div></div>'
-      +'<div><button class="ghost sm" onclick="delWeek('+w+')">삭제</button></div></div>';
-  }).join('');
-}
-function delDict(k){ delete DICT[k]; saveDict(); renderAll(); toast('삭제했습니다'); }
-function delWeek(w){ if(!confirm('Week '+w+' 데이터를 지울까요?')) return; delete DB[w]; save(); renderAll(); toast('삭제했습니다'); }
-
-function exportData(){
-  const b=new Blob([JSON.stringify({__dict:DICT,...DB},null,1)],{type:'application/json'});
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(b);
-  a.download='jj_fruit_radar_'+new Date().toISOString().slice(0,10)+'.json';
-  a.click(); URL.revokeObjectURL(a.href); toast('백업 파일을 내려받았습니다');
-}
-function importData(el){
-  const f=el.files[0]; if(!f) return;
-  const rd=new FileReader();
-  rd.onload=()=>{ try{ const o=JSON.parse(rd.result); let n=0;
-      if(o.__dict){ DICT={...DICT,...o.__dict}; saveDict(); }
-      for(const k in o){ if(o[k]&&o[k].items){ DB[k]=o[k]; n++; } }
-      save(); renderAll(); toast(n+'개 주차를 불러왔습니다');
-    }catch(e){ toast('파일을 읽지 못했습니다'); } };
-  rd.readAsText(f); el.value='';
-}
-
-function go(t){
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
-  $('p-'+t).classList.add('on');
-  document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
-  window.scrollTo(0,0);
-  if(t==='supply') renderSupply();
-  if(t==='report') buildReport();
-  if(t==='cards') buildCards();
-}
-document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>go(b.dataset.t));
-
-function renderAll(){
-  const wk=latest();
-  const lb=wk? String(DB[wk].label||'').trim():'';
-  $('hdWeek').textContent = wk? ('Week '+wk+(lb&&lb!=='Week '+wk? ' · '+lb:'')) : '데이터 없음';
-  if(wk && !$('inWeek').value) $('inWeek').value=wk+1;
-  if(!$('inWeek').value) $('inWeek').value=1;
-  if(!$('inLabel').value) $('inLabel').value=todayLabel();
-  renderEvents(); renderWeeks(); renderSupply();
-  const lastWk=latest();
-  $('firstRun').innerHTML = weeks().length ?
-    ('<div class="mini" style="margin-top:-4px">저장된 주차 '+weeks().length+'개 · 가장 최근 Week '+lastWk
-      +'. 위 칸은 새 조사를 적는 곳이며, 지난 자료는 분석·리포트 탭에 있습니다.</div>') :
-    '<div class="card" style="border-color:#A9C4E4;background:#F4F8FC">'
-    +'<div style="font-size:14px;font-weight:700;margin-bottom:6px">처음이신가요</div>'
-    +'<div class="mini" style="margin-bottom:12px">'
-    +'전에 쓰시던 데이터가 있으면 먼저 불러오세요. 지난 주차가 있어야 전주 대비 비교와 사건 감지가 작동합니다.<br>'
-    +'새로 시작하시려면 위에 바로 입력하셔도 됩니다.</div>'
-    +'<button class="ghost" onclick="go(\'data\')">데이터 불러오러 가기</button></div>';
-  $('catRules').innerHTML=CATS.map(([c,k])=>'<b>'+c+'</b> — '+k.join(', ')).join('<br>');
-  $('verInfo').innerHTML='버전 '+APP_VER+'<br>주차 '+weeks().length+'개 · 사전 '+Object.keys(DICT).length+'개 · 기상 보유 '+Object.keys(WX).length+'개 주차';
-  const ig=igCfg();
-  $('igState').textContent = ig.url? ('연결됨 : '+ig.url) : '연결되지 않음 — 카드 저장 후 직접 올리는 방식으로 쓰입니다.';
-  const dk=Object.keys(DICT).sort();
-  $('dictList').innerHTML = dk.length
-    ? dk.map(k=>'<div style="display:flex;padding:4px 0;border-bottom:1px solid #F0F3F7">'
-        +'<span style="flex:1">'+esc(k.split('|')[0]==='*'?'전매장':k.split('|')[0])+' · '+esc(k.split('|').slice(1).join(' '))+'</span>'
-        +'<b class="num">'+DICT[k]+'kg</b>'
-        +'<button class="ghost sm" style="margin-left:8px;padding:2px 8px" onclick="delDict(\''+k+'\')">삭제</button></div>').join('')
-    : '아직 등록된 규격이 없습니다. 입력 화면에서 중량을 적으면 여기에 쌓입니다.';
-}
-</script>
-<script>
-/* ===================== 산지 · 기상 ===================== */
-
-/* 품목별 주요 산지 (기상 조회 지점) */
-const ORIGIN={
-  '사과':[['청송',36.43,129.06],['영주',36.81,128.62],['충주',36.99,127.93],
-        ['안동',36.57,128.73],['거창',35.69,127.91],['무주',36.01,127.66]],
-  '포도':[['상주',36.41,128.16],['김천',36.14,128.11],['경산',35.83,128.74],['영동',36.17,127.78]],
-  '참외':[['성주',35.92,128.28]],
-  '복숭아':[['영천',35.97,128.94],['청도',35.65,128.73],['영동',36.17,127.78],
-         ['의성',36.35,128.70],['충주',36.99,127.93]],
-  '천도복숭아':[['영천',35.97,128.94],['청도',35.65,128.73],['영동',36.17,127.78]],
-  '배':[['나주',35.02,126.71],['천안',36.81,127.11],['상주',36.41,128.16]],
-  '자두':[['김천',36.14,128.11],['의성',36.35,128.70],['영천',35.97,128.94]],
-  '수박':[['함안',35.27,128.41],['고창',35.43,126.70],['양구',38.11,127.99]],
-  '무화과':[['영암',34.80,126.70]],
-  '딸기':[['논산',36.19,127.10],['담양',35.32,126.99]],
-  '감귤':[['제주',33.50,126.53]],
-  '단감':[['창원',35.23,128.68],['진영',35.31,128.74]],
-  '블루베리':[['정읍',35.57,126.86]],
-  '살구':[['영천',35.97,128.94]],
-  '대추':[['보은',36.49,127.73]],
-};
-
-/* 산지 메모에서 공급 방향을 읽는 신호어 */
-const SIGNAL=[
-  ['공급증가',['홍수출하','출하증가','물량증가','본격화','출하확대','노지출하','물량확대',
-             '풍작','대풍','성출하','절정','피크','입고량','많다','많아','늘어','늘고',
-             '증가','확대','쏟아','넘쳐','과잉','과다','원활','수확기','출하기','도래',
-             '풍부','물량많','공급원활','작황양호','생산량증가','재고많']],
-  ['공급감소',['생산량감소','작황부진','물량감소','수매가상승','감산','흉작','품귀',
-             '줄어','줄었','부진','미출하','저장분','부족','피해','감산',
-             '물량없','안나','수급불안','작목전환','재배면적감소']],
-  ['시즌종료',['종료','마무리','막바지','끝물','철수','후반','끝나','마감','종료가능']],
-  ['시즌진입',['진입','시작','초기','첫물','신규','출하예상','다음달','들어올','나오기','전환시점']],
-  ['출하지연',['미뤄','지연','늦어','늦춰','장기출하','연장','착색지연','늦게']],
-  ['품질변화',['상품성','당도','착색','품위','양호','불량','대과','소과','식미','품질']],
-  ['수요변화',['소비','수요','둔화','분산','수입과일','명절','추석','설날','선물','급식','장보기']],
-  ['원가부담',['인건비','원가','비용','유가','비료','자재비','운임']],
-  ['진열판촉',['매대','전방','노출','판매강화','선물세트','행사','프로모션','진열','매대구성',
-             '판매대','기획전','특판','판촉','엔드','평대']],
-  ['시세약세',['시세가상향하지','상향하지않','오르지않','약세','하락세','내림세','시세하락','저조','부진판매']],
-  ['시세강세',['시세상승','오름세','강세','시세강','상향','상승세']],
-  ['구색변화',['품종이다양','품종다양','다양해','품종전환','신품종','구색','품목확대','라인업',
-             '종류가늘','가짓수','품종교체','대체']],
-  ['고객이탈',['고객층이탈','이탈','외면','기피','판매감소','판매저조','회전저하','재고증가','장기화']],
-];const SIG_TONE={공급증가:'하락압력',공급감소:'상승압력',시즌종료:'퇴장',시즌진입:'진입',
-  출하지연:'연장',품질변화:'품질',수요변화:'수요',원가부담:'원가',
-  진열판촉:'진열',시세약세:'약세',시세강세:'강세',구색변화:'구색',고객이탈:'이탈'};
-/* 부정 표현. "상향하지 않으며" 를 상승으로 읽지 않도록 키워드 뒤를 살핀다. */
-const NEG=/^[은는이가도만을를]?\s*(하지\s*않|지\s*않|않|없|아니|못|미미|어렵|힘들)/;
-
-/* 품종 토큰. 샤인과 거봉은 같은 '포도'라도 서로 다른 시장이므로 나눠서 대조한다. */
-const VARIETY=['샤인','머스켓','머스캣','거봉','켐벨','캠벨','델라','데라',
-  '홍로','부사','아리수','썸머킹','연두','초록','보조개','시나노',
-  '원황','신고','화산','추황','나주배',
-  '아삭복숭아','부드러운복숭아','천도','신비','황도','백도','대극천','햇사레',
-  '추희','후무사','대석','타이벡','속빨간','왕자두',
-  '성주참외','반전참외','씨적은','흑미','애플수박'];
-function findVariety(text){
-  const f=String(text).replace(/\s/g,'');
-  /* 문장의 주어는 맨 앞에 나온 품종이다. 위치 순으로 정렬한다. */
-  return VARIETY.filter(v=>f.includes(v))
-                .map(v=>[v,f.indexOf(v)])
-                .sort((a,b)=>a[1]-b[1])
-                .map(x=>x[0]);
-}
-function parseNotes(text){
-  const out=[];
-  for(const raw of String(text).split(/\r?\n/)){
-    const line=raw.trim().replace(/^[•\-\*\u25cf]\s*/,'');
-    if(line.length<4) continue;
-    const cat=classify(line);
-    const sigs=[];
-    const flat=line.replace(/\s/g,'');
-    for(const [sg,keys] of SIGNAL){
-      for(const k of keys){
-        let at=flat.indexOf(k);
-        let hit=false;
-        while(at>=0){
-          if(!NEG.test(flat.slice(at+k.length, at+k.length+6))){ hit=true; break; }
-          at=flat.indexOf(k, at+1);            // 부정문이면 다음 등장 위치를 본다
-        }
-        if(hit){ sigs.push(sg); break; }
-      }
-    }
-    /* 공급 증가와 감소가 같이 걸리면 더 구체적인 쪽만 남긴다 */
-    const cnt=(sg)=>{ const ks=(SIGNAL.find(x=>x[0]===sg)||[0,[]])[1];
-      return ks.filter(k=>flat.includes(k)&&!NEG.test(flat.slice(flat.indexOf(k)+k.length,flat.indexOf(k)+k.length+6))).length; };
-    if(sigs.includes('공급증가')&&sigs.includes('공급감소')){
-      const drop = cnt('공급증가')>=cnt('공급감소') ? '공급감소':'공급증가';
-      for(let i=sigs.length-1;i>=0;i--) if(sigs[i]===drop) sigs.splice(i,1);
-    }
-    if(sigs.includes('시세약세')&&sigs.includes('시세강세')){
-      const drop = cnt('시세약세')>=cnt('시세강세') ? '시세강세':'시세약세';
-      for(let i=sigs.length-1;i>=0;i--) if(sigs[i]===drop) sigs.splice(i,1);
-    }
-    out.push({cat:cat==='기타'?null:cat, vari:findVariety(line),
-              sig:[...new Set(sigs)], text:line, general:cat==='기타'});
-  }
-  return out;
-}
-function saveNotes(){
-  const wk=latest(); if(!wk){ toast('먼저 주차를 저장하세요'); return; }
-  DB[wk].notes=$('inNotes').value;
-  save(); renderSupply(); toast('산지 메모를 저장했습니다');
-}
-
-/* 품목이 특정되지 않은 시장 전반 메모 */
-function generalNotes(wk){
-  const d=DB[wk]; if(!d||!d.notes) return [];
-  return parseNotes(d.notes).filter(n=>n.general&&n.sig.length);
-}
-
-/* 가격 변화 방향과 공급 신호가 맞는지 대조 */
-function reconcile(wk){
-  const d=DB[wk]; if(!d||!d.notes) return [];
-  const notes=parseNotes(d.notes), wow=wowTable(wk), out=[];
-  for(const n of notes){
-    if(!n.cat) continue;
-    if(!n.sig.length) continue;          // 신호가 없으면 가격과 대조할 근거가 없다
-    const subj=n.vari[0]||null;
-    /* 품종이 특정되면 그 품종만, 아니면 품목 전체의 변동을 본다 */
-    let mv = subj
-      ? wow.filter(x=>x.subj===subj || x.n1.replace(/\s/g,'').includes(subj))
-      : wow.filter(x=>bigCat(classify(x.n1))===bigCat(n.cat));
-    mv = mv.filter(x=>Math.abs(x.d)>=0.03);
-    const up=mv.filter(x=>x.d>0), dn=mv.filter(x=>x.d<0);
-    const mx=mv.slice().sort((a,b)=>Math.abs(b.d)-Math.abs(a.d))[0];
-    let verdict, tone='wait';
-    if(!mv.length){ verdict='이번 주 유의미한 가격 변동 없음'; }
-    else{
-      const detail=` (${mx.r} ${mx.d>0?'+':''}${pct(mx.d)})`;
-      const down = n.sig.includes('공급증가')||n.sig.includes('시세약세');
-      const upP  = n.sig.includes('공급감소')||n.sig.includes('시세강세');
-      const lbl  = n.sig.includes('공급증가')?'공급':'산지 시세';
-      if(down&&!upP&&dn.length>=up.length){ verdict=lbl+' 신호대로 가격 하락'+detail; tone='ok'; }
-      else if(down&&!upP){ verdict=lbl+'은 약한데 가격 상승'+detail+' — 확인 필요'; tone='gap'; }
-      else if(upP&&!down&&up.length>=dn.length){ verdict=(n.sig.includes('공급감소')?'공급':'산지 시세')+' 신호대로 가격 상승'+detail; tone='ok'; }
-      else if(upP&&!down){ verdict=(n.sig.includes('공급감소')?'공급':'산지 시세')+'는 강한데 가격 하락'+detail+' — 확인 필요'; tone='gap'; }
-      else verdict=`가격 ${up.length?'상승 '+up.length:''}${up.length&&dn.length?' · ':''}${dn.length?'하락 '+dn.length:''}건`+detail;
-    }
-    out.push({...n,up:up.length,dn:dn.length,verdict,tone,label:subj||bigCat(n.cat)});
-  }
-  return out;
-}
-
-/* ---------- 기상 ---------- */
-const WKEY='jjfr_wx_v2';
-let WX={};   /* { 주차: { 산지명: {...} } } */
-function loadWx(){ try{WX=JSON.parse(localStorage.getItem(WKEY)||'{}');}catch(e){WX={};} }
-function saveWx(){ try{localStorage.setItem(WKEY,JSON.stringify(WX));}catch(e){} }
-/* 해당 주차의 기상 자료. 없으면 빈 객체 */
-function wxOf(wk){ return (WX&&WX[wk])||{}; }
-
-/* 로컬 기준 날짜 문자열. toISOString 은 UTC 라 한국 새벽에 하루가 어긋난다. */
-function ymd(d){
-  const y=d.getFullYear(), m=String(d.getMonth()+1).padStart(2,'0'), a=String(d.getDate()).padStart(2,'0');
-  return `${y}-${m}-${a}`;
-}
-/* 조사 기준일. label 이 "2026-09-1" 형태(연-월-주)이면 그 주의 목요일로 잡는다.
-   구간을 조사 시점에 고정해야 몇 번을 다시 불러도 같은 값이 나온다. */
 function surveyDate(wk){
-  const d=DB[wk];
-  const lb=(d&&d.label||'').trim();
+  const lb=String((DB[wk]&&DB[wk].label)||'').trim();
   let m=lb.match(/^(\d{4})[-.\/](\d{1,2})[-.\/](\d)\s*주?$/);
-  if(m){
-    const y=+m[1], mo=+m[2]-1, nth=+m[3];
-    const first=new Date(y,mo,1);
-    const off=(4-first.getDay()+7)%7;          // 그 달 첫 목요일
-    return new Date(y,mo,1+off+(nth-1)*7);
-  }
+  if(m){const y=+m[1],mo=+m[2]-1,f=new Date(y,mo,1);return new Date(y,mo,1+((4-f.getDay()+7)%7)+(+m[3]-1)*7);}
   m=lb.match(/(\d{4})[-.\/](\d{1,2})[-.\/](\d{1,2})/);
   if(m) return new Date(+m[1],+m[2]-1,+m[3]);
-  return new Date();
+  return null;
+}
+function realGap(wk){const p=prevWeek(wk);if(p==null)return null;const a=surveyDate(p),b=surveyDate(wk);
+  if(!a||!b)return wk-p;const d=Math.round((b-a)/(7*864e5));return d>0?d:wk-p;}
+const ymd=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+
+/* ════════════════ 분류 ════════════════ */
+const CATS=[
+ ['산딸기',['산딸기']],['블루베리',['블루베리']],['딸기',['딸기']],
+ ['천도복숭아',['천도','대극천']],
+ ['복숭아',['복숭아','신비','황도','백도','부드복','아삭복','햇사레','임실']],
+ ['자두',['자두','후무사','대석','추희','타이벡','속빨간']],
+ ['포도',['샤인','켐벨','캠벨','거봉','머스켓','머스캣','머루','포도','데라','델라']],
+ ['사과',['사과','홍로','부사','아리수','썸머킹','시나노','보조개']],
+ ['수박',['수박']],['참외',['참외']],['무화과',['무화과']],['살구',['살구']],
+ ['토마토',['토마토','대저','짭짤이']],
+ ['단감',['단감','부유','대봉','반시','홍시','곶감','감말랭']],
+ ['감귤',['감귤','귤','한라봉','천혜향','레드향','만감']],
+ ['석류',['석류']],['대추',['대추']],['키위',['키위','참다래']],['멜론',['멜론']],
+ ['배',['원황','신고','화산','추황','나주배','저탄소배','상생배','당찬배','배']],
+];
+function classify(n){const f=String(n).replace(/\s/g,'');for(const[c,ks]of CATS)for(const k of ks)if(f.includes(k))return c;return '기타';}
+const bigCat=c=>c==='천도복숭아'?'복숭아':c;
+const ICON={사과:'🍎',배:'🍐',복숭아:'🍑',자두:'🫐',포도:'🍇',수박:'🍉',참외:'🍈',딸기:'🍓',블루베리:'🫐',산딸기:'🍓',
+  감귤:'🍊',단감:'🟠',무화과:'🟣',토마토:'🍅',키위:'🥝',멜론:'🍈',석류:'🔴',대추:'🟤',살구:'🟠',기타:'•'};
+
+const RETAIL=[['이마트에브리데이',['에브리','everyday']],['트레이더스',['트레이더스']],['코스트코',['코스트코']],
+ ['롯데',['롯데','lotte']],['이마트',['이마트','emart']],['홈플러스',['홈플']],['GS슈퍼',['gs','지에스']]];
+function detectRetailer(line){const l=line.toLowerCase().replace(/[\s:()·\-\[\]]/g,'');if(l.length>14||/\d{3,}/.test(l))return null;
+  for(const[r,ks]of RETAIL)for(const k of ks)if(l.includes(k))return r;return null;}
+const RC=r=>r.includes('롯데')?'var(--lotte)':(r.includes('이마트')?'var(--emart)':'var(--ink2)');
+const RP=r=>r.includes('롯데')?'p-l':'p-e';
+
+/* 품종 — 문장의 주어를 맨 앞에 나온 품종으로 본다 */
+const VARIETY=['샤인','머스켓','거봉','켐벨','캠벨','머루','홍로','부사','아리수','썸머킹','연두','초록','보조개','시나노',
+ '원황','신고','화산','추황','아삭','부드러운','천도','신비','황도','백도','대극천','햇사레','추희','후무사','대석','타이벡',
+ '속빨간','왕자두','홍시','대봉','부유','단감','반시','한라봉','천혜향','레드향','씨적은','흑미','애플수박'];
+function findVariety(t){const f=String(t).replace(/\s/g,'');return VARIETY.filter(v=>f.includes(v)).map(v=>[v,f.indexOf(v)]).sort((a,b)=>a[1]-b[1]).map(x=>x[0]);}
+
+const LINE=[['실속',['상생','보조개','못난이','실속','한입','알뜰','5k','프라이스','작아도','반전','꼬마','자투리','가정용']],
+ ['프리미엄',['고당도','당도선별','황금당도','gap','저탄소','프리미엄','갓따온','비파괴','유명산지','국산의힘','한가득','명품','특선','선물','친환경','무농약','유기농','특대','왕특']]];
+function lineOf(n){
+  /* "1.5kg" 의 "5k" 가 5K프라이스로 잡히지 않도록 중량 표기를 먼저 지운다 */
+  const f=String(n).toLowerCase().replace(/\s/g,'').replace(/\d+(\.\d+)?\s*(kg|키로|g)/g,'');
+  for(const[k,ws]of LINE)for(const w of ws)if(f.includes(w))return k;return '일반';}
+const ORIGIN_NAMES=['성주','청도','나주','무주','남원','거제','상주','영천','청송','영주','안동','거창','의성','함안','고창','영암','경산',
+ '진주','사천','창녕','보은','논산','담양','제주','길안','충주','밀양','김천','봉화','양구','예산','천안','완주','하동','산청','문경','영동','이천','송산','고령'];
+function originOf(n){const f=String(n).replace(/\s/g,'');for(const o of ORIGIN_NAMES)if(f.includes(o))return o;return '';}
+
+/* ════════════════ 규격 ════════════════ */
+function parseWeight(n){let m;
+  if(m=n.match(/(\d+(?:\.\d+)?)\s*(?:kg|KG|Kg|키로|킬로)/))return +m[1];
+  if(m=n.match(/\((\d+(?:\.\d+)?)\)/)){const v=+m[1];if(v>=.2&&v<=10)return v;}
+  if(m=n.match(/(\d{3,4})\s*g\b/i)){const v=+m[1]/1000;if(v>=.1&&v<=5)return v;}
+  if(m=n.match(/(?:^|[^\d.])(\d\.\d{1,2})(?!\d)/)){const v=+m[1];if(v>=.3&&v<=9)return v;}
+  if(m=n.match(/(?:^|[^\d.])(\d{3})(?=\s*$|\s|[가-힣])/)){const v=+m[1];if(v>=300&&v<=999)return v/1000;}
+  return null;}
+function countOf(n){const f=String(n).replace(/\s/g,'');let m;
+  if(m=f.match(/(\d{1,2})\s*[~\-]\s*(\d{1,2})\s*(입|봉|과|알|개|팩)/))return{lo:+m[1],hi:+m[2],avg:(+m[1]+ +m[2])/2};
+  if(m=f.match(/(\d{1,2})\s*(입|과|알|개)(?![월일])/))return{lo:+m[1],hi:+m[1],avg:+m[1]};
+  if(m=f.match(/(\d{1,2})\s*[~\-]\s*(\d{1,2})(?!\d)/))if(+m[2]<=30)return{lo:+m[1],hi:+m[2],avg:(+m[1]+ +m[2])/2};
+  return null;}
+function specKey(n){const x=String(n).replace(/\s/g,'');let m;
+  if(m=x.match(/(\d+)\s*[~\-]\s*(\d+)\s*(봉|입|과|팩|송이|알|망)/))return m[1]+'~'+m[2]+m[3];
+  if(m=x.match(/(\d+)\s*(봉|입|과|팩|송이|알|망)/))return m[1]+m[2];
+  if(m=x.match(/(\d{1,2})\s*[~\-]\s*(\d{1,2})(?!\d)/))return m[1]+'~'+m[2]+'입';
+  return null;}
+/* 과 하나 무게로 크기 등급 — 빈 가격대는 같은 등급 안에서만 찾는다 */
+/* 크기 등급 — 낱개로 파는 과일만. 포도는 송이, 수박은 통이라 등급을 매기지 않는다 */
+const PIECE_BIG=['사과','배','복숭아','단감','참외','석류','멜론'];
+const PIECE_SMALL=['자두','천도복숭아','감귤','키위','살구'];
+function sizeOf(g,cat){
+  if(g==null)return '';
+  const f=PIECE_BIG.includes(cat)?1:PIECE_SMALL.includes(cat)?.35:0;
+  if(!f)return '';
+  return g>=330*f?'대과':g>=230*f?'중대과':g>=160*f?'중과':g>=90*f?'소과':'소립';
+}
+const unitWord=cat=>bigCat(cat)==='포도'?'송이':'개';
+const bandOf=kg=>kg==null?'':kg<1?'소포장':kg<=2?'표준':'대용량';
+const packUnit=n=>{const x=String(n).replace(/\s/g,'');return /\d\s*알|한알|1개(?!입)/.test(x)?'낱개':/이상|↑|통/.test(x)?'통':/봉|팩|입|과|송이|박스|망/.test(x)?'묶음':'기타';};
+
+/* 중량 사전 — 현장에서 확인된 통상 규격. 매장마다 다르면 매장명을 붙인다 */
+const DICT_BASE={'*|사과|4~8봉':1.3,'*|사과|3~8봉':1.3,'*|사과|4~8입':1.3,'*|사과|3~8입':1.3,'*|사과|5~8봉':1.3,'*|사과|5~8입':1.3,
+ '*|사과|4~6봉':1.3,'*|사과|4~7입':1.3,'*|사과|4~6입':1.3,'*|사과|3~7입':1.3,'*|무화과|13~18입':1,'*|무화과|12~18입':1,
+ '이마트|천도복숭아|5~9입':.8,'이마트|천도복숭아|6~13입':1.5,'*|포도|1팩':.5,'*|포도|1송이':.5,'*|포도|2송이팩':.7,'이마트|자두|6~10입':.8};
+function dictLookup(cat,name,ret){const k=specKey(name);if(!k)return null;for(const p of[ret,'*']){const v=DICT[p+'|'+cat+'|'+k];if(v!=null)return v;}return null;}
+
+/* ════════════════ 가격 줄 읽기 ════════════════
+   상품명(규격) [정상가] 판매가 [100g단가] [할인 단어] [매대 한 글자]           */
+const DISC=[['농활','gov'],['농할','gov'],['카드','card'],['회원','own'],['포인트','own'],['엘포','own'],['고래잇','own'],
+ ['통큰','own'],['오픈런','own'],['행사','own'],['특가','own'],['1+1','own'],['2+1','own']];
+const DISC_NM={gov:'정부(농활)',card:'카드사',own:'유통사 자체'};
+const SPOT1={전:['전면',5],엔:['엔드',4],독:['독립',4],평:['평대',3],섬:['평대',3],특:['특설',3],벽:['벽면',2],냉:['냉장',2],일:['일반',1]};
+const SPOTW=[['전면',5,['전면','입구','정문','전방','메인']],['엔드',4,['엔드','매대끝','코너']],['독립',4,['독립']],
+ ['평대',3,['평대','아일랜드']],['특설',3,['특설','기획','행사대']],['일반',1,['일반','곤도라','선반']]];
+function parseLine(raw,ret){
+  let s=raw.trim().replace(/^[•\-\*\u25cf\u25b6\u2022·]\s*/,'');if(!s)return null;
+  /* 매대 */
+  let sp=null;const m1=s.match(/\s([전엔독평섬특벽냉일])\s*$/);
+  if(m1){sp=SPOT1[m1[1]];s=s.slice(0,m1.index);}
+  else{const m2=s.match(/#(\S+)/);if(m2){const t=m2[1];sp=SPOT1[t[0]]||null;if(!sp)for(const[n,v,ks]of SPOTW)if(ks.some(k=>t.includes(k))){sp=[n,v];break;}s=s.replace(/#\S+/,' ');}
+   else{const m3=s.match(/\s(\S+)\s*$/);if(m3)for(const[n,v,ks]of SPOTW)if(ks.includes(m3[1])){sp=[n,v];s=s.slice(0,m3.index);break;}}}
+  /* 할인 단어 */
+  const disc=[];
+  for(const[w,src]of DISC){if(s.includes(w)){if(!disc.includes(src))disc.push(src);s=s.split(w).join(' ');}}
+  /* 다구매 "2개7990" */
+  let mb=null;const m4=s.match(/(\d)\s*개\s*([\d,]{3,7})/);
+  if(m4&&+m4[1]>=2){mb={n:+m4[1],p:+m4[2].replace(/,/g,'')};s=s.replace(m4[0],' ');if(!disc.includes('own'))disc.push('own');}
+  /* 끝에 몰린 숫자 덩어리: 정상가·판매가·100g단가 */
+  const cl=s.match(/((?:\s+[\d,]{2,7})+)\s*$/);
+  let nums=[],name=s;
+  if(cl){nums=cl[1].trim().split(/\s+/).map(x=>+x.replace(/,/g,''));name=s.slice(0,cl.index);}
+  else{const all=[...s.matchAll(/(\d[\d,]{2,7})/g)];
+    for(let i=all.length-1;i>=0;i--){const v=+all[i][1].replace(/,/g,''),after=s.slice(all[i].index+all[i][1].length,all[i].index+all[i][1].length+3);
+      if(v>=700&&v<=300000&&!/^(g|kg|키로)/i.test(after.trim())){nums=[v];name=s.slice(0,all[i].index);break;}}}
+  nums=nums.filter(v=>v>0);if(!nums.length)return null;
+  let price=null,p0=null,per100=null;
+  if(nums.length>=3){const c=nums[nums.length-1],b=nums[nums.length-2];if(c<b*.25){per100=c;nums=nums.slice(0,-1);}}
+  if(nums.length===1)price=nums[0];
+  else{const a=nums[nums.length-2],b=nums[nums.length-1];
+    if(b<a*.25&&b>=50){price=a;per100=b;}
+    else{price=Math.min(a,b);if(Math.max(a,b)>price)p0=Math.max(a,b);}}
+  if(!price||price<300||price>300000)return null;
+  name=name.trim().replace(/[\s,]+$/,'');if(!name)return null;
+  const c=classify(name);
+  let kg=parseWeight(name),ks=kg!=null?'표기':'';
+  if(kg==null&&per100){kg=Math.round(price/(per100*10)*1000)/1000;ks='100g단가';}
+  if(kg==null){const d=dictLookup(c,name,ret);if(d!=null){kg=d;ks='사전';}}
+  return enrich({r:ret,c,n:name,p:price,p0,kg,ks,mb,disc,
+    g:disc.includes('gov')?'농활':'',sp:sp?sp[0]:'',spv:sp?sp[1]:0});
+}
+/* 파생값 — 옛 데이터도 불러올 때 다시 계산해 새 분석을 그대로 쓴다 */
+function enrich(it){
+  const ct=countOf(it.n);
+  it.c=it.c||classify(it.n);
+  it.cnt=ct?ct.avg:null;it.cntFix=ct?ct.lo===ct.hi:false;
+  it.per=ct&&ct.avg>0?Math.round(it.p/ct.avg):null;
+  it.ppk=it.kg?Math.round(it.p/it.kg):null;
+  it.gpf=it.kg&&ct&&ct.avg>0?Math.round(it.kg*1000/ct.avg):null;
+  it.sz=sizeOf(it.gpf,it.c);it.ln=lineOf(it.n);it.og=originOf(it.n);
+  if(!it.disc){it.disc=[];if(it.g==='농활')it.disc.push('gov');}
+  if(it.spv==null)it.spv=0;
+  return it;
+}
+function parseRaw(text){
+  const items=[],bad=[];let cur=null;
+  for(const raw of String(text).split(/\r?\n/)){const l=raw.trim();if(!l)continue;
+    const r=detectRetailer(l);if(r){cur=r;continue;}
+    if(!cur){bad.push(l+'  ← 매장 이름이 먼저 와야 합니다');continue;}
+    const it=parseLine(l,cur);if(it)items.push(it);else bad.push(l);}
+  return{items,bad};
 }
 
-async function fetchOrigin(name,lat,lon,base){
-  const end=new Date(base.getTime()-2*864e5);
-  const start=new Date(end.getTime()-29*864e5);
-  const ly_e=new Date(end);   ly_e.setFullYear(ly_e.getFullYear()-1);
-  const ly_s=new Date(start); ly_s.setFullYear(ly_s.getFullYear()-1);
-  const q=(a,b)=>`https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}`
-    +`&start_date=${ymd(a)}&end_date=${ymd(b)}`
-    +`&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=Asia%2FSeoul`;
-  const [c,l]=await Promise.all([fetch(q(start,end)).then(r=>r.json()),
-                                 fetch(q(ly_s,ly_e)).then(r=>r.json())]);
-  const sum=o=>{
-    const D=o.daily||{}, mx=(D.temperature_2m_max||[]).filter(v=>v!=null),
-          mn=(D.temperature_2m_min||[]).filter(v=>v!=null),
-          pr=(D.precipitation_sum||[]).filter(v=>v!=null);
-    const avg=a=>a.length? a.reduce((x,y)=>x+y,0)/a.length : null;
-    return {
-      tmax:mx.length? +avg(mx).toFixed(1):null,
-      tmin:mn.length? +avg(mn).toFixed(1):null,
-      rain:Math.round(pr.reduce((x,y)=>x+y,0)),
-      hot:mx.filter(v=>v>=33).length,
-      pour:pr.filter(v=>v>=50).length,
-      days:mx.length,
-    };
-  };
-  return {name,lat,lon,cur:sum(c),ly:sum(l),
-          from:ymd(start),to:ymd(end),at:Date.now()};
+/* ════════════════ 메모 읽기 ════════════════ */
+const SIGNAL=[
+ ['공급증가',['홍수출하','출하증가','물량증가','본격화','출하확대','노지출하','풍작','대풍','성출하','절정','피크','입고량','많다','많아','늘어','늘고','증가','확대','쏟아','과잉','과다','원활','수확기','출하기','도래','풍부','재고많']],
+ ['공급감소',['생산량감소','작황부진','물량감소','수매가상승','감산','흉작','품귀','줄어','줄었','부진','미출하','저장분','부족','피해','물량없','작목전환','재배면적감소']],
+ ['시즌종료',['종료','마무리','막바지','끝물','철수','후반','끝나','마감']],
+ ['시즌진입',['진입','시작','초기','첫물','신규','출하예상','들어올','전환시점']],
+ ['출하지연',['미뤄','지연','늦어','늦춰','장기출하','연장','늦게']],
+ ['품질',['상품성','당도','착색','품위','양호','불량','대과','소과','식미','품질']],
+ ['수요',['소비','수요','둔화','분산','수입과일','명절','추석','설날','선물','장보기']],
+ ['원가',['인건비','원가','비용','유가','비료','자재비','운임']],
+ ['진열',['매대','전방','노출','판매강화','선물세트','진열','판매대','기획전','특판','판촉']],
+ ['약세',['상향하지','오르지않','약세','하락세','내림세','시세하락','시세가하락','저조','판매감소']],
+ ['강세',['시세상승','오름세','강세','상향','상승세']],
+ ['구색',['품종이다양','품종다양','다양해','품종전환','신품종','구색','라인업','가짓수','품종교체']],
+ ['이탈',['고객층이탈','이탈','외면','기피','회전저하','재고증가','장기화']],
+];
+const SIG_KO={공급증가:'공급 많음',공급감소:'공급 적음',시즌종료:'종료 예고',시즌진입:'진입 예고',출하지연:'출하 연장',품질:'품질',수요:'수요',원가:'원가',진열:'진열',약세:'시세 약세',강세:'시세 강세',구색:'구색 변화',이탈:'수요 이탈'};
+const NEG=/^[은는이가도만을를]?\s*(하지\s*않|지\s*않|않|없|아니|못|미미|어렵)/;
+const MKT=/^(가락|안동|대구|구리|엄궁|반여|강서|광주|대전|청주|공판장|도매|경매)/;
+function parseWholesale(l){
+  const s=l.replace(/\s+/g,' ').trim();if(!MKT.test(s))return null;
+  const mk=s.match(MKT)[1];
+  const nums=[...s.matchAll(/([\d,]{3,7})(?!\s*(kg|키로|g\b))/g)].map(m=>+m[1].replace(/,/g,'')).filter(v=>v>=300);
+  if(!nums.length)return null;const price=nums[nums.length-1];
+  const kgm=s.match(/(\d+(?:\.\d+)?)\s*(?:kg|키로)/i);const kg=kgm?+kgm[1]:null;
+  const gr=(s.match(/\s(특|상|중|하|보통)(?=\s)/)||[])[1]||'';
+  const body=s.replace(MKT,'').replace(/[\d,.]+\s*(kg|키로)?/gi,' ');
+  const cat=classify(body);if(cat==='기타')return null;
+  return{mk,cat,vari:findVariety(body)[0]||'',gr,kg,price,ppk:kg?Math.round(price/kg):null,key:mk+'|'+bigCat(cat)+'|'+(findVariety(body)[0]||'')+'|'+gr+'|'+(kg||'')};
 }
-async function loadWeather(){
-  const wk=latest(); if(!wk){ toast('먼저 주차를 저장하세요'); return; }
-  const cats=[...new Set(DB[wk].items.map(x=>x.c))].filter(c=>ORIGIN[c]);
-  if(!cats.length){ toast('기상을 볼 산지가 없습니다'); return; }
-  const base=surveyDate(wk);
-  const b=$('btnWx'); b.disabled=true; b.textContent='불러오는 중…';
-  const seen={}, jobs=[];
-  for(const c of cats) for(const [nm,la,lo] of ORIGIN[c]){
-    if(seen[nm]) continue; seen[nm]=1; jobs.push(fetchOrigin(nm,la,lo,base)); }
+function parseNotes(text){
+  const notes=[],whole=[];
+  for(const raw of String(text||'').split(/\r?\n/)){
+    const l=raw.trim().replace(/^[•\-\*·]\s*/,'');if(l.length<3)continue;
+    const w=parseWholesale(l);if(w){whole.push(w);continue;}
+    const f=l.replace(/\s/g,''),sig=[];
+    for(const[sg,ks]of SIGNAL){for(const k of ks){let at=f.indexOf(k),hit=false;
+      const selfNeg=/하지|않/.test(k);           // "상향하지 않" 처럼 말 자체가 부정형
+      while(at>=0){if(selfNeg||!NEG.test(f.slice(at+k.length,at+k.length+6))){hit=true;break;}at=f.indexOf(k,at+1);}
+      if(hit){sig.push(sg);break;}}}
+    const cnt=sg=>(SIGNAL.find(x=>x[0]===sg)[1]).filter(k=>{const i=f.indexOf(k);return i>=0&&!NEG.test(f.slice(i+k.length,i+k.length+6));}).length;
+    for(const[a,b]of[['공급증가','공급감소'],['약세','강세']])
+      if(sig.includes(a)&&sig.includes(b)){const drop=cnt(a)>=cnt(b)?b:a;sig.splice(sig.indexOf(drop),1);}
+    const c=classify(l);
+    notes.push({text:l,cat:c==='기타'?null:bigCat(c),vari:findVariety(l)[0]||'',sig});
+  }
+  return{notes,whole};
+}
+/* 메모 신호를 가격 방향으로 */
+const SIG_DIR=n=>(n.sig.includes('공급증가')||n.sig.includes('약세'))?-1:(n.sig.includes('공급감소')||n.sig.includes('강세'))?1:0;
+</script>
+<script>
+/* ════════════════ 기상 ════════════════ */
+const ORIGIN={
+ 사과:[['청송',36.43,129.06],['영주',36.81,128.62],['안동',36.57,128.73],['충주',36.99,127.93],['거창',35.69,127.91],['무주',36.01,127.66]],
+ 포도:[['상주',36.41,128.16],['김천',36.14,128.11],['경산',35.83,128.74],['영동',36.17,127.78]],
+ 복숭아:[['영천',35.97,128.94],['청도',35.65,128.73],['영동',36.17,127.78],['의성',36.35,128.70],['충주',36.99,127.93]],
+ 배:[['나주',35.02,126.71],['천안',36.81,127.11],['상주',36.41,128.16]],
+ 자두:[['김천',36.14,128.11],['의성',36.35,128.70],['영천',35.97,128.94]],
+ 참외:[['성주',35.92,128.28]],수박:[['함안',35.27,128.41],['고창',35.43,126.70]],
+ 단감:[['창원',35.23,128.68],['진주',35.18,128.11],['청도',35.65,128.73]],
+ 감귤:[['제주',33.50,126.53]],무화과:[['영암',34.80,126.70]],딸기:[['논산',36.19,127.10],['담양',35.32,126.99]],
+ 블루베리:[['정읍',35.57,126.86]],대추:[['보은',36.49,127.73]],
+};
+async function fetchOrigin(nm,la,lo,base){
+  const end=new Date(base.getTime()-2*864e5),st=new Date(end.getTime()-29*864e5);
+  const le=new Date(end);le.setFullYear(le.getFullYear()-1);const ls=new Date(st);ls.setFullYear(ls.getFullYear()-1);
+  const q=(a,b)=>`https://archive-api.open-meteo.com/v1/archive?latitude=${la}&longitude=${lo}&start_date=${ymd(a)}&end_date=${ymd(b)}&daily=temperature_2m_max,precipitation_sum&timezone=Asia%2FSeoul`;
+  const [c,l]=await Promise.all([fetch(q(st,end)).then(r=>r.json()),fetch(q(ls,le)).then(r=>r.json())]);
+  const sm=o=>{const D=o.daily||{},mx=(D.temperature_2m_max||[]).filter(v=>v!=null),pr=(D.precipitation_sum||[]).filter(v=>v!=null);
+    return{tmax:mx.length?+(mx.reduce((a,b)=>a+b,0)/mx.length).toFixed(1):null,rain:Math.round(pr.reduce((a,b)=>a+b,0)),
+      hot:mx.filter(v=>v>=33).length,pour:pr.filter(v=>v>=50).length};};
+  return{cur:sm(c),ly:sm(l),from:ymd(st),to:ymd(end)};
+}
+async function loadWeather(wk){
+  const base=surveyDate(wk)||new Date();
+  const cats=[...new Set(DB[wk].items.map(x=>bigCat(x.c)))].filter(c=>ORIGIN[c]);
+  const need={};for(const c of cats)for(const[nm,la,lo]of ORIGIN[c])need[nm]=[la,lo];
+  WX[wk]=WX[wk]||{};
+  const todo=Object.keys(need).filter(n=>!WX[wk][n]);
+  if(!todo.length)return 0;
+  const res=await Promise.allSettled(todo.map(n=>fetchOrigin(n,need[n][0],need[n][1],base).then(v=>[n,v])));
+  let ok=0;for(const r of res)if(r.status==='fulfilled'){WX[wk][r.value[0]]=r.value[1];ok++;}
+  lsSet(K.WX,WX);return ok;
+}
+/* 기상 이변을 공급 신호로 */
+function wxSignal(cat,wk){
+  const W=WX[wk]||{},os=(ORIGIN[cat]||[]).filter(o=>W[o[0]]);if(!os.length)return null;
+  const notes=[];let press=0;
+  for(const[nm]of os){const{cur:c,ly:l}=W[nm];if(c.tmax==null||l.tmax==null)continue;
+    const dt=+(c.tmax-l.tmax).toFixed(1);
+    if(c.hot-l.hot>=4){notes.push(`${nm} 폭염 ${c.hot}일(작년 ${l.hot}일)`);press++;}
+    else if(Math.abs(dt)>=1.5){notes.push(`${nm} 최고기온 작년 대비 ${dt>0?'+':''}${dt}℃`);press+=.5;}
+    if(c.pour>=2){notes.push(`${nm} 호우 ${c.pour}일`);press++;}
+    else if(l.rain>0&&(c.rain-l.rain)/l.rain<=-.4){notes.push(`${nm} 강수 작년 대비 -${Math.round((1-c.rain/l.rain)*100)}%`);press+=.5;}}
+  return{press,notes,from:W[os[0][0]].from,to:W[os[0][0]].to};
+}
+
+/* ════════════════ 도매 (KAMIS 자동) ════════════════
+   막히면 메모에 적은 시세만 쓴다 */
+async function kamisFetch(wk){
+  if(!SET.kKey||!SET.kId)return{ok:false,why:'인증키 없음'};
+  const d=surveyDate(wk)||new Date();const day=new Date(d.getTime()-864e5);
+  const u=`https://www.kamis.or.kr/service/price/xml.do?action=dailyPriceByCategoryList&p_product_cls_code=02&p_item_category_code=400&p_country_code=1101&p_regday=${ymd(day)}&p_convert_kg_yn=N&p_cert_key=${encodeURIComponent(SET.kKey)}&p_cert_id=${encodeURIComponent(SET.kId)}&p_returntype=json`;
   try{
-    const res=await Promise.all(jobs);
-    WX[wk]=WX[wk]||{};
-    for(const r of res) WX[wk][r.name]=r;
-    saveWx(); renderSupply();
-    toast(`${res.length}개 산지 · ${ymd(base)} 기준`);
-  }catch(e){ toast('기상 자료를 받지 못했습니다. 인터넷을 확인해주세요.'); }
-  b.disabled=false; b.textContent='산지 기상 불러오기';
+    const j=await fetch(u).then(r=>r.json());
+    const arr=(j&&j.data&&j.data.item)||[];
+    if(!Array.isArray(arr)||!arr.length)return{ok:false,why:'자료 없음'};
+    const num=v=>{const n=+String(v||'').replace(/,/g,'');return isNaN(n)||!n?null:n;};
+    WS[wk]=arr.map(x=>({nm:x.item_name,kind:x.kind_name,rank:x.rank,unit:x.unit,cat:bigCat(classify((x.item_name||'')+(x.kind_name||''))),
+      now:num(x.dpr1),w1:num(x.dpr3),y1:num(x.dpr6),avg:num(x.dpr7)})).filter(x=>x.cat!=='기타'&&x.now);
+    lsSet(K.WS,WS);return{ok:true,n:WS[wk].length};
+  }catch(e){return{ok:false,why:'브라우저에서 연결이 막힘'};}
 }
 
-function wxFlags(w){
-  const f=[], c=w.cur, l=w.ly;
-  if(c.tmax==null||l.tmax==null) return [{t:'자료없음',x:'기상 자료를 받지 못했습니다',bad:false}];
-  const dt=+(c.tmax-l.tmax).toFixed(1);
-  if(Math.abs(dt)>=1.5) f.push({t:dt>0?'고온':'저온',x:`평균 최고기온 ${c.tmax}℃ · 작년 같은 기간 ${l.tmax}℃ (${dt>0?'+':''}${dt}℃)`,bad:true});
-  if(c.hot-l.hot>=4) f.push({t:'폭염',x:`33℃ 이상 ${c.hot}일 · 작년 같은 기간 ${l.hot}일`,bad:true});
-  const dr=l.rain? Math.round((c.rain-l.rain)/l.rain*100):0;
-  if(l.rain>0&&Math.abs(dr)>=40) f.push({t:dr>0?'다우':'가뭄',x:`강수 ${c.rain}mm · 작년 같은 기간 ${l.rain}mm (${dr>0?'+':''}${dr}%)`,bad:true});
-  if(c.pour>=2) f.push({t:'호우',x:`일 50mm 이상 ${c.pour}일`,bad:true});
-  if(!f.length) f.push({t:'평년수준',x:`평균 최고 ${c.tmax}℃ (작년 ${l.tmax}℃) · 강수 ${c.rain}mm (작년 ${l.rain}mm)`,bad:false});
-  return f;
+/* ════════════════ 품목 분석 ════════════════ */
+const nkey=n=>String(n).replace(/[\s()\[\]·,]/g,'');
+/* 같은 상품끼리만 짝짓는다 — 가격 수준은 참고, 변동률이 정확한 숫자 */
+function ukey(it){const v=findVariety(it.n)[0];
+  return it.r+'|'+(v||bigCat(it.c)+'~'+it.ln)+'|'+(it.kg?bandOf(it.kg):'u:'+packUnit(it.n))+'|'+(it.cnt?Math.round(it.cnt):'');}
+const unitVal=it=>it.per||it.ppk||it.p;
+function pairsOf(cat,wk){
+  const pw=prevWeek(wk);if(pw==null||!DB[pw])return{pairs:[],nw:[],gone:[],pw:null};
+  const A=DB[wk].items.filter(x=>bigCat(x.c)===cat),B=DB[pw].items.filter(x=>bigCat(x.c)===cat);
+  const used=new Set(),pairs=[];
+  for(const a of A){let b=B.find((x,i)=>!used.has(i)&&x.r===a.r&&nkey(x.n)===nkey(a.n));
+    if(!b)b=B.find((x,i)=>!used.has(i)&&ukey(x)===ukey(a));
+    /* 입수 표기가 한쪽에만 있어도 같은 품종·같은 중량이면 같은 상품 */
+    if(!b&&a.kg){const va=findVariety(a.n)[0];
+      if(va)b=B.find((x,i)=>!used.has(i)&&x.r===a.r&&x.kg===a.kg&&findVariety(x.n)[0]===va);}
+    if(b){used.add(B.indexOf(b));
+      const basis=a.per&&b.per?'per':a.ppk&&b.ppk?'kg':'p';
+      const va=basis==='per'?a.per:basis==='kg'?a.ppk:a.p,vb=basis==='per'?b.per:basis==='kg'?b.ppk:b.p;
+      const d=(va-vb)/vb;
+      pairs.push({a,b,d,basis,same:nkey(a.n)===nkey(b.n),doubt:Math.abs(d)>=.6&&nkey(a.n)!==nkey(b.n)});}}
+  const nw=A.filter(a=>!pairs.some(p=>p.a===a)),gone=B.filter((b,i)=>!used.has(i));
+  return{pairs,nw,gone,pw};
 }
+/* 같은 등급끼리 두 매장 비교. basis: per(개당) / kg */
+function compareOf(items,basis){
+  const v=it=>basis==='per'?it.per:it.ppk;
+  const tierOf=it=>basis==='per'?(it.sz||'전체'):bandOf(it.kg);
+  const ok=items.filter(x=>v(x));
+  const out=[];
+  for(const[t,g]of Object.entries(groupBy(ok,tierOf))){
+    const by=groupBy(g,x=>x.r);const rs=Object.keys(by);if(rs.length<2)continue;
+    const best=rs.map(r=>by[r].slice().sort((a,b)=>v(a)-v(b))[0]).sort((a,b)=>v(a)-v(b));
+    const lo=best[0],hi=best[best.length-1];
+    let conf;if(basis==='per')conf=lo.cntFix&&hi.cntFix?'개수 확정':'개수 범위로 추정';
+    else conf=(lo.ks!=='표기'||hi.ks!=='표기')?'중량 추정 포함':(lo.kg===hi.kg?'같은 규격':'중량 환산');
+    out.push({tier:t,lo,hi,diff:v(hi)-v(lo),rate:(v(hi)-v(lo))/v(hi),conf,n:g.length});}
+  return out.sort((a,b)=>b.n-a.n);
+}
+/* 가격 사다리와 빈 가격대 — 같은 크기 등급 안에서만 공백을 찾는다 */
+function ladderOf(items,basis){
+  const v=it=>basis==='per'?it.per:it.ppk;
+  const tierOf=it=>basis==='per'?(it.sz||'전체'):bandOf(it.kg);
+  const minGap=basis==='per'?250:1500;
+  const tiers=[];
+  for(const[t,g]of Object.entries(groupBy(items.filter(x=>v(x)),tierOf))){
+    const pts=g.slice().sort((a,b)=>v(a)-v(b));const gaps=[];
+    for(let i=1;i<pts.length;i++){const a=v(pts[i-1]),b=v(pts[i]);if(b-a>=minGap&&(b-a)/a>=.35)gaps.push({lo:a,hi:b,after:i-1});}
+    const rs=[...new Set(pts.map(x=>x.r))];
+    tiers.push({tier:t,pts,gaps,only:rs.length===1?rs[0]:null});}
+  const order=['대과','중대과','중과','소과','소립','전체','대용량','표준','소포장',''];
+  return tiers.sort((a,b)=>order.indexOf(a.tier)-order.indexOf(b.tier));
+}
+function discMix(items){const o={};for(const it of items){const m=o[it.r]=o[it.r]||{gov:0,card:0,own:0,none:0,n:0};m.n++;
+  if(!it.disc.length)m.none++;for(const d of it.disc)m[d]++;}return o;}
+function shelfOf(cat,wk,pw){
+  const best=w=>{const o={};if(w==null||!DB[w])return o;for(const it of DB[w].items)if(bigCat(it.c)===cat&&it.spv>0)
+    if(!o[it.r]||it.spv>o[it.r].spv)o[it.r]={spv:it.spv,sp:it.sp,n:it.n};return o;};
+  const A=best(wk),B=best(pw),out=[];
+  for(const r of new Set([...Object.keys(A),...Object.keys(B)])){const a=A[r],b=B[r];
+    if(a&&!b)out.push({r,t:'신규',to:a.sp,d:a.spv});
+    else if(a&&b&&a.spv>b.spv)out.push({r,t:'격상',from:b.sp,to:a.sp,d:a.spv-b.spv});
+    else if(a&&b&&a.spv<b.spv)out.push({r,t:'격하',from:b.sp,to:a.sp,d:b.spv-a.spv});
+    else if(!a&&b)out.push({r,t:'빠짐',from:b.sp,d:1});}
+  return{now:A,moves:out};
+}
+/* 도매 → 소매 전달. 등급 대신 '변동'을 비교한다 */
+function wholesaleOf(cat,wk,pw){
+  const cur=(parseNotes(DB[wk].notes).whole).filter(w=>bigCat(w.cat)===cat);
+  const prev=pw!=null&&DB[pw]?parseNotes(DB[pw].notes).whole:[];
+  const rows=[];
+  for(const w of cur){const p=prev.find(x=>x.key===w.key);rows.push({src:w.mk,label:`${w.mk} ${w.vari||cat}${w.gr?' '+w.gr:''}${w.kg?' '+w.kg+'kg':''}`,now:w.price,chg:p?(w.price-p.price)/p.price:null});}
+  for(const k of (WS[wk]||[]).filter(x=>x.cat===cat))
+    rows.push({src:'KAMIS',label:`가락(KAMIS) ${k.kind||k.nm} ${k.rank||''} ${k.unit||''}`.trim(),now:k.now,chg:k.w1?(k.now-k.w1)/k.w1:null,y1:k.y1,avg:k.avg});
+  return rows;
+}
+/* 시즌 단계 — 쌓일수록 내년이 보인다 */
+function stageOf(cat,wk,notes){
+  const ws=weeks().filter(w=>w<=wk);const cnt=w=>DB[w]?DB[w].items.filter(x=>bigCat(x.c)===cat).length:0;
+  const c0=cnt(wk);if(!c0)return null;
+  const pw=prevWeek(wk);
+  const ns=(notes||[]).filter(n=>n.cat===cat);
+  if(ns.some(n=>n.sig.includes('시즌종료')))return '후반';
+  if(pw==null||!cnt(pw))return '진입';
+  if(ns.some(n=>n.sig.includes('시즌진입')))return '진입';
+  const tail=ws.slice(-4).map(cnt);
+  const run=ws.slice().reverse().findIndex(w=>!cnt(w));const age=run<0?ws.length:run;
+  if(tail.length>=3){const a=tail[tail.length-3],b=tail[tail.length-2],c=tail[tail.length-1];
+    if(c>b&&b>=a)return '확대';if(c<b&&b<=a)return '후반';}
+  if(c0<cnt(pw))return age>=4?'후반':'확대';
+  return age>=3?'성수':'확대';
+}
+const STAGE_C={진입:'#C9E8D8',확대:'#7FCBA4',성수:'#2E8B62',후반:'#B7C4BD'};
 
-function renderSupply(){
-  const wk=latest();
-  if(!wk){ $('supOut').innerHTML='<div class="empty">저장된 주차가 없습니다.</div>'; return; }
-  $('inNotes').value=DB[wk].notes||'';
-  const rc=reconcile(wk), gn=generalNotes(wk);
-  let h='';
-  if(DB[wk].notes){
-    const all=parseNotes(DB[wk].notes);
-    const ok=all.filter(x=>x.sig.length).length;
-    h+='<div class="card" style="padding:11px 14px"><div class="mini">'
-      +'메모 '+all.length+'줄 · 품목 인식 '+all.filter(x=>x.cat).length+'줄 · 시장 전반 '+gn.length+'줄 · 신호 인식 '+ok+'줄';
-    const miss=all.filter(x=>!x.sig.length);
-    if(miss.length){
-      h+='<div style="margin-top:6px;color:var(--warm)"><b>신호를 못 읽은 줄 '+miss.length+'개</b>'
-        +'<div style="margin-top:3px">'
-        +miss.map(x=>'· '+esc(x.text.slice(0,46))+(x.cat?' <span style="color:var(--ink3)">('+esc(bigCat(x.cat))+')</span>':'')).join('<br>')
-        +'</div><div style="margin-top:4px;color:var(--ink3)">공급 방향을 나타내는 말(늘어남·줄어듦·종료·시작 등)이 없으면 대조에서 빠집니다.</div></div>';
-    }
-    h+='</div></div>';
+/* ════════════════ 품목 묶음 ════════════════ */
+function bundles(wk){
+  if(!DB[wk])return[];
+  const{notes}=parseNotes(DB[wk].notes);
+  const pw=prevWeek(wk);
+  const cats=new Set(DB[wk].items.map(x=>bigCat(x.c)));
+  if(pw!=null&&DB[pw])for(const x of DB[pw].items)cats.add(bigCat(x.c));
+  const out=[];
+  for(const cat of cats){
+    const items=DB[wk].items.filter(x=>bigCat(x.c)===cat);
+    const P=pairsOf(cat,wk);
+    const valid=P.pairs.filter(p=>!p.doubt);
+    const eff=median(valid.map(p=>p.d));
+    const ns=notes.filter(n=>n.cat===cat);
+    const dir=ns.reduce((s,n)=>s+SIG_DIR(n),0);
+    const sh=shelfOf(cat,wk,P.pw);
+    const ws=wholesaleOf(cat,wk,P.pw);
+    const wsChg=median(ws.filter(w=>w.chg!=null).map(w=>w.chg));
+    const wx=wxSignal(cat,wk);
+    const stage=items.length?stageOf(cat,wk,notes):'종료';
+    const per=compareOf(items,'per'),kg=compareOf(items,'kg');
+    const ladP=ladderOf(items,'per'),ladK=ladderOf(items,'kg');
+    const gaps=[...ladP.flatMap(t=>t.gaps.map(g=>({...g,tier:t.tier,basis:'per'}))),...ladK.flatMap(t=>t.gaps.map(g=>({...g,tier:t.tier,basis:'kg'})))];
+    const only=[...ladP,...ladK].filter(t=>t.only&&t.pts.length).map(t=>({r:t.only,tier:t.tier,n:t.pts.length}));
+    const mix=discMix(items);
+    const byR=groupBy(items,x=>x.r),byRp=groupBy(P.pw!=null&&DB[P.pw]?DB[P.pw].items.filter(x=>bigCat(x.c)===cat):[],x=>x.r);
+    const sku={};for(const r of new Set([...Object.keys(byR),...Object.keys(byRp)]))sku[r]={now:(byR[r]||[]).length,prev:(byRp[r]||[]).length};
+    /* 신호등 */
+    const L={};
+    L.price= !items.length?['종료','mute']: eff==null?(stage==='진입'?['신규','good']:['—','mute'])
+           : eff<=-.03?['▼'+Math.abs(eff*100).toFixed(0)+'%','down']: eff>=.03?['▲'+(eff*100).toFixed(0)+'%','up']:['유지','mute'];
+    L.supply= ns.some(n=>n.sig.includes('시즌종료'))?['종료','mute']
+           : dir<0?['과잉','down']: dir>0?['부족','up']
+           : ns.some(n=>n.sig.includes('시즌진입'))||stage==='진입'?['진입','good']
+           : wsChg!=null&&Math.abs(wsChg)>=.05?[(wsChg<0?'도매▼':'도매▲'),wsChg<0?'down':'up']
+           : wx&&wx.press>=1?['기상','warn']:['—','mute'];
+    const up=sh.moves.find(m=>m.t==='격상'||m.t==='신규'&&m.d>=4),dn=sh.moves.find(m=>m.t==='격하'||m.t==='빠짐');
+    const front=Object.values(sh.now).some(x=>x.spv>=4);
+    L.shelf= up?['밀기↑','good']: dn?['후퇴','mute']: front?['전면','good']:['—','mute'];
+    /* 도매→소매 전달 */
+    let pass=null;
+    if(wsChg!=null&&eff!=null){const g=eff-wsChg;
+      if(wsChg<=-.05&&g>=.03)pass={t:'소매 인하 여지',x:`도매 ${pct(wsChg,0)}에 소매는 ${pct(eff,0)} — 아직 덜 내려감`};
+      else if(wsChg>=.05&&g<=-.03)pass={t:'소매 인상 압력',x:`도매 ${pct(wsChg,0)}에 소매는 ${pct(eff,0)} — 아직 덜 올라감`};
+      else pass={t:'도매와 같은 흐름',x:`도매 ${pct(wsChg,0)} · 소매 ${pct(eff,0)}`};}
+    /* 공급 신호와 가격 대조 */
+    let verdict=null;
+    if(dir&&eff!=null){verdict=(dir<0&&eff<=-.02)||(dir>0&&eff>=.02)?{ok:true,x:'산지 신호와 가격 방향 일치'}
+      :(dir<0&&eff>=.02)||(dir>0&&eff<=-.02)?{ok:false,x:'산지 신호와 가격이 반대 — 행사·구색 영향 확인'}:{ok:true,x:'가격 변동 작음'};}
+    const score=(eff!=null?Math.abs(eff)*100:0)+sh.moves.reduce((s,m)=>s+m.d,0)*1.5+ns.length*2+gaps.length*2
+      +P.nw.length+P.gone.length+(pass&&pass.t!=='도매와 같은 흐름'?6:0)+(stage==='진입'?4:0)+(verdict&&!verdict.ok?5:0)+items.length*.3;
+    out.push({cat,items,P,valid,eff,ns,dir,sh,ws,wsChg,wx,stage,per,kg,ladP,ladK,gaps,only,mix,sku,L,pass,verdict,score});
   }
-  if(rc.length){
-    h+='<h2>공급 신호와 가격 대조</h2><div class="card">';
-    for(const r of rc){
-      const col=r.tone==='ok'?'var(--calm)':(r.tone==='gap'?'var(--hot)':'var(--ink3)');
-      h+='<div style="padding:10px 0;border-bottom:1px solid #EDF1F5">'
-       +'<div class="row" style="align-items:baseline"><b style="font-size:13.5px">'+esc(r.label)
-       +'<span style="font-weight:400;font-size:11px;color:var(--ink3)"> '+esc(bigCat(r.cat))+'</span></b>'
-       +'<div style="text-align:right">'+r.sig.map(s=>'<span class="pill p-nh" style="margin-left:4px">'+SIG_TONE[s]+'</span>').join('')+'</div></div>'
-       +'<div class="mini" style="margin:3px 0 5px">'+esc(r.text)+'</div>'
-       +'<div style="font-size:12.5px;font-weight:700;color:'+col+'">'+esc(r.verdict)
-       +(r.up+r.dn? ' <span style="font-weight:400;color:var(--ink3)">(상승 '+r.up+' · 하락 '+r.dn+')</span>':'')+'</div></div>';
-    }
-    h+='</div>';
-  }
-  if(gn.length){
-    h+='<h2>시장 전반</h2><div class="card">';
-    for(const n of gn)
-      h+='<div style="padding:8px 0;border-bottom:1px solid #EDF1F5">'
-       +'<div style="font-size:13px">'+esc(n.text)+'</div>'
-       +'<div style="margin-top:3px">'+n.sig.map(x=>'<span class="pill p-nh" style="margin-right:4px">'+SIG_TONE[x]+'</span>').join('')+'</div></div>';
-    h+='</div>';
-  }
-  const cats=[...new Set(DB[wk].items.map(x=>x.c))].filter(c=>ORIGIN[c]);
-  const W=wxOf(wk);
-  const names=[...new Set(cats.flatMap(c=>ORIGIN[c].map(o=>o[0])))].filter(n=>W[n]);
-  h+='<h2>산지 기상</h2>';
-  if(!names.length){
-    h+='<div class="card"><div class="empty">아직 불러오지 않았습니다.<br>위 버튼을 누르면 최근 30일 기상을 작년 같은 기간과 비교합니다.</div></div>';
-  }else{
-    h+='<div class="card">';
-    for(const c of cats){
-      const os=ORIGIN[c].filter(o=>W[o[0]]);
-      if(!os.length) continue;
-      h+='<div style="padding:9px 0;border-bottom:1px solid #EDF1F5"><b style="font-size:13.5px">'+esc(c)+'</b>';
-      for(const [nm] of os){
-        const w=W[nm], fl=wxFlags(w);
-        h+='<div style="display:flex;gap:8px;margin-top:5px;align-items:baseline">'
-         +'<span style="flex:0 0 46px;font-size:12px;color:var(--ink3)">'+esc(nm)+'</span>'
-         +'<span style="flex:1">'+fl.map(f=>'<span class="pill" style="background:'+(f.bad?'#FBE9EC':'#EEF2F6')
-           +';color:'+(f.bad?'var(--hot)':'var(--ink2)')+';margin-right:4px">'+f.t+'</span>'
-           +'<span style="font-size:11.5px;color:var(--ink2)">'+esc(f.x)+'</span>').join('<br>')+'</span></div>';
-      }
-      h+='</div>';
-    }
-    const any=W[names[0]];
-    h+='<div class="mini" style="margin-top:8px">'
-      +(any? '조회 구간 '+any.from+' ~ '+any.to+' (30일) · 같은 구간의 작년과 비교<br>':'')
-      +'조사 주차에 고정되어 다시 불러와도 값이 같습니다 · 자료 Open-Meteo</div></div>';
-  }
-  $('supOut').innerHTML=h;
+  return out.sort((a,b)=>b.score-a.score);
+}
+/* 한 줄 요약 */
+function headline(B){
+  const ph=[];
+  for(const b of B.slice(0,4)){if(ph.length>=2)break;
+    if(b.pass&&b.pass.t!=='도매와 같은 흐름'){ph.push(`${b.cat} ${b.pass.t}`);continue;}
+    const up=b.sh.moves.find(m=>m.t==='격상');if(up){ph.push(`${b.cat} ${up.r} ${up.to} 진열로 밀기`);continue;}
+    if(b.eff!=null&&Math.abs(b.eff)>=.05){ph.push(`${b.cat} ${b.eff<0?'하락':'상승'} ${pct(b.eff,0)}`);continue;}
+    if(b.dir){ph.push(`${b.cat} 산지 ${b.dir<0?'공급 많음':'공급 적음'}`);continue;}
+    if(b.stage==='진입'){ph.push(`${b.cat} 시즌 진입`);continue;}
+    if(b.stage==='종료'){ph.push(`${b.cat} 매대 빠짐`);continue;}
+    if(b.gaps.length){ph.push(`${b.cat} 빈 가격대 발견`);continue;}}
+  return ph.length?ph.join(' · '):'큰 변화 없이 안정적인 주';
+}
+/* 시즌 시계: 품목 × 주차 */
+function seasonClock(upto,n){
+  const ws=weeks().filter(w=>w<=upto).slice(-(n||16));
+  const cats={};
+  for(const w of ws){const nt=parseNotes(DB[w].notes).notes;for(const c of new Set(DB[w].items.map(x=>bigCat(x.c)))){(cats[c]=cats[c]||{})[w]=stageOf(c,w,nt);}}
+  return{ws,rows:Object.entries(cats).filter(([c])=>c!=='기타').sort((a,b)=>Object.keys(b[1]).length-Object.keys(a[1]).length)};
 }
 </script>
-
 <script>
-/* ===================== 리포트 ===================== */
-const PHASE=(gap,ev,isNew,isOut)=>{
-  if(isNew) return '초기'; if(isOut) return '재고';
-  if(gap>=0.20) return '강경'; if(gap>=0.10) return '경쟁'; if(gap>=0.04) return '저강도';
-  return '안정';
-};
-/* ---------- 1. 상품 짝짓기 ----------
-   상품명이 매주 흔들리므로(아삭복숭아 / 아삭한복숭아) 이름 대신
-   매장·품종·규격대로 짝을 짓는다. 품종이 없으면 품목으로 떨어진다. */
-function matchKey(it){
-  const v=findVariety(it.n)[0];
-  /* 품종을 못 찾으면 실속·프리미엄 라인까지 맞아야 같은 상품으로 본다.
-     안 그러면 실속배와 프리미엄배가 짝지어져 터무니없는 변동률이 나온다. */
-  const base = v || (bigCat(it.c)+'~'+(it.ln||lineOf(it.n)));
-  return it.r+'|'+base+'|'+band(it.kg,it.n);
+/* ════════════════ 상태 ════════════════ */
+let CUR=null;            // 보고 있는 주차
+let EDIT=null;           // 수정 중인 주차
+const BASIS={};          // 품목별 사다리 기준 (per / kg)
+const TONE={down:'var(--down)',up:'var(--up)',good:'var(--good)',warn:'var(--warn)',mute:'var(--mute)'};
+
+function go(t){
+  document.querySelectorAll('.pane').forEach(p=>p.classList.toggle('on',p.id==='pg-'+t));
+  document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
+  window.scrollTo(0,0);
+  if(t==='wk')renderWeek();if(t==='hs')renderHistory();if(t==='in')renderInput();
 }
-function subjLabel(k){ return String(k).split('|')[1].split('~')[0]; }
-function repBy(wk,keyFn){
-  const m={};
-  for(const it of (DB[wk]?DB[wk].items:[])){
-    const k=keyFn(it), v=cmpVal(it);
-    if(!m[k]||v<m[k].v) m[k]={v,it};
-  }
-  return m;
+function busy(el,label,fn){if(!el||el.dataset.b==='1')return;el.dataset.b='1';const k=el.textContent;el.textContent=label;el.disabled=true;
+  setTimeout(async()=>{try{await fn();}catch(e){console.error(e);toast('처리 중 문제가 생겼습니다');}finally{el.textContent=k;el.disabled=false;el.dataset.b='0';}},16);}
+function autoGrow(el){if(!el)return;el.style.height='auto';el.style.height=Math.max(el.id==='inNotes'?110:150,el.scrollHeight+4)+'px';}
+function header(){const w=latest();$('hdSt').textContent=w?`Week ${w} · ${DB[w].label||''}`:'기록 없음';}
+
+/* ════════════════ 입력 ════════════════ */
+function renderInput(){
+  const w=EDIT||nextWeek();
+  $('wkBadge').textContent=(EDIT?'수정 ':'')+'Week '+w;
+  if(!$('inLabel').value)$('inLabel').value=EDIT&&DB[EDIT]?DB[EDIT].label:todayLabel();
+  autoGrow($('inRaw'));autoGrow($('inNotes'));renderPhotos();preview();
 }
-function wowTable(wk){
-  const rows=[]; const pw=prevWeek(wk); if(pw==null||!DB[pw]) return rows;
-  const A=repBy(wk,matchKey), B=repBy(pw,matchKey);
-  for(const k in A){
-    const b=B[k]; if(!b) continue;
-    const a=A[k];
-    const perKg=a.it.kg!=null&&b.it.kg!=null;
-    const v1=perKg? a.v : a.it.p, v0=perKg? b.v : b.it.p;
-    const d=(v1-v0)/v0;
-    const [ret,subjRaw,bd]=k.split('|'); const subj=subjRaw.split('~')[0];
-    rows.push({r:ret,subj,band:bd,perKg,
-      n0:b.it.n,n1:a.it.n,p0:b.it.p,p1:a.it.p,v0:Math.round(v0),v1:Math.round(v1),d,
-      /* 60% 넘는 변동은 다른 상품끼리 짝지어졌을 가능성이 크다 */
-      doubt: Math.abs(d)>=0.6 && b.it.n!==a.it.n,
-      promo0:b.it.g,promo1:a.it.g});
-  }
-  return rows.sort((a,b)=>Math.abs(b.d)-Math.abs(a.d));
+function pickWeek(){
+  const cur=EDIT||nextWeek();const v=prompt('주차 번호 (기존 주차를 넣으면 그 주차를 불러와 수정합니다)',cur);if(v===null)return;
+  const n=parseInt(v,10);if(!n||n<1){toast('숫자를 입력해주세요');return;}
+  if(DB[n])loadForEdit(n);else{EDIT=null;$('wkBadge').textContent='Week '+n;$('wkBadge').dataset.wk=n;}
 }
-
-/* ---------- 2. 4주 추세 ---------- */
-function trendOf(wk,n){
-  n=n||5;
-  const ws=weeks().filter(w=>w<=wk).slice(-n);
-  if(ws.length<3) return [];
-  const series={};
-  for(const w of ws){
-    const rep=repBy(w,matchKey);                 // 주차마다 한 번만 계산
-    for(const k in rep){
-      const o=rep[k];
-      (series[k]=series[k]||[]).push({w,v:o.it.kg!=null?o.v:o.it.p,p:o.it.p,it:o.it});
-    }
-  }
-  const out=[];
-  for(const k in series){
-    const g=series[k];
-    if(g.length<3||g[g.length-1].w!==wk) continue;
-    const vals=g.map(x=>x.v), cur=vals[vals.length-1];
-    const mn=Math.min(...vals), mx=Math.max(...vals);
-    /* 값이 모두 같으면 최저이자 최고가 되어 모순된 문구가 나온다 */
-    const flat = mx-mn < Math.max(mx*0.005, 1);
-    const last = vals[vals.length-1]-vals[vals.length-2];
-    let run=1;
-    if(last!==0){
-      const dir=Math.sign(last);
-      for(let i=vals.length-1;i>0;i--){
-        if(Math.sign(vals[i]-vals[i-1])===dir) run++; else break;
-      }
-    }
-    const [ret,subjRaw,bd]=k.split('|'); const subj=subjRaw.split('~')[0];
-    out.push({r:ret,subj,band:bd,n:g[g.length-1].it.n,weeks:g.length,
-      cur:Math.round(cur),min:Math.round(mn),max:Math.round(mx),
-      flat,
-      atMin: !flat && cur<=mn,
-      atMax: !flat && cur>=mx,
-      run: run>=2? run:0, dirUp: last>0,
-      perKg:g[g.length-1].it.kg!=null});
-  }
-  return out;
+function rawOf(wk){
+  const d=DB[wk];if(d.raw)return d.raw;
+  const out=[];for(const[r,g]of Object.entries(groupBy(d.items,x=>x.r))){out.push(r);
+    for(const it of g){const ws=[];if(it.disc.includes('gov'))ws.push('농활');if(it.disc.includes('card'))ws.push('카드');if(it.disc.includes('own'))ws.push('회원');
+      const ch=Object.entries(SPOT1).find(([k,v])=>v[0]===it.sp);
+      out.push([it.n,it.p0||'',it.p,...ws,ch?ch[0]:''].filter(x=>x!=='').join(' '));}}
+  return out.join('\n');
 }
-
-/* ---------- 3. 기상 → 공급 신호 번역 ---------- */
-function wxSignal(cat,wk){
-  const W=wxOf(wk||latest());
-  const os=(ORIGIN[cat]||[]).filter(o=>W[o[0]]);
-  if(!os.length) return null;
-  const notes=[]; let press=0;
-  for(const [nm] of os){
-    const w=W[nm], c=w.cur, l=w.ly;
-    const dt=+(c.tmax-l.tmax).toFixed(1);
-    if(c.tmax==null||l.tmax==null) continue;
-    if(c.hot-l.hot>=4){ notes.push(`${nm} 폭염 ${c.hot}일 (작년 같은 기간 ${l.hot}일)`); press+=1; }
-    else if(dt>=1.5){ notes.push(`${nm} 최고기온 ${c.tmax}℃ · 작년 대비 +${dt}℃`); press+=0.5; }
-    else if(dt<=-1.5){ notes.push(`${nm} 최고기온 ${c.tmax}℃ · 작년 대비 ${dt}℃`); press+=0.5; }
-    if(c.pour>=2){ notes.push(`${nm} 일 50mm 이상 ${c.pour}일`); press+=1; }
-    else if(l.rain>0&&(c.rain-l.rain)/l.rain<=-0.4){
-      notes.push(`${nm} 강수 ${c.rain}mm · 작년 같은 기간 ${l.rain}mm (-${Math.round((1-c.rain/l.rain)*100)}%)`); press+=0.5; }
-  }
-  if(!notes.length) return {press:0,notes:[],msg:'산지 기상 평년 수준'};
-  const msg = press>=2 ? '기상 부담 큼 — 작황 저하와 출하 감소 가능, 가격 상승 압력'
-            : press>=1 ? '기상 이변 관측 — 출하량 변동 주의'
-            : '경미한 기상 편차';
-  return {press,notes,msg};
+function loadForEdit(wk){
+  if(!DB[wk]){toast(`Week ${wk} 기록이 없습니다`);return;}
+  EDIT=wk;$('inRaw').value=rawOf(wk);$('inNotes').value=DB[wk].notes||'';$('inLabel').value=DB[wk].label||'';
+  go('in');toast(`Week ${wk} 을 불러왔습니다`);
 }
-
-/* ---------- 상품 라인 분석 ----------
-   같은 품목이라도 실속형과 프리미엄형은 다른 시장이다.
-   어느 쪽에 가짓수를 늘렸는지가 그 주의 전략을 보여준다. */
-function lineView(wk){
-  const d=DB[wk]; if(!d) return [];
-  const out=[];
-  for(const [k,g] of Object.entries(groupBy(d.items,x=>x.r+'|'+bigCat(x.c)))){
-    const [ret,cat]=k.split('|');
-    const by=groupBy(g,x=>x.ln||'일반');
-    const row={r:ret,cat,n:g.length};
-    for(const ln of ['실속','일반','프리미엄']){
-      const a=by[ln]||[];
-      row[ln]=a.length;
-      const ps=a.map(x=>x.kg? x.p/x.kg : null).filter(v=>v);
-      row[ln+'가']=ps.length? Math.round(ps.reduce((x,y)=>x+y,0)/ps.length) : null;
-    }
-    out.push(row);
-  }
-  return out.filter(x=>x.실속||x.프리미엄);
+let pvT=null;
+function draftLater(){clearTimeout(pvT);pvT=setTimeout(()=>{saveDraft();preview();},450);}
+function saveDraft(){lsSet(K.DRAFT,{raw:$('inRaw').value,notes:$('inNotes').value,label:$('inLabel').value,edit:EDIT,at:Date.now()});}
+function loadDraft(){
+  const d=lsGet(K.DRAFT,null);if(!d||!(d.raw||'').trim())return;
+  $('inRaw').value=d.raw;$('inNotes').value=d.notes||'';if(d.label)$('inLabel').value=d.label;if(d.edit&&DB[d.edit])EDIT=d.edit;
+  const m=Math.round((Date.now()-(d.at||0))/60000),old=m>=4320;
+  const when=m<60?m+'분 전':m<1440?Math.round(m/60)+'시간 전':Math.round(m/1440)+'일 전';
+  $('draftNote').innerHTML=`<span style="color:${old?'var(--up)':'var(--good)'}">${old?'⚠ 오래된 입력이 남아 있습니다':'입력하던 내용을 되살렸습니다'} (${when})</span> · <a href="#" onclick="clearInput();return false" style="color:var(--ink2);font-weight:700">지우고 새로 쓰기</a>`;
 }
-/* 과당 단가 비교. 소비자는 kg이 아니라 한 알 값으로 체감한다. */
-function perFruit(wk){
-  const d=DB[wk]; if(!d) return [];
-  const m={};
-  for(const it of d.items){
-    if(!it.per) continue;
-    const k=bigCat(it.c)+'|'+(it.sz||'기타');
-    (m[k]=m[k]||[]).push(it);
-  }
-  const out=[];
-  for(const k in m){
-    const g=m[k], rs=[...new Set(g.map(x=>x.r))];
-    if(rs.length<2) continue;
-    const [cat,sz]=k.split('|');
-    const best={};
-    for(const r of rs){ const a=g.filter(x=>x.r===r).sort((x,y)=>x.per-y.per)[0]; best[r]=a; }
-    const sorted=Object.entries(best).sort((a,b)=>a[1].per-b[1].per);
-    out.push({cat,sz,win:sorted[0][0],
-      rows:sorted.map(([r,x])=>({r,per:x.per,n:x.n,p:x.p})),
-      gap:sorted.length>1? sorted[sorted.length-1][1].per-sorted[0][1].per : 0});
-  }
-  return out.sort((a,b)=>b.gap-a.gap);
+function clearInput(){$('inRaw').value='';$('inNotes').value='';$('inLabel').value=todayLabel();EDIT=null;localStorage.removeItem(K.DRAFT);
+  $('draftNote').innerHTML='';renderInput();}
+
+/* 입력하는 동안 결과를 미리 보여준다 */
+function preview(){
+  const raw=$('inRaw').value.trim(),el=$('preview');
+  if(!raw){el.innerHTML='';return;}
+  const r=parseRaw(raw),nt=parseNotes($('inNotes').value);
+  const byR=groupBy(r.items,x=>x.r),cats=[...new Set(r.items.map(x=>bigCat(x.c)))];
+  const noW=r.items.filter(x=>!x.kg&&!x.per);
+  let h=`<div class="card" style="margin-top:14px"><div class="row" style="align-items:baseline"><b style="font-size:15px">읽은 품목 ${r.items.length}개</b>
+    <span class="mini" style="text-align:right">${Object.entries(byR).map(([k,v])=>k+' '+v.length).join(' · ')}</span></div>
+    <div class="stat">${cats.map(c=>`<span class="pill p-n">${ICON[c]||'•'} ${c} ${r.items.filter(x=>bigCat(x.c)===c).length}</span>`).join('')}</div>`;
+  const tags=[];
+  const disc=r.items.filter(x=>x.disc.length).length,spot=r.items.filter(x=>x.spv).length;
+  if(disc)tags.push(`할인 ${disc}`);if(spot)tags.push(`매대 ${spot}`);
+  if(nt.notes.length)tags.push(`산지 메모 ${nt.notes.length}`);if(nt.whole.length)tags.push(`도매 시세 ${nt.whole.length}`);
+  if(tags.length)h+=`<div class="mini" style="margin-top:8px">${tags.join(' · ')}</div>`;
+  if(r.bad.length)h+=`<div style="margin-top:10px;color:var(--up);font-size:13px"><b>못 읽은 줄 ${r.bad.length}개</b><br>${r.bad.slice(0,5).map(esc).join('<br>')}</div>`;
+  const ns=nt.notes.filter(n=>!n.sig.length);
+  if(ns.length)h+=`<div class="mini" style="margin-top:8px;color:var(--warn)">방향을 못 읽은 메모 ${ns.length}줄 — ${ns.slice(0,2).map(n=>esc(n.text.slice(0,18))).join(' / ')}</div>`;
+  if(noW.length){
+    const keys={};for(const it of noW){const k=specKey(it.n);if(k)(keys[it.r+'|'+it.c+'|'+k]=keys[it.r+'|'+it.c+'|'+k]||[]).push(it.n);}
+    const ks=Object.keys(keys);
+    h+=`<details style="margin-top:6px"><summary>중량·개수 모르는 품목 ${noW.length}개 ${ks.length?'— 눌러서 중량 알려주기':''}</summary>`;
+    for(const k of ks){const[rr,cc,sp]=k.split('|');
+      h+=`<div class="row" style="padding:6px 0;border-top:1px solid #EEF1F4"><div style="min-width:0"><b style="font-size:13px">${esc(cc)} ${esc(sp)}</b> <span class="pill ${RP(rr)}">${esc(rr)}</span>
+        <div class="mini" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(keys[k][0])}</div></div>
+        <input type="number" step="0.1" inputmode="decimal" placeholder="kg" style="flex:0 0 80px;padding:8px" onchange="setDict('${esc(k)}',this.value)"></div>`;}
+    const rest=noW.filter(it=>!specKey(it.n));
+    if(rest.length)h+=`<div class="mini" style="padding-top:6px">규격 표기가 없는 품목: ${rest.slice(0,4).map(x=>esc(x.n)).join(', ')} — 이름에 (1.3) 처럼 kg 을 적거나 판매가 뒤에 100g 단가를 적으면 됩니다</div>`;
+    h+=`</details>`;}
+  el.innerHTML=h+'</div>';
 }
-/* 산지 표기 비율 = 차별화 전략 강도 */
-function originRate(wk){
-  const d=DB[wk]; if(!d) return [];
-  return Object.entries(groupBy(d.items,x=>x.r)).map(([r,g])=>({
-    r, n:g.length, og:g.filter(x=>x.og).length,
-    rate:Math.round(g.filter(x=>x.og).length/g.length*100),
-    names:[...new Set(g.filter(x=>x.og).map(x=>x.og))]
-  }));
-}
+function setDict(k,v){const n=parseFloat(v);if(n>0)DICT[k]=n;else delete DICT[k];
+  const own={};for(const x in DICT)if(DICT_BASE[x]!==DICT[x])own[x]=DICT[x];for(const x in DICT_BASE)if(!(x in DICT))own[x]=null;
+  lsSet(K.DICT,own);preview();toast(n>0?`${k.split('|')[2]} = ${n}kg 등록`:'등록 해제');}
 
-/* ---------- 진열 분석 ----------
-   매대 위치는 매장이 한정된 공간을 어디에 배분했는지를 드러낸다.
-   가격은 따라 할 수 있지만 전면 진열은 그 주의 판단이 걸린 결정이다. */
-function shelfView(wk){
-  const d=DB[wk]; if(!d) return [];
-  const out=[];
-  for(const [key,g] of Object.entries(groupBy(d.items.filter(x=>x.spv>0), x=>x.r+'|'+bigCat(x.c)))){
-    const [ret,cat]=key.split('|');
-    const best=g.slice().sort((a,b)=>b.spv-a.spv)[0];
-    out.push({r:ret,cat,spot:best.spot||best.sp,score:best.spv,n:g.length,
-              items:g.map(x=>x.n)});
-  }
-  return out.sort((a,b)=>b.score-a.score||b.n-a.n);
-}
-/* 지난주 대비 진열이 올라갔는지 내려갔는지 */
-function shelfMoves(wk){
-  const A=groupBy(shelfView(wk),x=>x.r+'|'+x.cat);
-  const pw=prevWeek(wk);
-  const B=groupBy(pw==null?[]:shelfView(pw),x=>x.r+'|'+x.cat);
-  const out=[];
-  for(const k in A){
-    const a=A[k][0], b=B[k]&&B[k][0];
-    const [ret,cat]=k.split('|');
-    if(!b){ out.push({r:ret,cat,type:'신규',to:a.spot,d:a.score,
-      x:`${ret} ${cat} ${a.spot} 진열 시작`}); continue; }
-    if(a.score>b.score) out.push({r:ret,cat,type:'격상',from:b.spot,to:a.spot,d:a.score-b.score,
-      x:`${ret} ${cat} 진열 격상 ${b.spot} → ${a.spot}`});
-    else if(a.score<b.score) out.push({r:ret,cat,type:'격하',from:b.spot,to:a.spot,d:b.score-a.score,
-      x:`${ret} ${cat} 진열 격하 ${b.spot} → ${a.spot}`});
-  }
-  for(const k in B){ if(A[k]) continue;
-    const [ret,cat]=k.split('|');
-    out.push({r:ret,cat,type:'철수',from:B[k][0].spot,d:2,
-      x:`${ret} ${cat} ${B[k][0].spot} 진열 빠짐`});
-  }
-  return out.sort((a,b)=>b.d-a.d);
-}
-/* 진열과 가격을 겹쳐 본다. 전면인데 가격이 안 내렸다면 가격 아닌 무기로 미는 것. */
-function shelfPrice(wk){
-  const sv=shelfView(wk), wow=wowTable(wk), out=[];
-  for(const s2 of sv){
-    if(s2.score<3) continue;
-    const mv=wow.filter(x=>x.r===s2.r&&bigCat(classify(x.n1))===s2.cat);
-    const dn=mv.filter(x=>x.d<=-0.03), up=mv.filter(x=>x.d>=0.03);
-    let note;
-    if(dn.length) note=`${s2.spot} 진열 + 가격 인하 — 강한 밀기`;
-    else if(up.length) note=`${s2.spot} 진열인데 가격 인상 — 수요 확신`;
-    else note=`${s2.spot} 진열, 가격은 유지 — 자리로 미는 중`;
-    out.push({...s2,note});
-  }
-  return out;
-}
-
-/* ---------- 4. 관찰 우선순위 ---------- */
-function watchList(wk){
-  const ev=detect(wk), wow=wowTable(wk), tr=trendOf(wk), rc=reconcile(wk);
-  const sc={};
-  const add=(c,n,why)=>{ if(!c) return; c=bigCat(c);
-    (sc[c]=sc[c]||{score:0,why:[]}); sc[c].score+=n; if(why) sc[c].why.push(why); };
-  for(const e of ev) add(e.c, e.w/2, null);
-  for(const x of wow) if(Math.abs(x.d)>=0.15&&!x.doubt)
-    add(classify(x.subj), 5, `${x.subj} ${x.d>0?'+':''}${pct(x.d)}`);
-  for(const t of tr){
-    if(t.atMin&&t.weeks>=4) add(classify(t.subj),4,`${t.subj} 관측 ${t.weeks}주 최저`);
-    if(t.atMax&&t.weeks>=4) add(classify(t.subj),4,`${t.subj} 관측 ${t.weeks}주 최고`);
-    if(t.run>=3) add(classify(t.subj),3,`${t.subj} ${t.run}주 연속 ${t.dirUp?'상승':'하락'}`);
-  }
-  for(const m of shelfMoves(wk)){
-    add(classify(m.cat), m.type==='격상'?5:(m.type==='신규'?4:3), m.x);
-  }
-  for(const r of rc){
-    if(r.tone==='gap') add(r.cat,6,`${r.label} 공급-가격 괴리`);
-    if(r.sig.includes('시즌종료')) add(r.cat,2,`${r.label} 종료 예고`);
-    if(r.sig.includes('시즌진입')) add(r.cat,3,`${r.label} 진입 예고`);
-  }
-  for(const c of new Set(DB[wk].items.map(x=>bigCat(x.c)))){
-    const w=wxSignal(c); if(w&&w.press>=1) add(c, w.press*2, `산지 기상 ${w.notes[0]}`);
-  }
-  return Object.entries(sc).map(([c,v])=>({cat:c,...v}))
-    .sort((a,b)=>b.score-a.score).slice(0,4);
-}
-
-/* ---------- 기획 판단 ----------
-   처방을 내리지 않는다. 관측된 사실과 그 함의까지만 적고 판단은 읽는 사람 몫으로 남긴다.
-   가격 외 프로모션 변수가 있어 단정하지 않는다. */
-function planningView(wk){
-  const wow=wowTable(wk), tr=trendOf(wk), rc=reconcile(wk), ev=detect(wk);
-  const cats=[...new Set(DB[wk].items.map(x=>bigCat(x.c)))];
-  const rows=[];
-  for(const cat of cats){
-    const mv=wow.filter(x=>bigCat(classify(x.n1))===cat&&Math.abs(x.d)>=0.03);
-    const tt=tr.filter(x=>bigCat(classify(x.n1||x.subj))===cat||bigCat(classify(x.subj))===cat);
-    const nt=rc.filter(r=>bigCat(r.cat)===cat);
-    const wx=wxSignal(cat,wk);
-    const cev=ev.filter(e=>bigCat(e.c)===cat);
-    const facts=[], imply=[];
-
-    /* 가격 움직임 */
-    if(mv.length){
-      const top=mv.slice().sort((a,b)=>Math.abs(b.d)-Math.abs(a.d))[0];
-      facts.push(`${top.r} ${top.subj} ${top.d>0?'+':''}${pct(top.d)}`);
-      const up=mv.filter(x=>x.d>0).length, dn=mv.length-up;
-      if(mv.length>1) facts.push(`변동 ${mv.length}건(상승 ${up}·하락 ${dn})`);
-    }
-    /* 구간 위치 */
-    const lo=tt.filter(x=>x.atMin&&x.weeks>=4), hi=tt.filter(x=>x.atMax&&x.weeks>=4);
-    if(lo.length) facts.push(`${lo[0].subj} 관측 ${lo[0].weeks}주 최저가`);
-    if(hi.length) facts.push(`${hi[0].subj} 관측 ${hi[0].weeks}주 최고가`);
-    const run=tt.filter(x=>x.run>=3)[0];
-    if(run) facts.push(`${run.subj} ${run.run}주 연속 ${run.dirUp?'상승':'하락'}`);
-    /* 동일가 정렬 (앵커) */
-    const anc={};
-    for(const it of DB[wk].items){ if(bigCat(it.c)!==cat) continue;
-      const k=it.r+'|'+it.p; (anc[k]=anc[k]||[]).push(it.n); }
-    for(const k in anc) if(anc[k].length>=3){
-      const [rr,pp]=k.split('|');
-      facts.push(`${rr} ${fmt(+pp)}원 단일가 ${anc[k].length}종`);
-    }
-    /* 공급 */
-    for(const n of nt){
-      const tone=n.sig.map(x=>SIG_TONE[x]).join('·');
-      if(tone) facts.push(`산지 ${n.label} ${tone}`);
-      /* 같은 품목 안에서도 품종마다 방향이 다르므로 반드시 품종을 붙인다 */
-      const L2=n.label;
-      if(n.tone==='gap') imply.push(`${L2} 공급 신호와 가격 방향이 어긋남 — 행사 등 다른 요인 확인 필요`);
-      if(n.sig.includes('공급증가')) imply.push(`${L2} 출하 확대 국면 — 추가 하락 여지`);
-      if(n.sig.includes('공급감소')) imply.push(`${L2} 물량 축소 국면 — 하락 여력 제한적`);
-      if(n.sig.includes('시즌종료')) imply.push(`${L2} 매대 축소 시점 근접`);
-      if(n.sig.includes('시즌진입')) imply.push(`${L2} 신규 편성 검토 구간`);
-      if(n.sig.includes('출하지연')) imply.push(`${L2} 출하 기간 연장 — 종료 시점 늦춰질 가능성`);
-    }
-    /* 개당 가격 · 라인 구성 */
-    for(const x of perFruit(wk).filter(z=>z.cat===cat).slice(0,1))
-      if(x.gap>0) facts.push(`개당 ${x.win} ${fmt(x.gap)}원 우위`);
-    for(const x of lineView(wk).filter(z=>z.cat===cat))
-      if(x.실속&&x.프리미엄) facts.push(`${x.r} 실속 ${x.실속}종·프리미엄 ${x.프리미엄}종`);
-    /* 진열 */
-    for(const sp of shelfView(wk).filter(x=>x.cat===cat))
-      facts.push(`${sp.r} ${sp.spot} 진열`);
-    for(const m of shelfMoves(wk).filter(x=>x.cat===cat)){
-      facts.push(m.x);
-      if(m.type==='격상'||m.type==='신규') imply.push(`${m.r} 이번 주 밀기 품목 — 물량 소진 의도`);
-      if(m.type==='격하'||m.type==='철수') imply.push(`${m.r} 우선순위에서 밀림 — 시즌 이동 가능성`);
-    }
-    for(const z of shelfPrice(wk).filter(x=>x.cat===cat)) imply.push(`${z.r} ${z.note}`);
-    /* 기상 */
-    if(wx&&wx.press>=1){ facts.push(`산지 기상 ${wx.notes[0]}`); imply.push(wx.msg); }
-    /* 매대 진입·퇴장 (관측된 것만) */
-    for(const e of cev){
-      if(e.t==='신규진입') imply.push(`이번 주 매대 등장 확인`);
-      if(e.t==='매대퇴장') imply.push(`이번 주 미관측 — 취급 종료 여부 확인 필요`);
-      if(e.t==='리더역전') imply.push(`저가 위치가 바뀜 (가격 외 행사 조건은 별도 확인)`);
-    }
-    if(!facts.length&&!imply.length) continue;
-    rows.push({cat,facts:[...new Set(facts)],imply:[...new Set(imply)],
-               score:facts.length*2+imply.length*3+(mv[0]?Math.abs(mv[0].d)*10:0)});
-  }
-  const gn=generalNotes(wk);
-  if(gn.length){
-    const facts=gn.map(n=>n.text.length>34? n.text.slice(0,34)+'…':n.text);
-    const imply=[...new Set(gn.flatMap(n=>n.sig.map(sigImply)))].filter(Boolean);
-    rows.push({cat:'시장 전반',facts,imply,score:-1});
-  }
-  return rows.sort((a,b)=>b.score-a.score);
-}
-function sigImply(sig){
-  return ({공급증가:'출하 확대 — 가격 하락 압력',
-           공급감소:'물량 축소 — 가격 상승 압력',
-           시즌종료:'매대 축소 시점 근접',
-           시즌진입:'신규 편성 검토 구간',
-           출하지연:'출하 기간 연장 — 종료 시점 늦춰질 가능성',
-           품질변화:'품위 변화 — 등급별 가격차 확대 가능',
-           수요변화:'수요 측 변화 — 가격 외 요인 작용',
-           원가부담:'원가 상승 — 하락 여력 제한',
-           진열판촉:'진열·판촉 강화 — 물량 소진 의도, 가격 인하 동반 가능',
-           시세약세:'산지 시세 약세 — 소매가 인하 여지',
-           시세강세:'산지 시세 강세 — 소매가 인상 압력',
-           구색변화:'품종·구색 재편 — 비교 기준이 바뀌는 구간',
-           고객이탈:'수요 이탈 신호 — 가격보다 품질·회전 점검 필요'})[sig]||'';
-}
-
-function buildReport(){
-  const wk=latest();
-  if(!wk){ $('repOut').textContent='주차를 저장하면 리포트가 만들어집니다.'; return; }
-  const d=DB[wk], ev=detect(wk), idx=priceIndex(wk), cv=catView(wk);
-  const rc=reconcile(wk), wow=wowTable(wk), tr=trendOf(wk), wl=watchList(wk);
-  const pw0=prevWeek(wk);
-  const prevCats=(pw0!=null&&DB[pw0])? new Set(catView(pw0).map(x=>x.cat)) : null;
-  const curCats=new Set(cv.map(x=>x.cat));
-  const L='\u2501'.repeat(15);
-  const sgn=v=>(v>0?'+':'')+pct(v);
-  let o=`\ud83d\udcca 과일 가격 전략 리포트 (Week ${wk})\n${d.label||''}\n\n`;
-
-  /* ── 금주 핵심 ── */
-  o+=`${L}\n\u25a0 금주 핵심\n${L}\n\n`;
-  const big=wow.filter(x=>Math.abs(x.d)>=0.15&&!x.doubt).slice(0,3);
-  const flip=ev.filter(e=>e.t==='리더역전').slice(0,2);
-  const enter=ev.filter(e=>['신규진입','매대퇴장'].includes(e.t)).slice(0,2);
-  const lines=[];
-  big.forEach(x=>lines.push(`${x.d>0?'\u25b2':'\u25bc'} ${x.r} ${x.subj} ${sgn(x.d)} (${fmt(x.v0)}\u2192${fmt(x.v1)}${x.perKg?'원/kg':'원'})`));
-  flip.forEach(e=>lines.push(`\u21c4 ${e.x}`));
-  enter.forEach(e=>lines.push(`\u25c6 ${e.x}`));
-  rc.filter(r=>r.tone==='gap').forEach(r=>lines.push(`\u26a0 ${r.label} \u2014 ${r.verdict}`));
-  if(lines.length) lines.forEach(l=>o+=l+'\n');
-  else o+=`구조 변화 없음 \u2014 안정 국면\n`;
-  o+='\n';
-
-  /* ── 기획 판단 ── */
-  const pv=planningView(wk);
-  if(pv.length){
-    o+=`${L}\n\u25a0 품목별 정리\n${L}\n\n`;
-    for(const r of pv){
-      o+=`\u3010${r.cat}\u3011\n`;
-      if(r.facts.length) o+=`  관측 : ${r.facts.join(' / ')}\n`;
-      for(const im of r.imply.slice(0,4)) o+=`  \u2192 ${im}\n`;
-      o+='\n';
-    }
-    o+=`\u203b 표시가 기준입니다. 행사 조건\u00b7카드할인 등은 반영되지 않았습니다.\n`;
-    o+=`\u203b 매대 진입\u00b7퇴장은 관측된 것만 적었습니다.\n\n`;
-  }
-
-  /* ── 다음 주 관찰 ── */
-  if(wl.length){
-    o+=`${L}\n\u25a0 변동이 큰 품목\n${L}\n\n`;
-    wl.forEach((w,i)=>{
-      o+=`${i+1}. ${w.cat}\n`;
-      const uniq=[...new Set(w.why)].slice(0,3);
-      uniq.forEach(x=>o+=`   \u00b7 ${x}\n`);
-      if(!uniq.length) o+=`   \u00b7 변동 누적\n`;
-    });
-    o+='\n';
-  }
-
-  /* ── 전주 대비 ── */
-  const gp=realGap(wk)||weekGap(wk);
-  o+=`${L}\n\u25a0 ${pw0!=null? ('Week '+pw0+' 대비 가격 변동'):'이전 대비 가격 변동'}`
-    +`${gp&&gp>1? ' (조사 '+gp+'주 간격)':''}\n${L}\n\n`;
-  if(pw0==null||!DB[pw0]) o+=`이전 조사 데이터 없음\n\n`;
-  else{
-    const moved=wow.filter(x=>Math.abs(x.d)>=0.03);
-    if(!moved.length) o+=`3% 이상 움직인 품목 없음 (${wow.length}건 대조)\n\n`;
-    else{
-      for(const x of moved.slice(0,14)){
-        const nh=x.promo0!==x.promo1? (x.promo1==='농활'?' [농활 시작]':' [농활 해제]'):'';
-        o+=`${x.d>0?'\u25b2':'\u25bc'} ${x.r} ${x.subj}${x.band==='표준'?'':' '+x.band.replace('단위:','')}  `
-          +`${fmt(x.v0)}\u2192${fmt(x.v1)}${x.perKg?'원/kg':'원'} (${sgn(x.d)})${nh}`
-          +(x.doubt? `\n    \u26a0 다른 상품일 수 있음 : ${esc(x.n0)} \u2192 ${esc(x.n1)}`:'')+`\n`;
-      }
-      if(moved.length>14) o+=`  그 외 ${moved.length-14}건\n`;
-      const up=moved.filter(x=>x.d>0).length;
-      o+=`\n대조 ${wow.length}건 중 변동 ${moved.length} (상승 ${up} · 하락 ${moved.length-up})\n\n`;
-    }
-  }
-
-  /* ── 추세 ── */
-  const notable=tr.filter(t=>t.weeks>=3&&(t.atMin||t.atMax||t.run>=3||t.flat));
-  if(notable.length){
-    o+=`${L}\n\u25a0 여러 주에 걸친 흐름\n${L}\n\n`;
-    for(const t of notable.slice(0,10)){
-      const tags=[];
-      if(t.flat) tags.push(`${t.weeks}주째 같은 값`);
-      if(t.atMin) tags.push(`관측 ${t.weeks}주 최저`);
-      if(t.atMax) tags.push(`관측 ${t.weeks}주 최고`);
-      if(t.run>=3) tags.push(`${t.run}주 연속 ${t.dirUp?'상승':'하락'}`);
-      o+=`\u00b7 ${t.r} ${t.subj} ${fmt(t.cur)}${t.perKg?'원/kg':'원'}  `
-        +`[${fmt(t.min)}~${fmt(t.max)}]  ${tags.join(' · ')}\n`;
-    }
-    o+='\n';
-  }
-
-  /* ── 매장 비교 ── */
-  o+=`${L}\n\u25a0 매장 가격 비교\n${L}\n\n`;
-  if(!idx.length) o+=`같은 규격으로 맞붙는 품목 없음\n\n`;
-  else{
-    let lw=0,rw=0;
-    for(const x of idx){
-      const right=x.idx<100, win=right?x.r:x.baseR; right?rw++:lw++;
-      const diff=x.perKg?Math.abs(x.rv-x.bv):Math.abs(x.rp-x.bp);
-      o+=`\u3010${x.cat}${x.band.startsWith('단위:')?'':' '+x.band}\u3011 `
-        +`${x.baseR} ${fmt(x.bp)}${x.perKg?`(${fmt(x.bv)}/kg)`:''} vs `
-        +`${x.r} ${fmt(x.rp)}${x.perKg?`(${fmt(x.rv)}/kg)`:''}  `
-        +`\u2192 ${win} ${fmt(diff)}${x.perKg?'원/kg':'원'} 우위\n`;
-    }
-    o+=`\n우위 집계 : ${idx[0].baseR} ${lw}건 \u00b7 상대 ${rw}건\n\n`;
-  }
-
-  /* ── 과당 단가 ── */
-  const pf=perFruit(wk);
-  if(pf.length){
-    o+=`${L}\n\u25a0 개당 가격 비교\n${L}\n\n`;
-    for(const x of pf.slice(0,8)){
-      o+=`\u3010${x.cat}${x.sz&&x.sz!=='기타'?' '+x.sz:''}\u3011\n`;
-      x.rows.forEach(r=>o+=`  ${r.r} 개당 ${fmt(r.per)}원  (${esc(r.n)} ${fmt(r.p)}원)\n`);
-      if(x.gap>0) o+=`  \u2192 ${x.win} 우위 · 개당 ${fmt(x.gap)}원 차이\n`;
-      o+='\n';
-    }
-    o+=`\u203b 소비자 체감가는 kg보다 한 알 값에 가깝습니다.\n\n`;
-  }
-
-  /* ── 상품 라인 ── */
-  const lv=lineView(wk);
-  if(lv.length){
-    o+=`${L}\n\u25a0 실속형 · 프리미엄 구성\n${L}\n\n`;
-    for(const r of [...new Set(lv.map(x=>x.r))]){
-      o+=`${r}\n`;
-      lv.filter(x=>x.r===r).forEach(x=>{
-        const parts=[];
-        if(x.실속) parts.push(`실속 ${x.실속}종${x.실속가?' ('+fmt(x.실속가)+'원/kg)':''}`);
-        if(x.일반) parts.push(`일반 ${x.일반}종${x.일반가?' ('+fmt(x.일반가)+'원/kg)':''}`);
-        if(x.프리미엄) parts.push(`프리미엄 ${x.프리미엄}종${x.프리미엄가?' ('+fmt(x.프리미엄가)+'원/kg)':''}`);
-        o+=`  ${x.cat} : ${parts.join(' · ')}\n`;
-        if(x.실속가&&x.프리미엄가){
-          const r2=(x.프리미엄가/x.실속가);
-          o+=`    \u2192 프리미엄이 실속의 ${r2.toFixed(1)}배\n`;
-        }
-      });
-    }
-    o+='\n';
-  }
-
-  /* ── 산지 브랜딩 ── */
-  const orr=originRate(wk);
-  if(orr.some(x=>x.og)){
-    o+=`${L}\n\u25a0 산지 표기\n${L}\n\n`;
-    orr.forEach(x=>{
-      o+=`${x.r} ${x.og}/${x.n}품목 (${x.rate}%)`;
-      if(x.names.length) o+=` \u00b7 ${x.names.slice(0,6).join(' ')}`;
-      o+='\n';
-    });
-    const hi=orr.slice().sort((a,b)=>b.rate-a.rate)[0];
-    const lo=orr.slice().sort((a,b)=>a.rate-b.rate)[0];
-    if(hi&&lo&&hi.r!==lo.r&&hi.rate-lo.rate>=15)
-      o+=`\n\u2192 ${hi.r}가 산지 브랜딩 중심, ${lo.r}는 가격 중심으로 갈림\n`;
-    o+='\n';
-  }
-
-  /* ── 진열 ── */
-  const sv=shelfView(wk), smv=shelfMoves(wk), spz=shelfPrice(wk);
-  if(sv.length){
-    o+=`${L}\n\u25a0 매대 배치\n${L}\n\n`;
-    if(smv.length){
-      o+=`[전주 대비 변화]\n`;
-      smv.slice(0,8).forEach(m=>o+=`  ${m.type==='격상'?'\u25b2':(m.type==='격하'||m.type==='철수'?'\u25bc':'\u25c6')} ${m.x}\n`);
-      o+='\n';
-    }
-    o+=`[이번 주 배치]\n`;
-    for(const r of [...new Set(sv.map(x=>x.r))]){
-      o+=`${r}\n`;
-      sv.filter(x=>x.r===r).forEach(x=>o+=`  ${x.spot} : ${x.cat} (${x.n}품목)\n`);
-    }
-    o+='\n';
-    if(spz.length){
-      o+=`[진열과 가격]\n`;
-      spz.forEach(x=>o+=`  ${x.r} ${x.cat} \u2014 ${x.note}\n`);
-      o+='\n';
-    }
-    o+=`\u203b 전면\u00b7입구가 가장 강한 밀기 신호입니다.\n\n`;
-  }
-
-  /* ── 산지 + 기상 통합 ── */
-  const wxCats=[...new Set(d.items.map(x=>bigCat(x.c)))].filter(c=>wxSignal(c,wk));
-  const gnAll=generalNotes(wk);
-  if(rc.length||wxCats.length||gnAll.length){
-    o+=`${L}\n\u25a0 공급 상황\n${L}\n\n`;
-    const done=new Set(), wxShown=new Set();
-    for(const r of rc){
-      const c=bigCat(r.cat); done.add(c);
-      o+=`\u3010${r.label}\u3011 ${r.sig.map(x=>SIG_TONE[x]).join(' \u00b7 ')||'신호 없음'}\n`;
-      o+=`  ${r.text}\n  \u2192 ${r.verdict}\n`;
-      const w=wxSignal(c,wk);
-      if(w&&w.press>=1&&!wxShown.has(c)){ wxShown.add(c);
-        o+=`  \u2601 ${w.notes.join(', ')} \u2014 ${w.msg}\n`; }
-      o+='\n';
-    }
-    for(const c of wxCats){
-      if(done.has(c)||wxShown.has(c)) continue;
-      const w=wxSignal(c,wk); if(w.press<1) continue;
-      o+=`\u3010${c}\u3011 산지 기상\n  \u2601 ${w.notes.join(', ')}\n  \u2192 ${w.msg}\n\n`;
-    }
-    const gn=generalNotes(wk);
-    if(gn.length){
-      o+=`\u3010시장 전반\u3011\n`;
-      for(const n of gn) o+=`  \u00b7 ${n.text}  [${n.sig.map(x=>SIG_TONE[x]).join('\u00b7')}]\n`;
-      o+='\n';
-    }
-    const anyW=Object.values(wxOf(wk))[0];
-    o+=`기상 자료 : ${anyW? anyW.from+' ~ '+anyW.to:'최근 30일'}, 같은 구간의 작년과 비교 \u00b7 Open-Meteo\n\n`;
-  }
-
-  /* ── 시즌 전환 ── */
-  if(prevCats){
-    const inn=[...curCats].filter(c=>!prevCats.has(c));
-    const out=[...prevCats].filter(c=>!curCats.has(c));
-    const end=rc.filter(r=>r.sig.includes('시즌종료')).map(r=>r.label);
-    const st=rc.filter(r=>r.sig.includes('시즌진입')).map(r=>r.label);
-    if(inn.length||out.length||end.length||st.length){
-      o+=`${L}\n\u25a0 시즌 전환\n${L}\n\n`;
-      if(inn.length) o+=`매대 진입 : ${inn.join(' \u00b7 ')}\n`;
-      if(out.length) o+=`매대 퇴장 : ${out.join(' \u00b7 ')}\n`;
-      if(st.length) o+=`진입 예고 : ${st.join(' \u00b7 ')} (산지)\n`;
-      if(end.length) o+=`종료 예고 : ${end.join(' \u00b7 ')} (산지)\n`;
-      o+='\n';
-    }
-  }
-
-  /* ── 조사 요약 ── */
-  const byR=groupBy(d.items,x=>x.r);
-  o+=`${L}\n\u25a0 조사 요약\n${L}\n\n`;
-  for(const r in byR) o+=`${r} ${byR[r].length}품목 \u00b7 농활 ${byR[r].filter(x=>x.g==='농활').length}건\n`;
-  o+=`중량 확인 ${d.items.filter(x=>x.kg).length}/${d.items.length} \u00b7 직접 비교 ${idx.length}건 \u00b7 전주 대조 ${wow.length}건\n`;
-  o+=`감지 사건 ${ev.length}건\n\n`;
-  o+=`\u203b 중량이 있으면 kg 단가로, 없으면 판매가로 비교했습니다.\n`;
-  o+=`\u203b 전주 대비는 품종\u00b7규격이 같은 상품끼리 짝지었습니다.\n\n`;
-  o+=`JJ 과일 리포트`;
-  $('repOut').textContent=o;
-}
-function copyReport(){
-  const t=$('repOut').textContent;
-  navigator.clipboard.writeText(t).then(()=>toast('복사했습니다')).catch(()=>{
-    const a=document.createElement('textarea'); a.value=t; document.body.appendChild(a);
-    a.select(); document.execCommand('copy'); a.remove(); toast('복사했습니다');
+async function saveAll(btn){busy(btn,'저장 중…',async()=>{
+  const raw=$('inRaw').value.trim();if(!raw){toast('가격을 먼저 입력해주세요');return;}
+  const r=parseRaw(raw);if(!r.items.length){toast('읽은 품목이 없습니다. 매장 이름 줄을 확인해주세요');return;}
+  const w=EDIT||+($('wkBadge').dataset.wk||0)||nextWeek();
+  if(!EDIT&&DB[w]&&!confirm(`Week ${w} 이 이미 있습니다. 덮어쓸까요?`))return;
+  DB[w]={week:w,label:$('inLabel').value.trim()||todayLabel(),items:r.items,notes:$('inNotes').value,raw,at:Date.now()};
+  if(!lsSet(K.DB,DB))return;
+  localStorage.removeItem(K.DRAFT);$('draftNote').innerHTML='';
+  $('inRaw').value='';$('inNotes').value='';$('inLabel').value='';delete $('wkBadge').dataset.wk;EDIT=null;
+  CUR=w;header();go('wk');toast(`✓ Week ${w} 저장 · ${r.items.length}품목`);
+  /* 기상·도매는 저장 뒤 조용히 가져온다 */
+  Promise.allSettled([loadWeather(w),kamisFetch(w)]).then(([a,b])=>{
+    const msg=[];if(a.status==='fulfilled'&&a.value)msg.push(`산지 기상 ${a.value}곳`);
+    if(b.status==='fulfilled'&&b.value.ok)msg.push(`도매 ${b.value.n}건`);
+    if(msg.length){toast('반영: '+msg.join(' · '));if(CUR===w&&$('pg-wk').classList.contains('on'))renderWeek();}
   });
-}
+});}
 
-/* ===================== 카드뉴스 ===================== */
-const CC={ink:'#16202E',sub:'#5A6B80',line:'#E2E8F0',lotte:'#C8102E',emart:'#B98200',hot:'#B3261E'};
-function cardShell(inner,bg){
-  return `<div class="nc" style="background:${bg||'#fff'}">${inner}</div>`;
+/* ════════════════ 사진 (카드뉴스용, 쓰고 지움) ════════════════ */
+const IDB={db:null,mem:[],
+  open(){return new Promise(res=>{if(this.db)return res(this.db);try{const r=indexedDB.open('jjfr_photos',1);
+    r.onupgradeneeded=()=>r.result.createObjectStore('p',{keyPath:'id'});r.onsuccess=()=>{this.db=r.result;res(this.db);};r.onerror=()=>res(null);}catch(e){res(null);}});},
+  async all(){const d=await this.open();if(!d)return this.mem;return new Promise(r=>{const q=d.transaction('p').objectStore('p').getAll();q.onsuccess=()=>r(q.result||[]);q.onerror=()=>r([]);});},
+  async put(o){const d=await this.open();if(!d){const i=this.mem.findIndex(x=>x.id===o.id);i>=0?this.mem[i]=o:this.mem.push(o);return;}
+    return new Promise(r=>{const t=d.transaction('p','readwrite');t.objectStore('p').put(o);t.oncomplete=()=>r();t.onerror=()=>r();});},
+  async del(id){const d=await this.open();if(!d){this.mem=this.mem.filter(x=>x.id!==id);return;}
+    return new Promise(r=>{const t=d.transaction('p','readwrite');t.objectStore('p').delete(id);t.oncomplete=()=>r();});},
+  async clear(){const d=await this.open();if(!d){this.mem=[];return;}return new Promise(r=>{const t=d.transaction('p','readwrite');t.objectStore('p').clear();t.oncomplete=()=>r();});}};
+function shrink(file){return new Promise((res,rej)=>{const fr=new FileReader();fr.onload=()=>{const im=new Image();im.onload=()=>{
+  const W=1080,sc=Math.min(1,W/Math.max(im.width,im.height));const c=document.createElement('canvas');c.width=Math.round(im.width*sc);c.height=Math.round(im.height*sc);
+  c.getContext('2d').drawImage(im,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.74));};im.onerror=rej;im.src=fr.result;};fr.onerror=rej;fr.readAsDataURL(file);});}
+async function addPhotos(inp){const fs=[...inp.files];inp.value='';if(!fs.length)return;toast('사진 준비 중…');
+  for(const f of fs){try{await IDB.put({id:Date.now()+'_'+Math.random().toString(36).slice(2,6),cat:'',data:await shrink(f)});}catch(e){}}
+  renderPhotos();toast(`사진 ${fs.length}장 — 품목을 골라주세요`);}
+async function renderPhotos(){const el=$('phList');if(!el)return;const ps=await IDB.all();
+  const raw=$('inRaw').value.trim();const cats=[...new Set((raw?parseRaw(raw).items:(CUR&&DB[CUR]?DB[CUR].items:[])).map(x=>bigCat(x.c)))].filter(c=>c!=='기타');
+  if(!ps.length){el.innerHTML='<div class="mini" style="padding:4px 2px">아직 없습니다. 품목을 고르면 그 품목 카드의 배경이 됩니다.</div>';return;}
+  el.innerHTML=ps.map(p=>`<div class="it"><img src="${p.data}" alt=""><div class="chips">${(cats.length?cats:['사과','포도','배','복숭아']).map(c=>
+    `<button class="${p.cat===c?'on':''}" onclick="tagPhoto('${p.id}','${c}')">${c}</button>`).join('')}<button onclick="dropPhoto('${p.id}')">삭제</button></div></div>`).join('');}
+async function tagPhoto(id,c){const ps=await IDB.all();const p=ps.find(x=>x.id===id);if(!p)return;p.cat=p.cat===c?'':c;await IDB.put(p);renderPhotos();}
+async function dropPhoto(id){await IDB.del(id);renderPhotos();}
+</script>
+<script>
+/* ════════════════ 이번 주 ════════════════ */
+function stepWeek(d){const ws=weeks();if(!ws.length)return;let i=ws.indexOf(CUR);if(i<0)i=ws.length-1;i=Math.max(0,Math.min(ws.length-1,i+d));CUR=ws[i];renderWeek();window.scrollTo(0,0);}
+const lt=([t,c])=>`<span style="color:${TONE[c]}"><span class="dot" style="background:${TONE[c]}"></span>${esc(t)}</span>`;
+function opportunities(B){
+  const o=[];
+  for(const b of B)for(const g of b.gaps)o.push({cat:b.cat,t:'빈 가격대',x:`${g.basis==='per'?'개당':'kg당'}${g.tier&&g.tier!=='전체'?' '+g.tier:''} ${fmt(g.lo)}~${fmt(g.hi)}원 — 두 매장 모두 상품 없음`,w:3});
+  for(const b of B)for(const s of b.only)if(s.tier&&s.tier!=='전체'&&s.tier!=='')o.push({cat:b.cat,t:'한쪽만',x:`${s.tier} — ${s.r}만 취급`,w:2});
+  for(const b of B)if(b.pass&&b.pass.t!=='도매와 같은 흐름')o.push({cat:b.cat,t:b.pass.t,x:b.pass.x,w:4});
+  return o.sort((a,b)=>b.w-a.w);
 }
-function buildCards(){
-  const wk=latest();
-  if(!wk){ $('cardStrip').innerHTML='<div class="empty">저장된 주차가 없습니다.</div>'; return; }
-  const d=DB[wk], ev=detect(wk), idx=priceIndex(wk), cv=catView(wk);
-  const F=`font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif`;
+function renderWeek(){
+  const ws=weeks();if(!ws.length){$('wkTitle').textContent='기록 없음';$('wkSub').textContent='';
+    $('wkBody').innerHTML='<div class="card"><b>첫 조사를 입력해보세요</b><p class="help" style="margin:6px 0 10px">입력 탭에 가격을 붙여넣고 저장하면 여기에 브리핑이 만들어집니다. 전에 쓰던 데이터가 있으면 기록 탭에서 불러오세요.</p><button class="ghost" onclick="go(\'in\')">입력하러 가기</button></div>';return;}
+  if(CUR==null||!DB[CUR])CUR=ws[ws.length-1];
+  const d=DB[CUR],B=bundles(CUR),gap=realGap(CUR),pw=prevWeek(CUR);
+  $('wkTitle').textContent=`Week ${CUR}`;
+  $('wkSub').textContent=`${d.label||''}${pw!=null?` · Week ${pw} 대비${gap>1?' ('+gap+'주 간격)':''}`:' · 첫 기록'}`;
+  const nt=parseNotes(d.notes),opp=opportunities(B);
+  const rs=Object.entries(groupBy(d.items,x=>x.r)).map(([k,v])=>`${k} ${v.length}`).join(' · ');
+  let h=`<div class="card" style="background:var(--brand);color:#fff;border:none">
+    <div style="font-size:12px;color:#F3D3E1;font-weight:700">이번 주 한 줄</div>
+    <div style="font-size:17px;font-weight:800;line-height:1.45;margin-top:4px">${esc(headline(B))}</div>
+    <div style="font-size:12px;color:#F3D3E1;margin-top:8px">${esc(rs)} · ${d.items.length}품목</div></div>`;
+  /* 신호등 */
+  h+=`<h2>신호등</h2><div class="card" style="padding:10px 12px"><table class="board"><tr><th>품목</th><th>가격</th><th>공급</th><th>매대</th></tr>
+    ${B.filter(b=>b.cat!=='기타').map(b=>`<tr data-tap onclick="jump('${b.cat}')"><td>${ICON[b.cat]||'•'} ${b.cat}</td><td>${lt(b.L.price)}</td><td>${lt(b.L.supply)}</td><td>${lt(b.L.shelf)}</td></tr>`).join('')}</table>
+    <div class="mini" style="margin-top:8px">가격은 같은 상품끼리의 변동 · <span style="color:var(--down)">파랑</span> 하락·과잉 · <span style="color:var(--up)">빨강</span> 상승·부족 · <span style="color:var(--good)">초록</span> 밀기·진입</div></div>`;
+  /* 기회 */
+  if(opp.length)h+=`<h2>기회</h2><div class="card">${opp.slice(0,6).map(o=>`<div class="kv" style="display:block"><span class="pill p-o">${esc(o.t)}</span> <b>${esc(o.cat)}</b><div style="font-size:13px;margin-top:3px">${esc(o.x)}</div></div>`).join('')}
+    <div class="mini" style="margin-top:6px">빈 가격대는 같은 크기 등급 안에서만 찾았습니다. 비어 있다고 늘 채워야 하는 것은 아닙니다.</div></div>`;
+  /* 품목 카드 */
+  h+=`<h2>품목별</h2>`+B.filter(b=>b.cat!=='기타').map(fruitCard).join('');
+  /* 시장 메모 */
+  const gen=nt.notes.filter(n=>!n.cat);
+  if(gen.length)h+=`<h2>시장 전반</h2><div class="card">${gen.map(n=>`<div class="kv" style="display:block"><div style="font-size:13.5px">${esc(n.text)}</div>${n.sig.length?`<div style="margin-top:3px">${n.sig.map(s=>`<span class="pill p-n">${SIG_KO[s]}</span>`).join(' ')}</div>`:''}</div>`).join('')}</div>`;
+  /* 시즌 시계 */
+  const sc=seasonClock(CUR,16);
+  if(sc.ws.length>=2)h+=`<h2>시즌 시계</h2><div class="card"><table class="clock">${sc.rows.map(([c,m])=>`<tr><td class="n">${c}</td>${sc.ws.map(w=>`<td><span style="background:${m[w]?STAGE_C[m[w]]:'#F1F3F6'}" title="W${w} ${m[w]||''}"></span></td>`).join('')}</tr>`).join('')}
+    <tr><td></td>${sc.ws.map((w,i)=>`<td style="font-size:10px;color:var(--ink3);text-align:center">${i%4===0?w:''}</td>`).join('')}</tr></table>
+    <div class="mini" style="margin-top:8px">${Object.entries(STAGE_C).map(([k,v])=>`<span class="dot" style="background:${v}"></span>${k}`).join(' &nbsp;')} · 1년이 쌓이면 작년 같은 주와 비교됩니다</div></div>`;
+  /* 공유 */
+  h+=`<h2>공유</h2><div class="card"><div class="seg" id="lenSeg" style="margin-bottom:10px">${['전체','요약','한 줄'].map(x=>`<button class="${x==='전체'?'on':''}" onclick="pickLen(this,'${x}')">${x}</button>`).join('')}</div>
+    <div class="row"><button class="ghost" onclick="copyReport()">복사</button><button onclick="shareReport()">카톡으로 보내기</button></div>
+    <details style="margin-top:4px"><summary>보낼 내용 미리 보기</summary><pre class="rep" id="repOut"></pre></details></div>`;
+  h+=`<h2>카드뉴스</h2><div class="card"><p class="help" style="margin:0 0 10px">인스타 1080×1350. 입력 탭에서 품목을 지정한 사진이 있으면 그 품목 카드의 배경이 됩니다. 저장하거나 공유하면 사진은 지워집니다.</p>
+    <div class="row" style="margin-bottom:10px"><button class="ghost" onclick="busy(this,'만드는 중…',buildCards)">카드 만들기</button><button class="ghost" onclick="busy(this,'저장 중…',saveCards)">저장</button><button onclick="busy(this,'준비 중…',shareCards)">공유</button></div>
+    <div class="cw"><div class="cs" id="cardStrip"></div></div></div>`;
+  $('wkBody').innerHTML=h;
+  refreshReport();
+}
+function jump(cat){const el=$('fc-'+cat);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});}
+function setBasis(cat,b){BASIS[cat]=b;const el=$('fc-'+cat);if(!el)return;const bb=bundles(CUR).find(x=>x.cat===cat);if(bb)el.outerHTML=fruitCard(bb);}
+function ladderHTML(tiers,basis,cat){
+  const v=it=>basis==='per'?it.per:it.ppk;
+  if(!tiers.length)return`<div class="mini">${basis==='per'?'입수(개수)':'중량'}가 적힌 상품이 없어 이 기준으로는 줄 세울 수 없습니다.</div>`;
+  const all=tiers.flatMap(t=>t.pts.map(v)),mn=Math.min(...all),mx=Math.max(...all);
+  const pos=x=>mx===mn?50:6+(x-mn)/(mx-mn)*88;
+  return tiers.map(t=>`${tiers.length>1||t.tier?`<div class="tier">${esc(t.tier||'')}${t.only?' · '+esc(t.only)+'만':''}</div>`:''}`+
+    t.pts.map((it,i)=>{const g=t.gaps.find(x=>x.after===i-1);
+      return (g?`<div class="gap">빈 가격대 ${fmt(g.lo)} ~ ${fmt(g.hi)}원 (${Math.round((g.hi-g.lo)/g.lo*100)}% 공백)</div>`:'')+
+      `<div class="ld-r"><div class="ld-v num">${fmt(v(it))}</div><div class="ld-t"><i style="left:${pos(v(it))}%;background:${RC(it.r)}"></i></div>
+       <div class="ld-n"><b style="color:${RC(it.r)}">${esc(it.r)}</b> ${esc(it.n)}${it.ln!=='일반'?` <span class="pill ${it.ln==='실속'?'p-n':'p-o'}">${it.ln}</span>`:''}${it.sp?` <span class="pill p-w">${it.sp}</span>`:''}</div></div>`;}).join('')).join('');
+}
+function fruitCard(b){
+  const basis=BASIS[b.cat]||(b.per.length||b.ladP.some(t=>t.pts.length>1)?'per':'kg');
+  const unit=unitWord(b.cat);
+  let h=`<div class="fc" id="fc-${b.cat}"><div class="fc-h"><span style="font-size:22px">${ICON[b.cat]||'•'}</span><span class="nm">${b.cat}</span>
+    ${b.stage?`<span class="pill" style="background:${STAGE_C[b.stage]||'#EEE'};color:#14402B">${b.stage}</span>`:''}
+    <span style="margin-left:auto">${lt(b.L.price)}</span></div><div class="fc-b">`;
+  if(!b.items.length){return h+`<div class="mini">이번 주 두 매장 모두에서 보이지 않았습니다 — 시즌 종료 가능성</div></div></div>`;}
+  /* 가격 변동 — 같은 상품 vs 구색 */
+  h+=`<div class="sec" style="border-top:none;padding-top:0"><div class="lb">가격 변동</div>`;
+  if(b.P.pw==null)h+=`<div class="mini">첫 기록이라 비교할 주가 없습니다</div>`;
+  else if(!b.P.pairs.length&&!b.P.gone.length)h+=`<div style="font-size:13.5px"><b style="color:var(--good)">이번 주 첫 등장</b> <span class="mini">— ${b.P.nw.length}종 새로 진열</span></div>`;
+  else{h+=`<div style="font-size:13.5px">같은 상품 ${b.valid.length}개 ${b.eff==null?'— 짝지을 상품 없음':`평균 <b style="color:${b.eff<0?'var(--down)':b.eff>0?'var(--up)':'inherit'}">${pct(b.eff)}</b>`}</div>
+    <div class="mini">구색 변화: 새로 ${b.P.nw.length}종 · 빠짐 ${b.P.gone.length}종 — 가격 변동에서 제외</div>`;
+    const top=b.valid.slice().sort((x,y)=>Math.abs(y.d)-Math.abs(x.d)).slice(0,3);
+    if(top.length)h+=`<details><summary>상품별 보기</summary>${top.map(p=>`<div class="kv"><span><b style="color:${RC(p.a.r)}">${esc(p.a.r)}</b> ${esc(p.a.n)}</span><b class="num" style="color:${p.d<0?'var(--down)':'var(--up)'}">${pct(p.d)}</b></div>`).join('')}
+      ${b.P.pairs.filter(p=>p.doubt).map(p=>`<div class="mini" style="color:var(--warn)">⚠ ${esc(p.b.n)} → ${esc(p.a.n)} 는 다른 상품일 수 있어 뺐습니다</div>`).join('')}</details>`;}
+  h+=`</div>`;
+  /* 두 매장 비교 */
+  const cmp=basis==='per'?b.per:b.kg;
+  h+=`<div class="sec"><div class="row" style="margin-bottom:7px"><div class="lb" style="margin:0">두 매장 비교</div>
+    <div style="text-align:right;flex:0 0 auto"><span class="seg"><button class="${basis==='per'?'on':''}" onclick="setBasis('${b.cat}','per')">${unit}당</button><button class="${basis==='kg'?'on':''}" onclick="setBasis('${b.cat}','kg')">kg당</button></span></div></div>`;
+  if(!cmp.length)h+=`<div class="mini">같은 ${basis==='per'?'크기 등급':'규격대'}에서 두 매장이 함께 잡힌 상품이 없습니다</div>`;
+  for(const c of cmp.slice(0,2)){const vl=basis==='per'?c.lo.per:c.lo.ppk,vh=basis==='per'?c.hi.per:c.hi.ppk;
+    h+=`${c.tier&&c.tier!=='전체'?`<div class="tier" style="margin-top:2px">${esc(c.tier)}</div>`:''}<div class="vs">
+      <div class="bx win"><div class="r" style="color:${RC(c.lo.r)}">${esc(c.lo.r)}</div><div class="v num">${fmt(vl)}</div><div class="s">${esc(c.lo.n)}<br>${fmt(c.lo.p)}원</div></div>
+      <div class="mid">◀ ${fmt(vh-vl)}원<br><span style="color:var(--ink3);font-weight:600">${Math.round(c.rate*100)}% 저렴</span></div>
+      <div class="bx"><div class="r" style="color:${RC(c.hi.r)}">${esc(c.hi.r)}</div><div class="v num">${fmt(vh)}</div><div class="s">${esc(c.hi.n)}<br>${fmt(c.hi.p)}원</div></div></div>
+      <div class="mini" style="margin-top:4px">근거: ${esc(c.conf)}</div>`;}
+  h+=`</div>`;
+  /* 사다리 */
+  h+=`<div class="sec"><div class="lb">가격 사다리 · ${basis==='per'?unit+'당':'kg당'}</div><div class="ld">${ladderHTML(basis==='per'?b.ladP:b.ladK,basis,b.cat)}</div></div>`;
+  /* 매대 · 할인 · 구색 */
+  const mv=b.sh.moves,nowS=Object.entries(b.sh.now);
+  if(mv.length||nowS.length)h+=`<div class="sec"><div class="lb">매대</div>${nowS.map(([r,x])=>`<span class="pill ${RP(r)}">${r} ${x.sp}</span>`).join(' ')}
+    ${mv.length?`<div style="font-size:13px;margin-top:5px">${mv.map(m=>`${m.r} ${m.t==='격상'?`<b style="color:var(--good)">${m.from}→${m.to} 격상</b>`:m.t==='격하'?`${m.from}→${m.to} 격하`:m.t==='신규'?`${m.to} 진열 시작`:`${m.from} 진열 빠짐`}`).join(' · ')}</div>`:''}</div>`;
+  const mx=Object.entries(b.mix);
+  if(mx.some(([,m])=>m.gov+m.card+m.own))h+=`<div class="sec"><div class="lb">할인 재원</div>${mx.map(([r,m])=>`<div class="kv"><span><b style="color:${RC(r)}">${r}</b> ${m.n}종</span><span>${
+    [m.gov?`<span class="pill p-g">정부 ${m.gov}</span>`:'',m.card?`<span class="pill p-c">카드 ${m.card}</span>`:'',m.own?`<span class="pill p-o">자체 ${m.own}</span>`:'',m.none?`<span class="pill p-n">없음 ${m.none}</span>`:''].join(' ')}</span></div>`).join('')}
+    <div class="mini" style="margin-top:4px">자체 재원(포인트·회원·행사)은 매장이 자기 돈을 건 품목입니다</div></div>`;
+  const sk=Object.entries(b.sku).filter(([,v])=>v.now!==v.prev&&b.P.pw!=null);
+  if(sk.length)h+=`<div class="sec"><div class="lb">구색</div>${sk.map(([r,v])=>`${r} ${v.prev}→<b>${v.now}</b>종`).join(' · ')}</div>`;
+  /* 공급 */
+  if(b.ns.length||b.ws.length||b.wx){h+=`<div class="sec"><div class="lb">공급</div>`;
+    for(const n of b.ns)h+=`<div style="font-size:13px;margin-bottom:4px">${esc(n.text)} ${n.sig.map(s=>`<span class="pill p-n">${SIG_KO[s]}</span>`).join(' ')}</div>`;
+    for(const w of b.ws)h+=`<div class="kv"><span>${esc(w.label)}</span><span class="num"><b>${fmt(w.now)}</b>${w.chg!=null?` <span style="color:${w.chg<0?'var(--down)':'var(--up)'}">${pct(w.chg)}</span>`:''}</span></div>`;
+    if(b.wx&&b.wx.notes.length)h+=`<div class="mini" style="margin-top:4px">☁ ${b.wx.notes.join(' · ')} <br>(${b.wx.from}~${b.wx.to}, 작년 같은 기간 대비)</div>`;
+    if(b.pass)h+=`<div style="margin-top:6px;font-size:13px"><b style="color:${b.pass.t==='도매와 같은 흐름'?'var(--ink2)':'var(--brand2)'}">→ ${b.pass.t}</b> <span class="mini">${esc(b.pass.x)}</span></div>`;
+    if(b.verdict)h+=`<div style="font-size:13px;margin-top:3px;color:${b.verdict.ok?'var(--good)':'var(--up)'}">→ ${esc(b.verdict.x)}</div>`;
+    h+=`</div>`;}
+  return h+`</div></div>`;
+}
+</script>
+<script>
+/* ════════════════ 공유 리포트 ════════════════
+   순서: 한 줄 → 신호등 → 기회 → 품목별 → 근거 */
+let LEN='전체';
+function pickLen(el,l){LEN=l;document.querySelectorAll('#lenSeg button').forEach(b=>b.classList.toggle('on',b===el));refreshReport();}
+function refreshReport(){const o=$('repOut');if(o)o.textContent=reportText(CUR,LEN);}
+function reportText(wk,len){
+  const d=DB[wk];if(!d)return'';const B=bundles(wk).filter(b=>b.cat!=='기타'),pw=prevWeek(wk),gap=realGap(wk);
+  const hl=headline(B);
+  if(len==='한 줄')return`[JJ 과일 레이더 W${wk}] ${hl}`;
+  const L='━'.repeat(14),rs=[...new Set(d.items.map(x=>x.r))].join('·');
+  let o=`📊 JJ 과일 레이더 · Week ${wk}\n${d.label||''} · ${rs} 현장조사 · ${d.items.length}품목${pw!=null?`\nWeek ${pw} 대비${gap>1?' (조사 '+gap+'주 간격)':''}`:''}\n\n`;
+  o+=`▶ 이번 주 한 줄\n${hl}\n\n▶ 신호등  가격 / 공급 / 매대\n`;
+  for(const b of B)o+=`${ICON[b.cat]||'•'} ${b.cat}  ${b.L.price[0]} / ${b.L.supply[0]} / ${b.L.shelf[0]}\n`;
+  const opp=opportunities(B);
+  if(opp.length){o+=`\n▶ 기회\n`;for(const x of opp.slice(0,6))o+=`· ${x.cat} ${x.t} — ${x.x}\n`;}
+  if(len==='요약')return o+`\n자세한 내용은 전체본을 참고하세요.\nJJ 과일 레이더`;
+  for(const b of B){
+    o+=`\n${L}\n${ICON[b.cat]||'•'} ${b.cat}${b.stage?' · '+b.stage+'기':''}\n`;
+    if(!b.items.length){o+=`이번 주 매대에서 보이지 않음 — 시즌 종료 가능성\n`;continue;}
+    const firstSeen=b.P.pw!=null&&!b.P.pairs.length&&!b.P.gone.length;
+    if(firstSeen)o+=`가격  이번 주 첫 등장 — 비교할 지난 상품 없음\n`;
+    else if(b.P.pw!=null)o+=`가격  같은 상품 ${b.valid.length}개 ${b.eff==null?'짝 없음':'평균 '+pct(b.eff)} (새로 ${b.P.nw.length} · 빠짐 ${b.P.gone.length})\n`;
+    const u=unitWord(b.cat);
+    for(const[bs,arr]of[['per',b.per],['kg',b.kg]])for(const c of arr.slice(0,1)){const vl=bs==='per'?c.lo.per:c.lo.ppk,vh=bs==='per'?c.hi.per:c.hi.ppk;
+      o+=`비교  ${bs==='per'?u+'당':'kg당'}${c.tier&&c.tier!=='전체'?'('+c.tier+')':''} ${c.lo.r} ${fmt(vl)} / ${c.hi.r} ${fmt(vh)} → ${c.lo.r} ${fmt(vh-vl)}원 저렴 [${c.conf}]\n`;}
+    for(const g of b.gaps.slice(0,2))o+=`공백  ${g.basis==='per'?u+'당':'kg당'}${g.tier&&g.tier!=='전체'?' '+g.tier:''} ${fmt(g.lo)}~${fmt(g.hi)}원 상품 없음\n`;
+    if(b.sh.moves.length)o+=`매대  ${b.sh.moves.map(m=>m.t==='격상'?`${m.r} ${m.from}→${m.to} 격상`:m.t==='격하'?`${m.r} ${m.from}→${m.to} 격하`:m.t==='신규'?`${m.r} ${m.to} 시작`:`${m.r} ${m.from} 빠짐`).join(' · ')}\n`;
+    const mx=Object.entries(b.mix).filter(([,m])=>m.gov+m.card+m.own);
+    if(mx.length)o+=`할인  ${mx.map(([r,m])=>`${r} ${[m.gov?'정부'+m.gov:'',m.card?'카드'+m.card:'',m.own?'자체'+m.own:''].filter(Boolean).join('·')}`).join(' / ')}\n`;
+    for(const w of b.ws)o+=`도매  ${w.label} ${fmt(w.now)}${w.chg!=null?' ('+pct(w.chg)+')':''}\n`;
+    for(const n of b.ns)o+=`산지  ${n.text}${n.sig.length?' ['+n.sig.map(s=>SIG_KO[s]).join('·')+']':''}\n`;
+    if(b.wx&&b.wx.notes.length)o+=`기상  ${b.wx.notes.join(' · ')}\n`;
+    if(b.pass&&b.pass.t!=='도매와 같은 흐름')o+=`→ ${b.pass.t}: ${b.pass.x}\n`;
+    if(b.verdict)o+=`→ ${b.verdict.x}\n`;
+  }
+  const gen=parseNotes(d.notes).notes.filter(n=>!n.cat);
+  if(gen.length){o+=`\n${L}\n▶ 시장 전반\n`;for(const n of gen)o+=`· ${n.text}\n`;}
+  o+=`\n※ 가격 변동은 같은 상품끼리만 비교했습니다. 가격 수준은 참고용입니다.\n※ 할인가 기준 · 할인 재원: 정부(농활) / 카드사 / 유통사 자체(포인트·회원·행사)\n※ 빈 가격대는 같은 크기 등급 안에서만 찾았습니다.\nJJ 과일 레이더`;
+  return o;
+}
+function copyReport(){const t=reportText(CUR,LEN);
+  (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast(`${LEN} 복사했습니다`)).catch(()=>{
+    const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();document.execCommand('copy');a.remove();toast(`${LEN} 복사했습니다`);});}
+function shareReport(){const t=reportText(CUR,LEN);if(navigator.share)navigator.share({title:`JJ 과일 레이더 W${CUR}`,text:t}).catch(e=>{if(e.name!=='AbortError')copyReport();});else copyReport();}
+
+/* ════════════════ 카드뉴스 ════════════════ */
+const CC={ink:'#16202E',sub:'#5A6B80',line:'#E3E7ED',brand:'#5E1739',lotte:'#C8102E',emart:'#A86E00',down:'#1B5FB4',up:'#C0392B',good:'#2E7D52'};
+const ccR=r=>r.includes('롯데')?CC.lotte:CC.emart;
+const toneC={down:CC.down,up:CC.up,good:CC.good,warn:'#B26A00',mute:'#9AA3AF'};
+let CARDS=[];
+function shell(inner,bg,photo){
+  return`<div class="nc" style="background:${bg||'#fff'}">${photo?`<img src="${photo}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,18,28,.30) 0%,rgba(14,18,28,.55) 45%,rgba(14,18,28,.92) 100%)"></div>`:''}${inner}</div>`;}
+async function buildCards(){
+  const wk=CUR,d=DB[wk];if(!d){toast('주차가 없습니다');return;}
+  const B=bundles(wk).filter(b=>b.cat!=='기타'&&b.items.length),photos=await IDB.all(),ph=c=>(photos.find(p=>p.cat===c)||{}).data;
   const cards=[];
-
-  // 1 표지
-  cards.push({t:'표지',h:cardShell(`
-    <div style="position:absolute;inset:0;background:${CC.ink}"></div>
-    <div style="position:absolute;left:88px;top:150px;color:#7E93AC;font-size:34px;font-weight:700;letter-spacing:2px">JJ FRUIT RADAR</div>
-    <div style="position:absolute;left:88px;top:250px;color:#fff;font-size:96px;font-weight:800;line-height:1.14;letter-spacing:-3px">과일 가격<br>전략 리포트</div>
-    <div style="position:absolute;left:88px;top:560px;width:180px;height:8px;background:${CC.lotte}"></div>
-    <div style="position:absolute;left:88px;top:620px;color:#fff;font-size:62px;font-weight:800">Week ${wk}</div>
-    <div style="position:absolute;left:88px;top:706px;color:#9FB0C4;font-size:34px">${esc(d.label||'')}</div>
-    <div style="position:absolute;left:88px;bottom:150px;color:#7E93AC;font-size:30px;line-height:1.6">
-      롯데마트 · 이마트 현장 조사<br>조사 품목 ${d.items.length}개 · 감지 사건 ${ev.length}건</div>`)});
-
-  // 2 핵심 사건 — 4개씩 나눈다
-  const EPER=4, epages=[];
-  for(let k=0;k<Math.max(ev.length,1);k+=EPER) epages.push(ev.slice(k,k+EPER));
-  epages.slice(0,3).forEach((grp,pi)=>{
-    const tag=epages.length>1&&ev.length? ` (${pi+1}/${Math.min(epages.length,3)})`:'';
-    cards.push({t:'핵심 사건'+tag,h:cardShell(`
-    <div style="position:absolute;left:80px;top:96px;font-size:32px;color:${CC.sub};font-weight:700">WEEK ${wk}${tag}</div>
-    <div style="position:absolute;left:80px;top:150px;font-size:72px;font-weight:800;color:${CC.ink};letter-spacing:-2px">이번 주 달라진 것</div>
-    <div style="position:absolute;left:80px;top:290px;right:80px">
-    ${grp.length? grp.map(e=>`
-      <div style="display:flex;gap:24px;padding:28px 0;border-bottom:2px solid ${CC.line}">
-        <div style="width:10px;background:${CC.hot};border-radius:5px;flex:none"></div>
-        <div style="flex:1">
-          <div style="font-size:26px;font-weight:800;color:${CC.hot}">${e.t}</div>
-          <div style="font-size:34px;line-height:1.4;color:${CC.ink};margin-top:6px">${esc(e.x)}</div>
-        </div></div>`).join('')
-      : `<div style="font-size:44px;color:${CC.sub};line-height:1.6;padding-top:60px">기준을 넘은 변동이<br>없는 주간입니다.</div>`}
-    </div>`)});
-  });
-
-  // 3 가격 비교 — 한 장에 6개까지, 넘으면 장을 나눈다
-  const PER=6;
-  const pages=[];
-  for(let k=0;k<Math.max(idx.length,1);k+=PER) pages.push(idx.slice(k,k+PER));
-  pages.forEach((grp,pi)=>{
-    const tag = pages.length>1 ? ` (${pi+1}/${pages.length})` : '';
-    cards.push({t:'가격 비교'+tag,h:cardShell(`
-    <div style="position:absolute;left:80px;top:96px;font-size:32px;color:${CC.sub};font-weight:700">가격 비교${tag}</div>
-    <div style="position:absolute;left:80px;top:150px;font-size:72px;font-weight:800;color:${CC.ink};letter-spacing:-2px">누가 더 싼가</div>
-    <div style="position:absolute;left:80px;top:250px;font-size:30px;color:${CC.sub}">같은 규격끼리 비교 · 초록이 저가</div>
-    <div style="position:absolute;left:80px;top:320px;right:80px">
-    ${grp.length? grp.map(x=>{
-      const right=x.idx<100, win=right?x.r:x.baseR;
-      const d=x.perKg?Math.abs(x.rv-x.bv):Math.abs(x.rp-x.bp);
-      const bC=x.baseR.includes('롯데')?CC.lotte:CC.emart, rC=x.r.includes('롯데')?CC.lotte:CC.emart;
-      return `<div style="padding:18px 0;border-bottom:2px solid ${CC.line}">
-        <div style="font-size:32px;font-weight:800;color:${CC.ink};margin-bottom:8px">${esc(x.cat)}
-          <span style="font-size:21px;color:${CC.sub};font-weight:600">${esc(x.band.replace('단위:',''))}</span></div>
-        <div style="display:flex;gap:12px;align-items:center">
-          <div style="flex:1;text-align:center;padding:11px 6px;border-radius:12px;background:${right?'#F4F7FA':'#E8F4EC'}">
-            <div style="font-size:20px;font-weight:800;color:${bC}">${esc(x.baseR)}</div>
-            <div style="font-size:34px;font-weight:${right?700:900};margin-top:2px">${fmt(x.bp)}</div></div>
-          <div style="flex:0 0 120px;text-align:center">
-            <div style="font-size:22px;color:${CC.sub}">${right?'▶':'◀'}</div>
-            <div style="font-size:24px;font-weight:800;color:#1B6FC4">${fmt(d)}원</div>
-            <div style="font-size:16px;color:${CC.sub}">${x.perKg?'kg당':'차이'}</div></div>
-          <div style="flex:1;text-align:center;padding:11px 6px;border-radius:12px;background:${right?'#E8F4EC':'#F4F7FA'}">
-            <div style="font-size:20px;font-weight:800;color:${rC}">${esc(x.r)}</div>
-            <div style="font-size:34px;font-weight:${right?900:700};margin-top:2px">${fmt(x.rp)}</div></div>
-        </div></div>`;}).join('')
-      : `<div style="font-size:40px;color:${CC.sub};line-height:1.6">같은 규격대에서<br>비교 가능한 품목이 없습니다.</div>`}
-    </div>`)});
-  });
-
-  // 4 품목별 리더 — 8개씩 나눠 담는다
-  const byCat=groupBy(cv,x=>x.cat);
-  const rows=Object.keys(byCat).map(c=>{
-    const ix=idx.filter(x=>x.cat===c);
-    if(!ix.length) return {c,l:'비교불가',g:''};
-    const b=ix[0], gap=Math.abs(b.idx-100)/100;
-    return {c,l:b.idx<100?b.r:b.baseR,g:gap===0?'동률':pct(gap)};
-  });
-  const LPER=8, lpages=[];
-  for(let k=0;k<Math.max(rows.length,1);k+=LPER) lpages.push(rows.slice(k,k+LPER));
-  lpages.forEach((grp,pi)=>{
-    const tag=lpages.length>1? ` (${pi+1}/${lpages.length})`:'';
-    cards.push({t:'가격 리더'+tag,h:cardShell(`
-    <div style="position:absolute;left:80px;top:96px;font-size:32px;color:${CC.sub};font-weight:700">PRICE LEADER${tag}</div>
-    <div style="position:absolute;left:80px;top:150px;font-size:72px;font-weight:800;color:${CC.ink};letter-spacing:-2px">품목별 가격 리더</div>
-    <div style="position:absolute;left:80px;top:310px;right:80px">
-      ${grp.map(r=>`<div style="display:flex;align-items:center;padding:28px 0;border-bottom:2px solid ${CC.line}">
-        <div style="flex:1;font-size:40px;font-weight:700;color:${CC.ink}">${esc(r.c)}</div>
-        <div style="font-size:36px;font-weight:800;color:${r.l.includes('롯데')?CC.lotte:(r.l.includes('이마트')?CC.emart:CC.sub)}">${esc(r.l)}</div>
-        <div style="width:180px;text-align:right;font-size:32px;color:${CC.sub}">${r.g}</div>
-      </div>`).join('')}
-    </div>`)});
-  });
-
-  // 5 마무리
-  const nh=d.items.filter(x=>x.g==='농활').length;
-  const pwc=prevWeek(wk);
-  const inn=(pwc!=null&&DB[pwc])? [...new Set(cv.map(x=>x.cat))].filter(c=>!new Set(catView(pwc).map(x=>x.cat)).has(c)):[];
-  cards.push({t:'요약',h:cardShell(`
-    <div style="position:absolute;inset:0;background:${CC.ink}"></div>
-    <div style="position:absolute;left:80px;top:130px;color:#7E93AC;font-size:32px;font-weight:700">SUMMARY</div>
-    <div style="position:absolute;left:80px;top:196px;color:#fff;font-size:70px;font-weight:800;letter-spacing:-2px">Week ${wk} 요약</div>
-    <div style="position:absolute;left:80px;top:360px;right:80px">
-      ${[['조사 품목',d.items.length+'개'],['감지 사건',ev.length+'건'],
-         ['직접 비교',idx.length+'건'],['농활 적용',nh+'건'],
-         ['시즌 진입',inn.length?inn.join(' · '):'없음']].map(([k,v])=>
-        `<div style="display:flex;padding:32px 0;border-bottom:2px solid #2C3B50">
-          <div style="flex:1;color:#9FB0C4;font-size:38px">${k}</div>
-          <div style="color:#fff;font-size:42px;font-weight:800">${esc(v)}</div></div>`).join('')}
+  /* 표지 */
+  cards.push({t:'표지',h:shell(`
+    <div style="position:absolute;left:84px;top:120px;color:#E9B8CE;font-size:32px;font-weight:800;letter-spacing:3px">JJ FRUIT RADAR</div>
+    <div style="position:absolute;left:84px;top:200px;color:#fff;font-size:104px;font-weight:900;line-height:1.08;letter-spacing:-4px">Week ${wk}</div>
+    <div style="position:absolute;left:84px;top:330px;color:#F3D3E1;font-size:38px">${esc(d.label||'')}</div>
+    <div style="position:absolute;left:84px;top:430px;width:150px;height:8px;background:#fff"></div>
+    <div style="position:absolute;left:84px;right:84px;top:490px;color:#fff;font-size:62px;font-weight:800;line-height:1.3;letter-spacing:-2px">${esc(headline(B))}</div>
+    <div style="position:absolute;left:84px;bottom:110px;color:#E9B8CE;font-size:30px;line-height:1.6">${[...new Set(d.items.map(x=>x.r))].join(' · ')} 현장조사<br>${d.items.length}품목 · 매주 목·금</div>`,CC.brand,ph('__cover')||null)});
+  /* 신호등 */
+  cards.push({t:'신호등',h:shell(`
+    <div style="position:absolute;left:80px;top:96px;font-size:30px;color:${CC.sub};font-weight:800">WEEK ${wk} · 신호등</div>
+    <div style="position:absolute;left:80px;top:146px;font-size:76px;font-weight:900;color:${CC.ink};letter-spacing:-3px">이번 주 판세</div>
+    <div style="position:absolute;left:80px;right:80px;top:290px">
+      <div style="display:flex;font-size:28px;color:${CC.sub};font-weight:800;padding-bottom:14px;border-bottom:3px solid ${CC.ink}"><div style="flex:1.3">품목</div><div style="flex:1;text-align:center">가격</div><div style="flex:1;text-align:center">공급</div><div style="flex:1;text-align:center">매대</div></div>
+      ${B.slice(0,8).map(b=>`<div style="display:flex;align-items:center;font-size:40px;font-weight:800;padding:26px 0;border-bottom:2px solid ${CC.line}">
+        <div style="flex:1.3;color:${CC.ink}">${b.cat}</div>${[b.L.price,b.L.supply,b.L.shelf].map(([t,c])=>`<div style="flex:1;text-align:center;color:${toneC[c]}">${esc(t)}</div>`).join('')}</div>`).join('')}
     </div>
-    <div style="position:absolute;left:80px;bottom:130px;color:#7E93AC;font-size:30px;line-height:1.6">
-      매주 목·금 현장 조사<br>JJ 과일 리포트</div>`)});
-
-  $('cardStrip').innerHTML=cards.map((c,i)=>
-    `<div class="cw"><div class="ncbox" id="nc${i}">${c.h}</div><div class="lb">${i+1}. ${c.t}</div></div>`).join('');
-  $('cardNote').innerHTML='카드 '+cards.length+'장 · 1080×1350px. 저장 버튼을 누르면 한 장씩 내려받습니다.';
-  window.__ncount=cards.length;
-}
-async function saveCards(){
-  if(typeof html2canvas==='undefined'){ toast('이미지 변환기를 불러오지 못했습니다. 인터넷 연결을 확인해주세요.'); return; }
-  const n=window.__ncount||0; if(!n){ toast('먼저 카드를 만들어주세요'); return; }
-  const btn=$('btnSave'); btn.disabled=true; btn.textContent='저장 중…';
-  const wk=latest();
-  for(let i=0;i<n;i++){
-    const el=$('nc'+i).querySelector('.nc');
-    const keep=el.style.transform; el.style.transform='none';
-    try{
-      const cv=await html2canvas(el,{width:1080,height:1350,scale:1,backgroundColor:'#ffffff',logging:false});
-      const a=document.createElement('a');
-      a.href=cv.toDataURL('image/png'); a.download=`JJ_W${wk}_${i+1}.png`; a.click();
-      await new Promise(r=>setTimeout(r,450));
-    }catch(e){ toast('저장 실패: '+i); }
-    el.style.transform=keep;
+    <div style="position:absolute;left:80px;bottom:80px;font-size:24px;color:${CC.sub}">가격은 같은 상품끼리의 변동 · 파랑 하락·과잉 · 빨강 상승·부족 · 초록 밀기</div>`)});
+  /* 품목별 */
+  for(const b of B.slice(0,6)){
+    const P=ph(b.cat),dark=!!P,fg=dark?'#fff':CC.ink,sub=dark?'#D9DEE6':CC.sub,u=unitWord(b.cat);
+    const c=(b.per[0]&&{bs:'per',c:b.per[0]})||(b.kg[0]&&{bs:'kg',c:b.kg[0]});
+    const facts=[];
+    if(b.eff!=null)facts.push(`같은 상품 가격 ${pct(b.eff)} (${b.valid.length}개)`);
+    const up=b.sh.moves.find(m=>m.t==='격상'||m.t==='신규');if(up)facts.push(`${up.r} ${up.to} 진열${up.t==='격상'?' 격상':''}`);
+    if(b.gaps[0])facts.push(`빈 가격대 ${fmt(b.gaps[0].lo)}~${fmt(b.gaps[0].hi)}원`);
+    if(b.pass&&b.pass.t!=='도매와 같은 흐름')facts.push(b.pass.t);
+    if(b.ns[0])facts.push(b.ns[0].text.length>30?b.ns[0].text.slice(0,30)+'…':b.ns[0].text);
+    cards.push({t:b.cat,h:shell(`
+      <div style="position:absolute;left:80px;top:96px;font-size:30px;color:${sub};font-weight:800">WEEK ${wk}${b.stage?' · '+b.stage+'기':''}</div>
+      <div style="position:absolute;left:80px;top:146px;font-size:110px;font-weight:900;color:${fg};letter-spacing:-4px">${b.cat}</div>
+      <div style="position:absolute;right:80px;top:170px;font-size:64px;font-weight:900;color:${dark?'#fff':toneC[b.L.price[1]]}">${esc(b.L.price[0])}</div>
+      ${c?`<div style="position:absolute;left:80px;right:80px;top:${dark?560:340}px;display:flex;gap:20px;align-items:center">
+        ${[c.c.lo,c.c.hi].map((x,i)=>`<div style="flex:1;border-radius:22px;padding:26px 10px;text-align:center;background:${dark?'rgba(255,255,255,.14)':(i===0?'#E8F3EC':'#F4F6F9')}">
+          <div style="font-size:28px;font-weight:900;color:${dark?'#fff':ccR(x.r)}">${esc(x.r)}</div>
+          <div style="font-size:66px;font-weight:900;color:${fg};margin-top:4px">${fmt(c.bs==='per'?x.per:x.ppk)}</div>
+          <div style="font-size:22px;color:${sub}">${c.bs==='per'?u+'당':'kg당'} · ${fmt(x.p)}원</div></div>`).join('')}</div>
+        <div style="position:absolute;left:80px;top:${dark?790:570}px;font-size:28px;color:${sub}">${c.c.tier&&c.c.tier!=='전체'?c.c.tier+' · ':''}${esc(c.c.lo.r)} ${fmt((c.bs==='per'?c.c.hi.per:c.c.hi.ppk)-(c.bs==='per'?c.c.lo.per:c.c.lo.ppk))}원 저렴 · ${esc(c.c.conf)}</div>`:''}
+      <div style="position:absolute;left:80px;right:80px;bottom:110px">${facts.slice(0,4).map(f=>`<div style="font-size:38px;line-height:1.4;color:${fg};padding:16px 0;border-top:2px solid ${dark?'rgba(255,255,255,.25)':CC.line}">${esc(f)}</div>`).join('')}</div>`,'#fff',P)});
   }
-  btn.disabled=false; btn.textContent='이미지 저장'; toast(n+'장 저장했습니다');
-}
-
-/* ===================== 공유 ===================== */
-function shareReport(){
-  const t=$('repOut').textContent;
-  if(navigator.share){
-    navigator.share({title:'JJ 과일 리포트', text:t})
-      .catch(e=>{ if(e.name!=='AbortError') copyReport(); });
-  }else copyReport();
+  /* 기회 */
+  const opp=opportunities(B);
+  if(opp.length)cards.push({t:'기회',h:shell(`
+    <div style="position:absolute;left:80px;top:96px;font-size:30px;color:${CC.sub};font-weight:800">WEEK ${wk} · OPPORTUNITY</div>
+    <div style="position:absolute;left:80px;top:146px;font-size:76px;font-weight:900;color:${CC.ink};letter-spacing:-3px">비어 있는 자리</div>
+    <div style="position:absolute;left:80px;right:80px;top:300px">${opp.slice(0,5).map(o=>`<div style="padding:28px 0;border-bottom:2px solid ${CC.line}">
+      <div style="font-size:26px;font-weight:900;color:${CC.brand}">${esc(o.t)} · ${esc(o.cat)}</div><div style="font-size:38px;line-height:1.4;color:${CC.ink};margin-top:6px">${esc(o.x)}</div></div>`).join('')}</div>`)});
+  /* 시장 메모 */
+  const gen=parseNotes(d.notes).notes.filter(n=>!n.cat);
+  if(gen.length)cards.push({t:'시장',h:shell(`
+    <div style="position:absolute;left:80px;top:120px;color:#E9B8CE;font-size:30px;font-weight:800">MARKET NOTE</div>
+    <div style="position:absolute;left:80px;top:170px;color:#fff;font-size:76px;font-weight:900;letter-spacing:-3px">시장 전반</div>
+    <div style="position:absolute;left:80px;right:80px;top:330px">${gen.slice(0,6).map(n=>`<div style="color:#fff;font-size:40px;line-height:1.45;padding:22px 0;border-top:2px solid rgba(255,255,255,.2)">${esc(n.text)}</div>`).join('')}</div>
+    <div style="position:absolute;left:80px;bottom:100px;color:#E9B8CE;font-size:28px">JJ 과일 레이더 · 매주 목·금 현장조사</div>`,CC.brand)});
+  CARDS=cards.slice(0,10);
+  $('cardStrip').innerHTML=CARDS.map((c,i)=>`<div><div class="cb" id="nc${i}">${c.h}</div><div class="mini" style="margin-top:4px">${i+1}. ${esc(c.t)}</div></div>`).join('');
+  toast(`카드 ${CARDS.length}장${photos.filter(p=>p.cat).length?' · 사진 '+photos.filter(p=>p.cat).length+'장 반영':''}`);
 }
 async function cardBlobs(){
-  const n=window.__ncount||0, out=[];
-  for(let i=0;i<n;i++){
-    const el=$('nc'+i).querySelector('.nc');
-    const keep=el.style.transform; el.style.transform='none';
-    const cv=await html2canvas(el,{width:1080,height:1350,scale:1,backgroundColor:'#ffffff',logging:false});
-    el.style.transform=keep;
-    out.push(await new Promise(r=>cv.toBlob(r,'image/png')));
-  }
+  if(typeof html2canvas==='undefined')throw new Error('nolib');
+  if(!CARDS.length)await buildCards();
+  const out=[];for(let i=0;i<CARDS.length;i++){const el=$('nc'+i).querySelector('.nc');const k=el.style.transform;el.style.transform='none';
+    const cv=await html2canvas(el,{width:1080,height:1350,scale:1,backgroundColor:'#ffffff',logging:false,useCORS:true});el.style.transform=k;
+    out.push(await new Promise(r=>cv.toBlob(r,'image/png')));}
   return out;
 }
-async function shareCards(){
-  if(typeof html2canvas==='undefined'){ toast('이미지 변환기를 불러오지 못했습니다'); return; }
-  const b=$('btnShareC'); b.disabled=true; b.textContent='준비 중…';
-  try{
-    const wk=latest(), blobs=await cardBlobs();
-    const files=blobs.map((bl,i)=>new File([bl],`JJ_W${wk}_${i+1}.png`,{type:'image/png'}));
-    if(navigator.canShare&&navigator.canShare({files})){
-      await navigator.share({files,title:`JJ 과일 리포트 W${wk}`});
-    }else{ toast('이 브라우저는 이미지 공유를 지원하지 않습니다. 저장 후 올려주세요.'); }
-  }catch(e){ if(e.name!=='AbortError') toast('공유하지 못했습니다'); }
-  b.disabled=false; b.textContent='공유';
-}
+async function afterCards(){const n=(await IDB.all()).length;if(n){await IDB.clear();renderPhotos();toast(`사진 ${n}장은 지웠습니다`);}}
+async function saveCards(){try{const bl=await cardBlobs();
+  for(let i=0;i<bl.length;i++){const a=document.createElement('a');a.href=URL.createObjectURL(bl[i]);a.download=`JJ_W${CUR}_${i+1}.png`;a.click();await new Promise(r=>setTimeout(r,450));}
+  toast(`${bl.length}장 저장`);await afterCards();}catch(e){toast(e.message==='nolib'?'이미지 변환기를 불러오지 못했습니다 (인터넷 확인)':'저장하지 못했습니다');}}
+async function shareCards(){try{const bl=await cardBlobs();const fs=bl.map((b,i)=>new File([b],`JJ_W${CUR}_${i+1}.png`,{type:'image/png'}));
+  if(navigator.canShare&&navigator.canShare({files:fs})){await navigator.share({files:fs,title:`JJ 과일 레이더 W${CUR}`});await afterCards();}
+  else toast('이 브라우저는 이미지 공유가 안 됩니다. 저장을 눌러주세요');}catch(e){if(e.name!=='AbortError')toast(e.message==='nolib'?'이미지 변환기를 불러오지 못했습니다':'공유하지 못했습니다');}}
 
-/* ===================== 인스타 게시 ===================== */
-const IGKEY='jjfr_ig_v1';
-function igCfg(){ try{return JSON.parse(localStorage.getItem(IGKEY)||'{}');}catch(e){return {};} }
-function igSave(c){ try{localStorage.setItem(IGKEY,JSON.stringify(c));}catch(e){} }
-function igSetup(){
-  const c=igCfg();
-  const url=prompt('게시 서버 주소를 입력하세요 (예: https://내서버.onrender.com)', c.url||'');
-  if(url===null) return;
-  const key=prompt('서버에 설정한 공유 비밀번호를 입력하세요', c.key||'');
-  if(key===null) return;
-  igSave({url:url.trim().replace(/\/$/,''),key:key.trim()});
-  toast('게시 서버를 저장했습니다'); renderAll();
+/* ════════════════ 기록 ════════════════ */
+function renderHistory(){
+  const ws=weeks().slice().reverse();
+  $('hsWeeks').innerHTML=ws.length?ws.map(w=>{const d=DB[w];return`<div class="kv"><div><b>Week ${w}</b> <span class="mini">${esc(d.label||'')}</span>
+    <div class="mini">${[...new Set(d.items.map(x=>x.r))].join(' · ')} · ${d.items.length}품목${d.notes?' · 메모':''}${WX[w]?' · 기상':''}</div></div>
+    <div style="display:flex;gap:6px;align-items:center"><button class="ghost sm" onclick="CUR=${w};go('wk')">보기</button><button class="ghost sm" onclick="loadForEdit(${w})">수정</button><button class="ghost sm" onclick="delWeek(${w})">삭제</button></div></div>`;}).join('')
+    :'<div class="mini">아직 없습니다</div>';
+  /* 품목 흐름: kg 기준 최근 8주 */
+  const rw=weeks().slice(-8),T={};
+  for(const w of rw)for(const it of DB[w].items){if(!it.ppk)continue;const c=bigCat(it.c);const k=c+'|'+it.r;(T[k]=T[k]||{})[w]=Math.min((T[k]||{})[w]||1e9,it.ppk);}
+  $('hsTrend').innerHTML=rw.length<2?'<div class="mini">두 주 이상 쌓이면 보입니다</div>':`<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">
+    <tr><th style="text-align:left;padding:4px;color:var(--ink3)">품목</th>${rw.map(w=>`<th style="padding:4px;color:var(--ink3);text-align:right">W${w}</th>`).join('')}</tr>
+    ${Object.keys(T).sort().map(k=>{const[c,r]=k.split('|');return`<tr><td style="padding:4px;white-space:nowrap"><b>${c}</b> <span style="color:${RC(r)}">${r}</span></td>${rw.map(w=>`<td class="num" style="padding:4px;text-align:right">${T[k][w]?fmt(T[k][w]):'·'}</td>`).join('')}</tr>`;}).join('')}
+    </table></div><div class="mini" style="margin-top:6px">kg당 가장 싼 상품 기준</div>`;
+  $('kKey').value=SET.kKey||'';$('kId').value=SET.kId||'';
+  $('kState').textContent=SET.kKey?`설정됨${SET.kOk===false?' · 마지막 시험: 연결 안 됨 ('+(SET.kWhy||'')+')':SET.kOk?' · 연결 확인됨':''}`:'설정 안 됨 — 메모에 적은 시세만 씁니다';
+  const dk=Object.keys(DICT).sort();
+  $('hsDict').innerHTML=dk.map(k=>{const[p,c,s]=k.split('|');return`<div class="kv"><span>${p==='*'?'전매장':esc(p)} · ${esc(c)} ${esc(s)}</span><span><b>${DICT[k]}kg</b> <button class="ghost sm" style="margin-left:6px;min-height:30px;padding:2px 8px" onclick="setDict('${esc(k)}',0);renderHistory()">삭제</button></span></div>`;}).join('')||'<div class="mini">없음</div>';
+  $('hsInfo').innerHTML=`<div class="kv"><span>버전</span><b>${APP_VER}</b></div><div class="kv"><span>저장된 주차</span><b>${weeks().length}개</b></div>
+    <div class="kv"><span>기상 보유</span><b>${Object.keys(WX).length}개 주차</b></div><div class="kv"><span>도매 자동</span><b>${Object.keys(WS).length}개 주차</b></div>
+    <div class="mini" style="margin-top:8px">판단 기준 — 가격 변동은 같은 상품끼리 · 빈 가격대는 같은 크기 등급 안에서 35% 이상 공백 · 매대 점수 전면5 엔드·독립4 평대·특설3 일반1</div>`;
 }
-function igCaption(wk){
-  const d=DB[wk], ev=detect(wk);
-  const head=ev.slice(0,3).map(e=>'· '+e.x).join('\n');
-  return `[JJ 과일 가격 리포트] Week ${wk}\n${d.label||''}\n\n${head||'· 이번 주 큰 변동 없음'}\n\n`
-    +`#과일가격 #장보기 #물가 #마트 #시장조사 #과일 #JJ과일리포트`;
-}
-async function postInstagram(){
-  const c=igCfg();
-  if(!c.url){ igSetup(); return; }
-  if(typeof html2canvas==='undefined'){ toast('이미지 변환기를 불러오지 못했습니다'); return; }
-  const wk=latest(); if(!wk){ toast('먼저 주차를 저장하세요'); return; }
-  if(!confirm(`Week ${wk} 카드뉴스를 인스타그램에 올릴까요?`)) return;
-  const b=$('btnIG'); b.disabled=true; b.textContent='올리는 중…';
-  try{
-    const blobs=await cardBlobs();
-    const imgs=await Promise.all(blobs.map(bl=>new Promise(r=>{
-      const fr=new FileReader(); fr.onload=()=>r(fr.result.split(',')[1]); fr.readAsDataURL(bl);
-    })));
-    const res=await fetch(c.url+'/publish',{method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({key:c.key,caption:igCaption(wk),images:imgs})});
-    const j=await res.json();
-    if(j.ok) toast('인스타그램에 게시했습니다');
-    else toast('게시 실패: '+(j.error||'알 수 없는 오류'));
-  }catch(e){ toast('서버에 연결하지 못했습니다'); }
-  b.disabled=false; b.textContent='인스타 게시';
-}
+function delWeek(w){if(!confirm(`Week ${w} 을 지울까요?`))return;delete DB[w];delete WX[w];delete WS[w];lsSet(K.DB,DB);lsSet(K.WX,WX);lsSet(K.WS,WS);renderHistory();header();toast('지웠습니다');}
+function saveKamis(){SET.kKey=$('kKey').value.trim();SET.kId=$('kId').value.trim();lsSet(K.SET,SET);renderHistory();toast('저장했습니다');}
+function testKamis(btn){busy(btn,'시험 중…',async()=>{saveKamis();const w=latest();if(!w){toast('먼저 주차를 저장하세요');return;}
+  const r=await kamisFetch(w);SET.kOk=r.ok;SET.kWhy=r.why||'';lsSet(K.SET,SET);renderHistory();toast(r.ok?`연결됨 · 도매 ${r.n}건`:`연결 안 됨 — ${r.why}`);});}
+function exportData(){const o={app:'jj-fruit-radar',ver:APP_VER,at:new Date().toISOString(),__dict:lsGet(K.DICT,{}),__wx:WX,__ws:WS,...DB};
+  const b=new Blob([JSON.stringify(o)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`jj_fruit_radar_${ymd(new Date())}.json`;a.click();toast('백업 파일을 내려받았습니다');}
+function importData(inp){const f=inp.files[0];inp.value='';if(!f)return;const fr=new FileReader();fr.onload=()=>{try{const o=JSON.parse(fr.result);let n=0;
+  if(o.__dict){const own={...lsGet(K.DICT,{}),...o.__dict};lsSet(K.DICT,own);DICT={...DICT_BASE,...own};for(const k in own)if(own[k]==null)delete DICT[k];}
+  if(o.__wx)WX={...WX,...o.__wx};if(o.__ws)WS={...WS,...o.__ws};
+  for(const k in o)if(o[k]&&Array.isArray(o[k].items)){o[k].items=o[k].items.map(enrich);DB[k]=o[k];n++;}
+  lsSet(K.DB,DB);lsSet(K.WX,WX);lsSet(K.WS,WS);header();renderHistory();toast(`${n}개 주차를 불러왔습니다`);}catch(e){toast('파일을 읽지 못했습니다');}};fr.readAsText(f);}
 
-/* ===================== 시작 ===================== */
-load(); loadDict(); loadWx(); renderAll();
-/* 입력칸이 내용만큼 늘어나야 폰에서 커서를 원하는 줄에 바로 짚을 수 있다 */
-function autoGrow(el){
-  if(!el) return;
-  el.style.height='auto';
-  el.style.height=Math.max(200, el.scrollHeight+4)+'px';
+/* ════════════════ 시작 ════════════════ */
+function boot(){
+  DB=lsGet(K.DB,{});for(const k in DB)if(DB[k]&&Array.isArray(DB[k].items))DB[k].items=DB[k].items.map(enrich);else delete DB[k];
+  const own=lsGet(K.DICT,{});DICT={...DICT_BASE,...own};for(const k in own)if(own[k]==null)delete DICT[k];
+  WX=lsGet(K.WX,{});WS=lsGet(K.WS,{});SET=lsGet(K.SET,{});
+  header();loadDraft();renderInput();
+  for(const id of['inRaw','inNotes']){const el=$(id);el.addEventListener('input',()=>{autoGrow(el);draftLater();});el.addEventListener('focus',()=>autoGrow(el));}
+  window.addEventListener('pagehide',saveDraft);document.addEventListener('visibilitychange',()=>{if(document.hidden)saveDraft();});
 }
-const rawEl=$('inRaw');
-if(rawEl){
-  rawEl.addEventListener('input',()=>autoGrow(rawEl));
-  rawEl.addEventListener('focus',()=>autoGrow(rawEl));
-}
-let dtimer=null;
-for(const id of ['inRaw','inWeek','inLabel']){
-  const el=$(id); if(!el) continue;
-  el.addEventListener('input',()=>{ clearTimeout(dtimer); dtimer=setTimeout(saveDraft,600); });
-}
-window.addEventListener('pagehide',saveDraft);
-document.addEventListener('visibilitychange',()=>{ if(document.hidden) saveDraft(); });
-loadDraft();
-autoGrow($('inRaw'));
+boot();
 </script>
 </body>
 </html>
