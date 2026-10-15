@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#16202E">
 <title>JJ 과일 레이더</title>
-<meta name="app-version" content="2026.10.15b">
+<meta name="app-version" content="2026.10.15c">
 <style>
 :root{
   --ink:#16202E; --ink2:#4A5568; --ink3:#8A96A6;
@@ -284,7 +284,7 @@ summary{font-size:13.5px;font-weight:600;cursor:pointer}
 <script>
 /* ===================== 저장소 ===================== */
 const KEY='jjfr_v1';
-const APP_VER='2026.10.15b';
+const APP_VER='2026.10.15c';
 let DB={};
 function load(){
   try{const s=localStorage.getItem(KEY); DB = s? JSON.parse(s) : JSON.parse(SEED);}
@@ -997,9 +997,12 @@ const SIGNAL=[
              '판매대','기획전','특판','판촉','엔드','평대']],
   ['시세약세',['시세가상향하지','상향하지않','오르지않','약세','하락세','내림세','시세하락','저조','부진판매']],
   ['시세강세',['시세상승','오름세','강세','시세강','상향','상승세']],
+  ['구색변화',['품종이다양','품종다양','다양해','품종전환','신품종','구색','품목확대','라인업',
+             '종류가늘','가짓수','품종교체','대체']],
+  ['고객이탈',['고객층이탈','이탈','외면','기피','판매감소','판매저조','회전저하','재고증가','장기화']],
 ];const SIG_TONE={공급증가:'하락압력',공급감소:'상승압력',시즌종료:'퇴장',시즌진입:'진입',
   출하지연:'연장',품질변화:'품질',수요변화:'수요',원가부담:'원가',
-  진열판촉:'진열',시세약세:'약세',시세강세:'강세'};
+  진열판촉:'진열',시세약세:'약세',시세강세:'강세',구색변화:'구색',고객이탈:'이탈'};
 /* 부정 표현. "상향하지 않으며" 를 상승으로 읽지 않도록 키워드 뒤를 살핀다. */
 const NEG=/^[은는이가도만을를]?\s*(하지\s*않|지\s*않|않|없|아니|못|미미|어렵|힘들)/;
 
@@ -1071,6 +1074,7 @@ function reconcile(wk){
   const notes=parseNotes(d.notes), wow=wowTable(wk), out=[];
   for(const n of notes){
     if(!n.cat) continue;
+    if(!n.sig.length) continue;          // 신호가 없으면 가격과 대조할 근거가 없다
     const subj=n.vari[0]||null;
     /* 품종이 특정되면 그 품종만, 아니면 품목 전체의 변동을 본다 */
     let mv = subj
@@ -1198,8 +1202,12 @@ function renderSupply(){
     h+='<div class="card" style="padding:11px 14px"><div class="mini">'
       +'메모 '+all.length+'줄 · 품목 인식 '+all.filter(x=>x.cat).length+'줄 · 시장 전반 '+gn.length+'줄 · 신호 인식 '+ok+'줄';
     const miss=all.filter(x=>!x.sig.length);
-    if(miss.length) h+='<br><span style="color:var(--warm)">신호를 못 읽은 줄 '+miss.length+'개 : '
-      +miss.slice(0,3).map(x=>esc(x.text.slice(0,20))).join(' / ')+'</span>';
+    if(miss.length){
+      h+='<div style="margin-top:6px;color:var(--warm)"><b>신호를 못 읽은 줄 '+miss.length+'개</b>'
+        +'<div style="margin-top:3px">'
+        +miss.map(x=>'· '+esc(x.text.slice(0,46))+(x.cat?' <span style="color:var(--ink3)">('+esc(bigCat(x.cat))+')</span>':'')).join('<br>')
+        +'</div><div style="margin-top:4px;color:var(--ink3)">공급 방향을 나타내는 말(늘어남·줄어듦·종료·시작 등)이 없으면 대조에서 빠집니다.</div></div>';
+    }
     h+='</div></div>';
   }
   if(rc.length){
@@ -1267,8 +1275,12 @@ const PHASE=(gap,ev,isNew,isOut)=>{
    매장·품종·규격대로 짝을 짓는다. 품종이 없으면 품목으로 떨어진다. */
 function matchKey(it){
   const v=findVariety(it.n)[0];
-  return it.r+'|'+(v||bigCat(it.c))+'|'+band(it.kg,it.n);
+  /* 품종을 못 찾으면 실속·프리미엄 라인까지 맞아야 같은 상품으로 본다.
+     안 그러면 실속배와 프리미엄배가 짝지어져 터무니없는 변동률이 나온다. */
+  const base = v || (bigCat(it.c)+'~'+(it.ln||lineOf(it.n)));
+  return it.r+'|'+base+'|'+band(it.kg,it.n);
 }
+function subjLabel(k){ return String(k).split('|')[1].split('~')[0]; }
 function repBy(wk,keyFn){
   const m={};
   for(const it of (DB[wk]?DB[wk].items:[])){
@@ -1286,9 +1298,11 @@ function wowTable(wk){
     const perKg=a.it.kg!=null&&b.it.kg!=null;
     const v1=perKg? a.v : a.it.p, v0=perKg? b.v : b.it.p;
     const d=(v1-v0)/v0;
-    const [ret,subj,bd]=k.split('|');
+    const [ret,subjRaw,bd]=k.split('|'); const subj=subjRaw.split('~')[0];
     rows.push({r:ret,subj,band:bd,perKg,
       n0:b.it.n,n1:a.it.n,p0:b.it.p,p1:a.it.p,v0:Math.round(v0),v1:Math.round(v1),d,
+      /* 60% 넘는 변동은 다른 상품끼리 짝지어졌을 가능성이 크다 */
+      doubt: Math.abs(d)>=0.6 && b.it.n!==a.it.n,
       promo0:b.it.g,promo1:a.it.g});
   }
   return rows.sort((a,b)=>Math.abs(b.d)-Math.abs(a.d));
@@ -1301,8 +1315,9 @@ function trendOf(wk,n){
   if(ws.length<3) return [];
   const series={};
   for(const w of ws){
-    for(const k in repBy(w,matchKey)){
-      const o=repBy(w,matchKey)[k];
+    const rep=repBy(w,matchKey);                 // 주차마다 한 번만 계산
+    for(const k in rep){
+      const o=rep[k];
       (series[k]=series[k]||[]).push({w,v:o.it.kg!=null?o.v:o.it.p,p:o.it.p,it:o.it});
     }
   }
@@ -1312,23 +1327,23 @@ function trendOf(wk,n){
     if(g.length<3||g[g.length-1].w!==wk) continue;
     const vals=g.map(x=>x.v), cur=vals[vals.length-1];
     const mn=Math.min(...vals), mx=Math.max(...vals);
-    let dir=0;
-    for(let i=vals.length-1;i>0;i--){
-      const step=Math.sign(vals[i]-vals[i-1]);
-      if(step===0) break;
-      if(dir===0) dir=step; else if(dir!==step) break;
-      if(i===vals.length-1) continue;
-    }
+    /* 값이 모두 같으면 최저이자 최고가 되어 모순된 문구가 나온다 */
+    const flat = mx-mn < Math.max(mx*0.005, 1);
+    const last = vals[vals.length-1]-vals[vals.length-2];
     let run=1;
-    for(let i=vals.length-1;i>0;i--){
-      const step=Math.sign(vals[i]-vals[i-1]);
-      if(step!==0&&step===Math.sign(vals[vals.length-1]-vals[vals.length-2])) run++; else break;
+    if(last!==0){
+      const dir=Math.sign(last);
+      for(let i=vals.length-1;i>0;i--){
+        if(Math.sign(vals[i]-vals[i-1])===dir) run++; else break;
+      }
     }
-    const [ret,subj,bd]=k.split('|');
+    const [ret,subjRaw,bd]=k.split('|'); const subj=subjRaw.split('~')[0];
     out.push({r:ret,subj,band:bd,n:g[g.length-1].it.n,weeks:g.length,
       cur:Math.round(cur),min:Math.round(mn),max:Math.round(mx),
-      atMin:cur<=mn,atMax:cur>=mx,
-      run:run>=2?run:0, dirUp:vals[vals.length-1]>vals[vals.length-2],
+      flat,
+      atMin: !flat && cur<=mn,
+      atMax: !flat && cur>=mx,
+      run: run>=2? run:0, dirUp: last>0,
       perKg:g[g.length-1].it.kg!=null});
   }
   return out;
@@ -1471,7 +1486,7 @@ function watchList(wk){
   const add=(c,n,why)=>{ if(!c) return; c=bigCat(c);
     (sc[c]=sc[c]||{score:0,why:[]}); sc[c].score+=n; if(why) sc[c].why.push(why); };
   for(const e of ev) add(e.c, e.w/2, null);
-  for(const x of wow) if(Math.abs(x.d)>=0.15)
+  for(const x of wow) if(Math.abs(x.d)>=0.15&&!x.doubt)
     add(classify(x.subj), 5, `${x.subj} ${x.d>0?'+':''}${pct(x.d)}`);
   for(const t of tr){
     if(t.atMin&&t.weeks>=4) add(classify(t.subj),4,`${t.subj} 관측 ${t.weeks}주 최저`);
@@ -1587,7 +1602,9 @@ function sigImply(sig){
            원가부담:'원가 상승 — 하락 여력 제한',
            진열판촉:'진열·판촉 강화 — 물량 소진 의도, 가격 인하 동반 가능',
            시세약세:'산지 시세 약세 — 소매가 인하 여지',
-           시세강세:'산지 시세 강세 — 소매가 인상 압력'})[sig]||'';
+           시세강세:'산지 시세 강세 — 소매가 인상 압력',
+           구색변화:'품종·구색 재편 — 비교 기준이 바뀌는 구간',
+           고객이탈:'수요 이탈 신호 — 가격보다 품질·회전 점검 필요'})[sig]||'';
 }
 
 function buildReport(){
@@ -1604,7 +1621,7 @@ function buildReport(){
 
   /* ── 금주 핵심 ── */
   o+=`${L}\n\u25a0 금주 핵심\n${L}\n\n`;
-  const big=wow.filter(x=>Math.abs(x.d)>=0.15).slice(0,3);
+  const big=wow.filter(x=>Math.abs(x.d)>=0.15&&!x.doubt).slice(0,3);
   const flip=ev.filter(e=>e.t==='리더역전').slice(0,2);
   const enter=ev.filter(e=>['신규진입','매대퇴장'].includes(e.t)).slice(0,2);
   const lines=[];
@@ -1654,7 +1671,8 @@ function buildReport(){
       for(const x of moved.slice(0,14)){
         const nh=x.promo0!==x.promo1? (x.promo1==='농활'?' [농활 시작]':' [농활 해제]'):'';
         o+=`${x.d>0?'\u25b2':'\u25bc'} ${x.r} ${x.subj}${x.band==='표준'?'':' '+x.band.replace('단위:','')}  `
-          +`${fmt(x.v0)}\u2192${fmt(x.v1)}${x.perKg?'원/kg':'원'} (${sgn(x.d)})${nh}\n`;
+          +`${fmt(x.v0)}\u2192${fmt(x.v1)}${x.perKg?'원/kg':'원'} (${sgn(x.d)})${nh}`
+          +(x.doubt? `\n    \u26a0 다른 상품일 수 있음 : ${esc(x.n0)} \u2192 ${esc(x.n1)}`:'')+`\n`;
       }
       if(moved.length>14) o+=`  그 외 ${moved.length-14}건\n`;
       const up=moved.filter(x=>x.d>0).length;
@@ -1663,11 +1681,12 @@ function buildReport(){
   }
 
   /* ── 추세 ── */
-  const notable=tr.filter(t=>t.weeks>=3&&(t.atMin||t.atMax||t.run>=3));
+  const notable=tr.filter(t=>t.weeks>=3&&(t.atMin||t.atMax||t.run>=3||t.flat));
   if(notable.length){
     o+=`${L}\n\u25a0 여러 주에 걸친 흐름\n${L}\n\n`;
     for(const t of notable.slice(0,10)){
       const tags=[];
+      if(t.flat) tags.push(`${t.weeks}주째 같은 값`);
       if(t.atMin) tags.push(`관측 ${t.weeks}주 최저`);
       if(t.atMax) tags.push(`관측 ${t.weeks}주 최고`);
       if(t.run>=3) tags.push(`${t.run}주 연속 ${t.dirUp?'상승':'하락'}`);
