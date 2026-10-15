@@ -197,6 +197,13 @@ pre.rep{white-space:pre-wrap;word-break:break-word;font:inherit;font-size:13.5px
       <button style="width:100%;margin-top:8px" onclick="importText()">붙여넣은 데이터 가져오기</button>
     </details>
   </div>
+  <h2>품종 달력</h2>
+  <div class="card">
+    <p class="help" style="margin:0 0 8px">시즌 판정의 기준입니다. 한 줄에 한 품종 — <b>품목 품종(다른 이름) 시작~끝</b>, 저장 출하가 있으면 끝에 <b>저장</b>.<br>시기는 상순·중순·하순으로 적습니다. 예) <b>사과 홍로 8하~9하</b> · <b>배 신고 9하~11하 저장</b></p>
+    <textarea id="calTxt" style="min-height:240px;font-size:14px;line-height:1.7"></textarea>
+    <div class="mini" id="calState" style="margin:6px 0 8px"></div>
+    <div class="row"><button onclick="saveCal()">달력 저장</button><button class="ghost" onclick="resetCal()">처음 값으로</button></div>
+  </div>
   <h2>중량 사전</h2><div class="card" id="hsDict"></div>
   <h2>정보</h2><div class="card" id="hsInfo"></div>
 </section>
@@ -213,7 +220,8 @@ pre.rep{white-space:pre-wrap;word-break:break-word;font:inherit;font-size:13.5px
 <script>
 /* ════════════════ 저장소 ════════════════
    기존 키를 그대로 읽어 지난 기록이 이어진다. */
-const APP_VER='3.0.3';
+const APP_VER='3.1';
+const PARSER_VER=2;
 const K={DB:'jjfr_v1',DICT:'jjfr_dict_v2',WX:'jjfr_wx_v2',WS:'jjfr_ws_v3',SET:'jjfr_set_v3',DRAFT:'jjfr_draft_v3'};
 const lsGet=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch(e){return d;}};
 const lsSet=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));return true;}
@@ -276,6 +284,7 @@ const RETAIL=[['이마트에브리데이',['에브리','everyday']],['트레이�
  ['롯데',['롯데','lotte']],['이마트',['이마트','emart']],['홈플러스',['홈플']],['GS슈퍼',['gs','지에스']]];
 function detectRetailer(line){const l=line.toLowerCase().replace(/[\s:()·\-\[\]]/g,'');if(l.length>14||/\d{3,}/.test(l))return null;
   for(const[r,ks]of RETAIL)for(const k of ks)if(l.includes(k))return r;return null;}
+const RN=r=>({롯데:'롯데마트',이마트:'이마트',이마트에브리데이:'이마트에브리데이',홈플러스:'홈플러스'})[r]||r;
 const RC=r=>r.includes('롯데')?'var(--lotte)':(r.includes('이마트')?'var(--emart)':'var(--ink2)');
 const RP=r=>r.includes('롯데')?'p-l':'p-e';
 
@@ -344,8 +353,9 @@ const SPOTW=[['전면',5,['전면','입구','정문','전방','메인']],['엔�
 function parseLine(raw,ret){
   let s=raw.trim().replace(/^[•\-\*\u25cf\u25b6\u2022·]\s*/,'');if(!s)return null;
   /* 매대 */
-  let sp=null;const m1=s.match(/\s([전엔독평섬특벽냉일])\s*$/);
-  if(m1){sp=SPOT1[m1[1]];s=s.slice(0,m1.index);}
+  /* 매대 한 글자는 줄 끝에. 숫자에 붙어 있어도("1123일") 떼어낸다 */
+  let sp=null;const m1=s.match(/(\s|\d)([전엔독평섬특벽냉일])\s*$/);
+  if(m1){sp=SPOT1[m1[2]];s=s.slice(0,m1.index+(/\d/.test(m1[1])?1:0));}
   else{const m2=s.match(/#(\S+)/);if(m2){const t=m2[1];sp=SPOT1[t[0]]||null;if(!sp)for(const[n,v,ks]of SPOTW)if(ks.some(k=>t.includes(k))){sp=[n,v];break;}s=s.replace(/#\S+/,' ');}
    else{const m3=s.match(/\s(\S+)\s*$/);if(m3)for(const[n,v,ks]of SPOTW)if(ks.includes(m3[1])){sp=[n,v];s=s.slice(0,m3.index);break;}}}
   /* 할인 단어 */
@@ -524,16 +534,24 @@ function pairsOf(cat,wk){
   const pw=prevWeek(wk);if(pw==null||!DB[pw])return{pairs:[],nw:[],gone:[],pw:null};
   const A=DB[wk].items.filter(x=>bigCat(x.c)===cat),B=DB[pw].items.filter(x=>bigCat(x.c)===cat);
   const used=new Set(),pairs=[];
-  for(const a of A){let b=B.find((x,i)=>!used.has(i)&&x.r===a.r&&nkey(x.n)===nkey(a.n));
-    if(!b)b=B.find((x,i)=>!used.has(i)&&ukey(x)===ukey(a));
-    /* 입수 표기가 한쪽에만 있어도 같은 품종·같은 중량이면 같은 상품 */
-    if(!b&&a.kg){const va=findVariety(a.n)[0];
-      if(va)b=B.find((x,i)=>!used.has(i)&&x.r===a.r&&x.kg===a.kg&&findVariety(x.n)[0]===va);}
+  const same=(a,x)=>{
+    const va=findVariety(a.n)[0]||'',vx=findVariety(x.n)[0]||'';
+    if(va!==vx)return false;
+    if(!va&&(a.ln!==x.ln||(a.og||'')!==(x.og||'')))return false;     // 품종이 없으면 라인·산지까지 같아야
+    const kgOk=a.kg&&x.kg&&Math.abs(a.kg-x.kg)/a.kg<=.05;
+    const cnOk=a.cnt&&x.cnt&&a.cnt===x.cnt&&packUnit(a.n)===packUnit(x.n);
+    return kgOk||cnOk;
+  };
+  for(const a of A){
+    let b=B.find((x,i)=>!used.has(i)&&x.r===a.r&&nkey(x.n)===nkey(a.n));      // 같은 이름이 먼저
+    if(!b)b=B.find((x,i)=>!used.has(i)&&x.r===a.r&&same(a,x));                // 이름이 바뀐 같은 상품
     if(b){used.add(B.indexOf(b));
       const basis=a.per&&b.per?'per':a.ppk&&b.ppk?'kg':'p';
       const va=basis==='per'?a.per:basis==='kg'?a.ppk:a.p,vb=basis==='per'?b.per:basis==='kg'?b.ppk:b.p;
       const d=(va-vb)/vb;
-      pairs.push({a,b,d,basis,same:nkey(a.n)===nkey(b.n),doubt:Math.abs(d)>=.6&&nkey(a.n)!==nkey(b.n)});}}
+      const hasD=x=>(x.disc||[]).length>0;
+      pairs.push({a,b,d,basis,same:nkey(a.n)===nkey(b.n),doubt:Math.abs(d)>=.6&&nkey(a.n)!==nkey(b.n),
+        discEnd:hasD(b)&&!hasD(a),discStart:!hasD(b)&&hasD(a)});}}
   const nw=A.filter(a=>!pairs.some(p=>p.a===a)),gone=B.filter((b,i)=>!used.has(i));
   return{pairs,nw,gone,pw};
 }
@@ -605,7 +623,7 @@ function stageOf(cat,wk,notes){
   if(c0<cnt(pw))return age>=4?'후반':'확대';
   return age>=3?'성수':'확대';
 }
-const STAGE_C={진입:'#C9E8D8',확대:'#7FCBA4',성수:'#2E8B62',후반:'#B7C4BD'};
+const STAGE_C={};
 
 /* ════════════════ 품목 묶음 ════════════════ */
 function bundles(wk){
@@ -620,13 +638,17 @@ function bundles(wk){
     const P=pairsOf(cat,wk);
     const valid=P.pairs.filter(p=>!p.doubt);
     const eff=median(valid.map(p=>p.d));
+    const steady=valid.filter(p=>!p.discEnd&&!p.discStart);
+    const effSteady=median(steady.map(p=>p.d));
+    const discEnd=valid.filter(p=>p.discEnd),discStart=valid.filter(p=>p.discStart);
     const ns=notes.filter(n=>n.cat===cat);
     const dir=ns.reduce((s,n)=>s+SIG_DIR(n),0);
     const sh=shelfOf(cat,wk,P.pw);
     const ws=wholesaleOf(cat,wk,P.pw);
     const wsChg=median(ws.filter(w=>w.chg!=null).map(w=>w.chg));
     const wx=wxSignal(cat,wk);
-    const stage=items.length?stageOf(cat,wk,notes):'종료';
+    const season=seasonOf(cat,wk);
+    const stage=items.length?season.label:'출하 끝';
     const per=compareOf(items,'per'),kg=compareOf(items,'kg');
     const ladP=ladderOf(items,'per'),ladK=ladderOf(items,'kg');
     const gaps=[...ladP.flatMap(t=>t.gaps.map(g=>({...g,tier:t.tier,basis:'per'}))),...ladK.flatMap(t=>t.gaps.map(g=>({...g,tier:t.tier,basis:'kg'})))];
@@ -636,29 +658,34 @@ function bundles(wk){
     const sku={};for(const r of new Set([...Object.keys(byR),...Object.keys(byRp)]))sku[r]={now:(byR[r]||[]).length,prev:(byRp[r]||[]).length};
     /* 신호등 */
     const L={};
-    L.price= !items.length?['종료','mute']: eff==null?(stage==='진입'?['신규','good']:['—','mute'])
-           : eff<=-.03?['▼'+Math.abs(eff*100).toFixed(0)+'%','down']: eff>=.03?['▲'+(eff*100).toFixed(0)+'%','up']:['유지','mute'];
-    L.supply= ns.some(n=>n.sig.includes('시즌종료'))?['종료','mute']
-           : dir<0?['과잉','down']: dir>0?['부족','up']
-           : ns.some(n=>n.sig.includes('시즌진입'))||stage==='진입'?['진입','good']
-           : wsChg!=null&&Math.abs(wsChg)>=.05?[(wsChg<0?'도매▼':'도매▲'),wsChg<0?'down':'up']
-           : wx&&wx.press>=1?['기상','warn']:['—','mute'];
+    const fresh=P.pw!=null&&!P.pairs.length&&!P.gone.length;
+    L.price= !items.length?['매대 없음','mute']: fresh?['새로 나옴','good']: eff==null?['비교 불가','mute']
+           : discEnd.length*2>valid.length&&eff>=.03?['할인 끝나 오름','up']
+           : discStart.length*2>valid.length&&eff<=-.03?['할인으로 내림','down']
+           : eff<=-.03?[Math.abs(eff*100).toFixed(0)+'% 내림','down']: eff>=.03?[(eff*100).toFixed(0)+'% 오름','up']:['그대로','mute'];
+    L.supply= ns.some(n=>n.sig.includes('시즌종료'))?['출하 끝나감','mute']
+           : dir<0?['물량 많음','down']: dir>0?['물량 적음','up']
+           : wsChg!=null&&Math.abs(wsChg)>=.05?[(wsChg<0?'도매가 내림':'도매가 오름'),wsChg<0?'down':'up']
+           : wx&&wx.press>=1?['날씨 영향','warn']
+           : ['출하 시작','품종 교체'].includes(stage)?[stage,'good']
+           : stage==='마무리'||stage==='끝물'?['출하 막바지','warn']
+           : stage==='저장품'?['저장 출하','mute']:['평이','mute'];
     const up=sh.moves.find(m=>m.t==='격상'||m.t==='신규'&&m.d>=4),dn=sh.moves.find(m=>m.t==='격하'||m.t==='빠짐');
     const front=Object.values(sh.now).some(x=>x.spv>=4);
-    L.shelf= up?['밀기↑','good']: dn?['후퇴','mute']: front?['전면','good']:['—','mute'];
+    L.shelf= up?['진열 확대','good']: dn?['진열 축소','mute']: front?['주력 진열','good']:['일반','mute'];
     /* 도매→소매 전달 */
     let pass=null;
     if(wsChg!=null&&eff!=null){const g=eff-wsChg;
-      if(wsChg<=-.05&&g>=.03)pass={t:'소매 인하 여지',x:`도매 ${pct(wsChg,0)}에 소매는 ${pct(eff,0)} — 아직 덜 내려감`};
-      else if(wsChg>=.05&&g<=-.03)pass={t:'소매 인상 압력',x:`도매 ${pct(wsChg,0)}에 소매는 ${pct(eff,0)} — 아직 덜 올라감`};
+      if(wsChg<=-.05&&g>=.03)pass={t:'소매 인하 여지',x:`도매가는 ${Math.abs(wsChg*100).toFixed(0)}% 내렸는데 마트는 ${Math.abs(eff*100).toFixed(0)}%만 내림`};
+      else if(wsChg>=.05&&g<=-.03)pass={t:'소매 인상 압력',x:`도매가는 ${(wsChg*100).toFixed(0)}% 올랐는데 마트는 ${(eff*100).toFixed(0)}%만 올림`};
       else pass={t:'도매와 같은 흐름',x:`도매 ${pct(wsChg,0)} · 소매 ${pct(eff,0)}`};}
     /* 공급 신호와 가격 대조 */
     let verdict=null;
     if(dir&&eff!=null){verdict=(dir<0&&eff<=-.02)||(dir>0&&eff>=.02)?{ok:true,x:'산지 신호와 가격 방향 일치'}
       :(dir<0&&eff>=.02)||(dir>0&&eff<=-.02)?{ok:false,x:'산지 신호와 가격이 반대 — 행사·구색 영향 확인'}:{ok:true,x:'가격 변동 작음'};}
     const score=(eff!=null?Math.abs(eff)*100:0)+sh.moves.reduce((s,m)=>s+m.d,0)*1.5+ns.length*2+gaps.length*2
-      +P.nw.length+P.gone.length+(pass&&pass.t!=='도매와 같은 흐름'?6:0)+(stage==='진입'?4:0)+(verdict&&!verdict.ok?5:0)+items.length*.3;
-    out.push({cat,items,P,valid,eff,ns,dir,sh,ws,wsChg,wx,stage,per,kg,ladP,ladK,gaps,only,mix,sku,L,pass,verdict,score});
+      +P.nw.length+P.gone.length+(pass&&pass.t!=='도매와 같은 흐름'?6:0)+(['출하 시작','품종 교체'].includes(stage)?4:0)+(verdict&&!verdict.ok?5:0)+items.length*.3;
+    out.push({cat,items,P,valid,eff,effSteady,steady,discEnd,discStart,ns,dir,sh,ws,wsChg,wx,stage,season,per,kg,ladP,ladK,gaps,only,mix,sku,L,pass,verdict,score});
   }
   return out.sort((a,b)=>b.score-a.score);
 }
@@ -666,12 +693,14 @@ function bundles(wk){
 function headline(B){
   const ph=[];
   for(const b of B.slice(0,4)){if(ph.length>=2)break;
-    if(b.pass&&b.pass.t!=='도매와 같은 흐름'){ph.push(`${b.cat} ${b.pass.t}`);continue;}
-    const up=b.sh.moves.find(m=>m.t==='격상');if(up){ph.push(`${b.cat} ${up.r} ${up.to} 진열로 밀기`);continue;}
-    if(b.eff!=null&&Math.abs(b.eff)>=.05){ph.push(`${b.cat} ${b.eff<0?'하락':'상승'} ${pct(b.eff,0)}`);continue;}
-    if(b.dir){ph.push(`${b.cat} 산지 ${b.dir<0?'공급 많음':'공급 적음'}`);continue;}
-    if(b.stage==='진입'){ph.push(`${b.cat} 시즌 진입`);continue;}
-    if(b.stage==='종료'){ph.push(`${b.cat} 매대 빠짐`);continue;}
+    if(b.pass&&b.pass.t!=='도매와 같은 흐름'){ph.push(`${b.cat} ${b.pass.t==='소매 인하 여지'?'마트가 추가 인하 여지':'마트가 인상 압력'}`);continue;}
+    const up=b.sh.moves.find(m=>m.t==='격상');if(up){ph.push(`${RN(up.r)} ${b.cat} 진열 확대`);continue;}
+    if(b.L.price[0].startsWith('할인')){ph.push(`${b.cat} ${b.L.price[0]}`);continue;}
+    if(b.eff!=null&&Math.abs(b.eff)>=.05){ph.push(`${b.cat} ${Math.abs(b.eff*100).toFixed(0)}% ${b.eff<0?'내림':'오름'}`);continue;}
+    if(b.stage==='품종 교체'&&b.season.now){ph.push(`${b.cat} 품종 교체기`);continue;}
+    if(b.dir){ph.push(`${b.cat} 산지 물량 ${b.dir<0?'많음':'적음'}`);continue;}
+    if(b.stage==='출하 시작'){ph.push(`${b.cat} 출하 시작`);continue;}
+    if(b.stage==='출하 끝'){ph.push(`${b.cat} 매대에서 빠짐`);continue;}
     if(b.gaps.length){ph.push(`${b.cat} 빈 가격대 발견`);continue;}}
   return ph.length?ph.join(' · '):'큰 변화 없이 안정적인 주';
 }
@@ -681,6 +710,160 @@ function seasonClock(upto,n){
   const cats={};
   for(const w of ws){const nt=parseNotes(DB[w].notes).notes;for(const c of new Set(DB[w].items.map(x=>bigCat(x.c)))){(cats[c]=cats[c]||{})[w]=stageOf(c,w,nt);}}
   return{ws,rows:Object.entries(cats).filter(([c])=>c!=='기타').sort((a,b)=>Object.keys(b[1]).length-Object.keys(a[1]).length)};
+}
+</script>
+<script>
+/* ════════════════ 품종 달력 ════════════════
+   한 줄에 한 품종:  품목 품종(다른이름,다른이름) 시작~끝 [저장]
+   시기는 상순·중순·하순 — 9하 = 9월 하순. 해를 넘기면 10중~2하 처럼.
+   기록 탭에서 직접 고칠 수 있다. */
+const CAL_DEFAULT=`사과 아오리(쓰가루) 7하~8중
+사과 썸머킹(썸머프린스) 8중~9상
+사과 아리수 8하~9중
+사과 홍로 8하~9하
+사과 시나노골드(황금사과,골드) 9하~10하
+사과 시나노스위트 9하~10하
+사과 감홍 9하~10하
+사과 양광 9하~10하
+사과 부사(후지) 10하~11하 저장
+배 원황 8하~9하
+배 화산 9중~10중
+배 신고 9하~11하 저장
+배 추황 10상~11하
+포도 캠벨(켐벨,캠벨얼리) 7하~9하
+포도 거봉 8중~9하
+포도 샤인(머스켓,머스캣) 8하~10하 저장
+포도 머루(MBA) 8상~10중
+복숭아 신비 6하~7상
+복숭아 백도(부드러운,햇사레,아삭) 7상~8하
+복숭아 황도 8상~9하
+복숭아 천도(대극천) 7상~8하
+자두 대석 6중~7상
+자두 후무사 7상~8상
+자두 추희 8하~9하 저장
+무화과 무화과 8중~10하
+단감 단감(부유,서촌) 10상~11하
+단감 홍시 10중~12하
+단감 대봉 10하~12하
+감귤 노지감귤(감귤,귤) 10중~2하
+감귤 한라봉 12상~4하
+참외 참외 3상~9상
+수박 수박 4하~9상
+딸기 딸기 12상~5하
+블루베리 블루베리 6상~7하
+대추 대추 9하~10하`;
+const SUN_KO=['상','중','하'];
+const sun=t=>{const m=String(t).match(/^(\d{1,2})(상|중|하)$/);return m?(+m[1]-1)*3+SUN_KO.indexOf(m[2]):null;};
+const sunName=i=>{const k=((i%36)+36)%36;return `${Math.floor(k/3)+1}월 ${SUN_KO[k%3]}순`;};
+const sunOf=d=>d.getMonth()*3+(d.getDate()<=10?0:d.getDate()<=20?1:2);
+function parseCal(text){
+  const list=[],bad=[];
+  for(const raw of String(text||'').split(/\r?\n/)){const l=raw.trim();if(!l||l.startsWith('#'))continue;
+    const m=l.match(/^(\S+)\s+([^\s(]+)(?:\(([^)]*)\))?\s+(\d{1,2}[상중하])\s*[~\-]\s*(\d{1,2}[상중하])(\s+저장)?\s*$/);
+    if(!m){bad.push(l);continue;}
+    let a=sun(m[4]),b=sun(m[5]);if(b<a)b+=36;
+    list.push({cat:bigCat(m[1]),v:m[2],alias:[m[2],...(m[3]?m[3].split(/[,\s]+/).filter(Boolean):[])],a,b,store:!!m[6]});}
+  return{list,bad};
+}
+let CAL=[];
+const loadCal=()=>{CAL=parseCal(SET.cal||CAL_DEFAULT).list;};
+/* 이 시점에 그 품종이 어느 단계인지 */
+function phaseOf(c,now){
+  let t=now;if(c.b>=36&&t+36<=c.b)t+=36;           // 해를 넘기는 품종
+  if(t<c.a)return c.a-t<=3?{p:'곧',d:c.a-t}:{p:'예정',d:c.a-t};
+  if(t>c.b)return c.store?{p:'저장품'}:(t-c.b<=2?{p:'끝물'}:{p:'종료'});
+  const f=(t-c.a)/Math.max(1,c.b-c.a);
+  return{p:f<.34?'출하 시작':f>=.67?'마무리':'출하 중'};
+}
+const calMatch=(cat,name)=>{const f=String(name).replace(/\s/g,'');return CAL.filter(c=>c.cat===cat&&c.alias.some(a=>f.includes(a)));};
+/* 품목의 시즌 현황 — 실제로 매대에 보인 품종 + 달력 + 선생님 메모 */
+function seasonOf(cat,wk){
+  const d=surveyDate(wk)||new Date(),now=sunOf(d);
+  const items=(DB[wk]?DB[wk].items:[]).filter(x=>bigCat(x.c)===cat);
+  const notes=DB[wk]?parseNotes(DB[wk].notes).notes.filter(n=>n.cat===cat):[];
+  const seen=new Set();for(const it of items)for(const c of calMatch(cat,it.n))seen.add(c.v);
+  const rows=CAL.filter(c=>c.cat===cat).map(c=>{const ph=phaseOf(c,now);
+    const n=notes.find(x=>c.alias.some(a=>x.text.replace(/\s/g,'').includes(a)));
+    if(n&&n.sig.includes('시즌종료')&&ph.p!=='종료')ph.p='마무리';
+    if(n&&n.sig.includes('시즌진입')&&['곧','예정'].includes(ph.p))ph.p='출하 시작';
+    return{...c,...ph,seen:seen.has(c.v)};});
+  if(!rows.length)return{label:items.length?'—':'',now:'',next:'',rows};
+  /* 매대엔 있는데 이름에 품종이 없고 달력상 제철 품종도 없으면, 저장 출하 품종으로 본다 */
+  if(items.length&&!seen.size&&!rows.some(r=>['출하 시작','출하 중','마무리'].includes(r.p))){
+    const st=rows.filter(r=>r.store&&['저장품'].includes(r.p));
+    if(st.length)for(const r of st){r.seen=true;r.guess=true;}
+  }
+  const by=p=>rows.filter(r=>r.p===p);
+  const st=by('출하 시작'),on=by('출하 중'),ed=by('마무리'),late=rows.filter(r=>r.seen&&['끝물','저장품'].includes(r.p));
+  const nm=a=>a.map(r=>r.v).join('·');
+  const parts=[];
+  const ended=rows.filter(r=>!r.seen&&['끝물','종료'].includes(r.p)&&now>r.b&&now-r.b<=3);
+  if(ended.length)parts.push(nm(ended)+' 끝남');
+  if(st.length)parts.push(nm(st)+' 출하 시작');if(on.length)parts.push(nm(on)+' 출하 중');
+  if(ed.length)parts.push(nm(ed)+' 마무리');
+  for(const r of late)parts.push(r.v+(r.p==='저장품'?(r.guess?' 저장품(추정)':' 저장품'):' 끝물'));
+  const soon=by('곧').sort((a,b)=>a.d-b.d).map(r=>`${r.v} ${sunName(r.a)}부터`);
+  let label;
+  if(!items.length)label=(st.length||on.length)?'매대 없음':'—';
+  else if([...st,...on].some(r=>now-r.a<=3&&now>=r.a)&&(ed.length||late.length||rows.some(r=>['끝물','종료'].includes(r.p)&&now-r.b<=3&&now>r.b)))label='품종 교체';
+  else{const lv=[...st,...on,...ed];const main=lv.find(r=>r.seen)||lv[0]||late[0];label=main?main.p:'—';}
+  return{label,now:parts.join(' · '),next:soon.join(' · '),rows};
+}
+const SEASON_C={'출하 시작':'#D6EFE2','출하 중':'#8FD3B0','품종 교체':'#F6E2B3','마무리':'#E8DDD3','끝물':'#E3D9D2','저장품':'#DCE4EC','매대 없음':'#EEF0F3','—':'#EEF0F3'};
+
+/* ════════════════ 날씨 — 10년 평년과 비교 ════════════════
+   작년 한 해와 비교하면 작년이 유난했을 때 숫자가 튄다 */
+ORIGIN.포도=[['상주',36.41,128.16],['영천',35.97,128.94],['김천',36.14,128.11]];
+ORIGIN.사과=[['청송',36.43,129.06],['영주',36.81,128.62],['거창',35.69,127.91]];
+async function fetchOrigin(nm,la,lo,base){
+  const lag=new Date(Date.now()-6*864e5);              // 기상 자료는 5~6일 늦게 올라온다
+  let end=new Date(base.getTime()-2*864e5);if(end>lag)end=lag;
+  const st=new Date(end.getTime()-29*864e5),y0=new Date(st);y0.setFullYear(y0.getFullYear()-10);
+  const u=`https://archive-api.open-meteo.com/v1/archive?latitude=${la}&longitude=${lo}&start_date=${ymd(y0)}&end_date=${ymd(end)}&daily=temperature_2m_max,precipitation_sum&timezone=Asia%2FSeoul`;
+  const j=await fetch(u).then(r=>r.json());
+  const D=j.daily||{},T=D.time||[],MX=D.temperature_2m_max||[],PR=D.precipitation_sum||[],ix={};T.forEach((t,i)=>ix[t]=i);
+  const win=(s,e)=>{const mx=[],pr=[];for(let d=new Date(s);d<=e;d=new Date(d.getTime()+864e5)){const i=ix[ymd(d)];if(i==null)continue;if(MX[i]!=null)mx.push(MX[i]);if(PR[i]!=null)pr.push(PR[i]);}
+    return{tmax:mx.length?+(mx.reduce((a,b)=>a+b,0)/mx.length).toFixed(1):null,rain:Math.round(pr.reduce((a,b)=>a+b,0)),hot:mx.filter(v=>v>=33).length,days:mx.length};};
+  const cur=win(st,end),ys=[];
+  for(let k=1;k<=10;k++){const s=new Date(st),e=new Date(end);s.setFullYear(s.getFullYear()-k);e.setFullYear(e.getFullYear()-k);const r=win(s,e);if(r.days>=25&&r.tmax!=null)ys.push(r);}
+  const avg=f=>ys.reduce((a,b)=>a+b[f],0)/ys.length;
+  const norm=ys.length?{tmax:+avg('tmax').toFixed(1),rain:Math.round(avg('rain')),hot:+avg('hot').toFixed(1),years:ys.length}:null;
+  return{v:2,cur,norm,ly:ys[0]||null,from:ymd(st),to:ymd(end)};
+}
+async function loadWeather(wk){
+  const base=surveyDate(wk)||new Date();
+  const cats=[...new Set(DB[wk].items.map(x=>bigCat(x.c)))].filter(c=>ORIGIN[c]);
+  const need={};for(const c of cats)for(const[nm,la,lo]of ORIGIN[c])need[nm]=[la,lo];
+  WX[wk]=WX[wk]||{};
+  const todo=Object.keys(need).filter(n=>!(WX[wk][n]&&WX[wk][n].v===2&&WX[wk][n].norm));
+  if(!todo.length)return 0;
+  const res=await Promise.allSettled(todo.map(n=>fetchOrigin(n,need[n][0],need[n][1],base).then(v=>[n,v])));
+  let ok=0;for(const r of res)if(r.status==='fulfilled'&&r.value[1].cur.days>=20){WX[wk][r.value[0]]=r.value[1];ok++;}
+  lsSet(K.WX,WX);return ok;
+}
+function wxSignal(cat,wk){
+  const W=WX[wk]||{},os=(ORIGIN[cat]||[]).filter(o=>{const w=W[o[0]];return w&&w.v===2&&w.norm&&w.norm.years>=5&&w.cur.days>=20;});
+  if(!os.length)return null;
+  const list=[];
+  for(const[nm]of os){const{cur:c,norm:n}=W[nm],f=[];
+    const dT=+(c.tmax-n.tmax).toFixed(1),dR=c.rain-n.rain,rR=n.rain>0?c.rain/n.rain:null;
+    if(c.hot-n.hot>=4)f.push({k:'폭염',x:`33℃ 넘은 날 ${c.hot}일(평년 ${Math.round(n.hot)}일)`});
+    else if(Math.abs(dT)>=1.5)f.push({k:dT>0?'고온':'저온',x:`낮 기온 평균 ${c.tmax}℃(평년 ${n.tmax}℃)`});
+    /* 비는 원래 적은 시기에 몇 mm 차이로 %가 튀지 않도록 양과 비율을 함께 본다 */
+    if(rR!=null&&Math.abs(dR)>=40&&(rR<=.5||rR>=1.6))f.push({k:rR<1?'건조':'다우',x:`비 ${c.rain}mm(평년 ${n.rain}mm)`});
+    if(f.length)list.push({nm,f});}
+  const ks=[...new Set(list.flatMap(o=>o.f.map(x=>x.k)))];
+  return{press:list.length,list,ks,from:W[os[0][0]].from,to:W[os[0][0]].to,n:os.length,
+    summary:list.map(o=>`${o.nm} ${o.f.map(x=>x.x).join(', ')}`).join(' / '),meaning:wxMeaning(ks,surveyDate(wk)||new Date())};
+}
+function wxMeaning(ks,d){
+  const m=d.getMonth()+1,fall=m>=9&&m<=11,summer=m>=6&&m<=8,has=k=>ks.includes(k),o=[];
+  if(has('건조'))o.push(fall?'가을 가뭄은 당도와 색에는 유리하지만 과일이 작아질 수 있습니다':'가뭄이 이어지면 과일이 덜 커서 큰 과 물량이 줄 수 있습니다');
+  if(has('다우'))o.push(fall?'가을비가 많으면 당도가 떨어지고 터짐·병해로 상품성이 낮아질 수 있습니다':'비가 많으면 병해와 품질 저하 우려가 커집니다');
+  if(has('폭염')||(has('고온')&&summer))o.push('더위는 햇볕 데임과 착색 불량을 일으켜 좋은 상품 비율을 낮출 수 있습니다');
+  else if(has('고온'))o.push('기온이 높으면 색이 늦게 들어 출하가 미뤄질 수 있습니다');
+  if(has('저온'))o.push('기온이 낮으면 생육이 늦어 출하가 미뤄질 수 있습니다');
+  return o.join('. ');
 }
 </script>
 <script>
@@ -779,7 +962,7 @@ async function saveAll(btn){busy(btn,'저장 중…',async()=>{
   const r=parseRaw(raw);if(!r.items.length){toast('읽은 품목이 없습니다. 매장 이름 줄을 확인해주세요');return;}
   const w=EDIT||+($('wkBadge').dataset.wk||0)||nextWeek();
   if(!EDIT&&DB[w]&&!confirm(`Week ${w} 이 이미 있습니다. 덮어쓸까요?`))return;
-  DB[w]={week:w,label:$('inLabel').value.trim()||todayLabel(),items:r.items,notes:$('inNotes').value,raw,at:Date.now()};
+  DB[w]={week:w,label:$('inLabel').value.trim()||todayLabel(),items:r.items,notes:$('inNotes').value,raw,pv:PARSER_VER,at:Date.now()};
   if(!lsSet(K.DB,DB))return;
   localStorage.removeItem(K.DRAFT);$('draftNote').innerHTML='';
   $('inRaw').value='';$('inNotes').value='';$('inLabel').value='';delete $('wkBadge').dataset.wk;EDIT=null;
@@ -824,11 +1007,12 @@ function stepWeek(d){const ws=weeks();if(!ws.length)return;let i=ws.indexOf(CUR)
 const lt=([t,c])=>`<span style="color:${TONE[c]}"><span class="dot" style="background:${TONE[c]}"></span>${esc(t)}</span>`;
 function opportunities(B){
   const o=[];
-  for(const b of B)for(const g of b.gaps)o.push({cat:b.cat,t:'빈 가격대',x:`${g.basis==='per'?'개당':'kg당'}${g.tier&&g.tier!=='전체'?' '+g.tier:''} ${fmt(g.lo)}~${fmt(g.hi)}원 — 두 매장 모두 상품 없음`,w:3});
-  for(const b of B)for(const s of b.only)if(s.tier&&s.tier!=='전체'&&s.tier!=='')o.push({cat:b.cat,t:'한쪽만',x:`${s.tier} — ${s.r}만 취급`,w:2});
+  for(const b of B)for(const g of b.gaps)o.push({cat:b.cat,t:'빈 가격대',x:`${g.tier&&g.tier!=='전체'?(g.basis==='per'?g.tier:({표준:'1~2kg 포장',소포장:'1kg 미만 포장',대용량:'2kg 넘는 포장'}[g.tier]||g.tier))+' ':''}${g.basis==='per'?unitWord(b.cat)+'당':'kg당'} ${fmt(g.lo)}~${fmt(g.hi)}원 사이에 두 매장 모두 상품이 없습니다`,w:3});
+  for(const b of B)for(const s of b.only)if(s.tier&&s.tier!=='전체'&&s.tier!=='')o.push({cat:b.cat,t:'한쪽 매장만',x:`${({표준:'1~2kg 포장',소포장:'1kg 미만 포장',대용량:'2kg 넘는 포장'}[s.tier]||s.tier)} 상품은 ${RN(s.r)}만 팔고 있습니다`,w:2});
   for(const b of B)if(b.pass&&b.pass.t!=='도매와 같은 흐름')o.push({cat:b.cat,t:b.pass.t,x:b.pass.x,w:4});
   return o.sort((a,b)=>b.w-a.w);
 }
+renderWeek.tried={};
 function renderWeek(){
   const ws=weeks();if(!ws.length){$('wkTitle').textContent='기록 없음';$('wkSub').textContent='';
     $('wkBody').innerHTML='<div class="card"><b>첫 조사를 입력해보세요</b><p class="help" style="margin:6px 0 10px">입력 탭에 가격을 붙여넣고 저장하면 여기에 브리핑이 만들어집니다. 전에 쓰던 데이터가 있으면 기록 탭에서 불러오세요.</p><button class="ghost" onclick="go(\'in\')">입력하러 가기</button></div>';return;}
@@ -851,7 +1035,8 @@ function renderWeek(){
   /* 신호등 */
   h+=`<h2>신호등</h2><div class="card" style="padding:10px 12px"><table class="board"><tr><th>품목</th><th>가격</th><th>공급</th><th>매대</th></tr>
     ${B.filter(b=>b.cat!=='기타').map(b=>`<tr data-tap onclick="jump('${b.cat}')"><td>${ICON[b.cat]||'•'} ${b.cat}</td><td>${lt(b.L.price)}</td><td>${lt(b.L.supply)}</td><td>${lt(b.L.shelf)}</td></tr>`).join('')}</table>
-    <div class="mini" style="margin-top:8px">가격은 같은 상품끼리의 변동 · <span style="color:var(--down)">파랑</span> 하락·과잉 · <span style="color:var(--up)">빨강</span> 상승·부족 · <span style="color:var(--good)">초록</span> 밀기·진입</div></div>`;
+    <div class="mini" style="margin-top:8px;line-height:1.7"><b>가격</b> 지난 조사와 같은 상품끼리 비교 · <b>공급</b> 산지 소식·도매가·날씨 · <b>매대</b> 입구·전면·엔드 같은 좋은 자리 진열 여부<br>
+    <span style="color:var(--down)">파랑</span> 내림·물량 많음 · <span style="color:var(--up)">빨강</span> 오름·물량 적음 · <span style="color:var(--good)">초록</span> 진열 확대·출하 시작</div></div>`;
   /* 기회 */
   if(opp.length)h+=`<h2>기회</h2><div class="card">${opp.slice(0,6).map(o=>`<div class="kv" style="display:block"><span class="pill p-o">${esc(o.t)}</span> <b>${esc(o.cat)}</b><div style="font-size:13px;margin-top:3px">${esc(o.x)}</div></div>`).join('')}
     <div class="mini" style="margin-top:6px">빈 가격대는 같은 크기 등급 안에서만 찾았습니다. 비어 있다고 늘 채워야 하는 것은 아닙니다.</div></div>`;
@@ -860,11 +1045,17 @@ function renderWeek(){
   /* 시장 메모 */
   const gen=nt.notes.filter(n=>!n.cat);
   if(gen.length)h+=`<h2>시장 전반</h2><div class="card">${gen.map(n=>`<div class="kv" style="display:block"><div style="font-size:13.5px">${esc(n.text)}</div>${n.sig.length?`<div style="margin-top:3px">${n.sig.map(s=>`<span class="pill p-n">${SIG_KO[s]}</span>`).join(' ')}</div>`:''}</div>`).join('')}</div>`;
-  /* 시즌 시계 */
-  const sc=seasonClock(CUR,16);
-  if(sc.ws.length>=2)h+=`<h2>시즌 시계</h2><div class="card"><table class="clock">${sc.rows.map(([c,m])=>`<tr><td class="n">${c}</td>${sc.ws.map(w=>`<td><span style="background:${m[w]?STAGE_C[m[w]]:'#F1F3F6'}" title="W${w} ${m[w]||''}"></span></td>`).join('')}</tr>`).join('')}
-    <tr><td></td>${sc.ws.map((w,i)=>`<td style="font-size:10px;color:var(--ink3);text-align:center">${i%4===0?w:''}</td>`).join('')}</tr></table>
-    <div class="mini" style="margin-top:8px">${Object.entries(STAGE_C).map(([k,v])=>`<span class="dot" style="background:${v}"></span>${k}`).join(' &nbsp;')} · 1년이 쌓이면 작년 같은 주와 비교됩니다</div></div>`;
+  /* 시즌 현황 */
+  const seasonRows=B.filter(b=>b.cat!=='기타'&&b.items.length).map(b=>({cat:b.cat,label:b.stage,now:b.season.now,next:b.season.next}));
+  const have=new Set(seasonRows.map(r=>r.cat));
+  for(const c of [...new Set(CAL.map(x=>x.cat))]){if(have.has(c))continue;const ss=seasonOf(c,CUR);
+    if(ss.next||ss.label==='매대 없음')seasonRows.push({cat:c,label:ss.label==='매대 없음'?'아직 매대 없음':'곧 출하',now:ss.label==='매대 없음'?ss.now:'',next:ss.next,away:true});}
+  if(seasonRows.length)h+=`<h2>시즌 현황</h2><div class="card" style="padding:4px 14px">${seasonRows.map(r=>`<div style="padding:10px 0;border-bottom:1px solid #EEF1F4">
+      <div class="row" style="align-items:center"><b style="flex:0 0 auto;font-size:14.5px">${ICON[r.cat]||'•'} ${r.cat}</b>
+      <span style="text-align:right"><span class="pill" style="background:${SEASON_C[r.label]||'#EEF0F3'};color:#28362E">${esc(r.label)}</span></span></div>
+      ${r.now?`<div style="font-size:13px;margin-top:4px">${esc(r.now)}</div>`:''}
+      ${r.next?`<div class="mini">곧 · ${esc(r.next)}</div>`:''}</div>`).join('')}
+    <div class="mini" style="padding:8px 0">품종별 출하 시기 달력 기준 · 기록 탭에서 고칠 수 있습니다</div></div>`;
   /* 공유 */
   h+=`<h2>공유</h2><div class="card"><div class="seg" id="lenSeg" style="margin-bottom:10px">${['전체','요약','한 줄'].map(x=>`<button class="${x==='전체'?'on':''}" onclick="pickLen(this,'${x}')">${x}</button>`).join('')}</div>
     <div class="row"><button class="ghost" onclick="copyReport()">복사</button><button onclick="shareReport()">카톡으로 보내기</button></div>
@@ -874,6 +1065,9 @@ function renderWeek(){
     <div class="cw"><div class="cs" id="cardStrip"></div></div></div>`;
   $('wkBody').innerHTML=h;
   refreshReport();
+  const W=WX[CUR]||{};
+  if(!Object.values(W).some(x=>x&&x.v===2)&&!renderWeek.tried[CUR]&&navigator.onLine!==false){
+    renderWeek.tried[CUR]=1;loadWeather(CUR).then(n=>{if(n&&$('pg-wk').classList.contains('on'))renderWeek();}).catch(()=>{});}
 }
 function jump(cat){const el=$('fc-'+cat);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});}
 function setBasis(cat,b){BASIS[cat]=b;const el=$('fc-'+cat);if(!el)return;const bb=bundles(CUR).find(x=>x.cat===cat);if(bb)el.outerHTML=fruitCard(bb);}
@@ -886,15 +1080,16 @@ function ladderHTML(tiers,basis,cat){
     t.pts.map((it,i)=>{const g=t.gaps.find(x=>x.after===i-1);
       return (g?`<div class="gap">빈 가격대 ${fmt(g.lo)} ~ ${fmt(g.hi)}원 (${Math.round((g.hi-g.lo)/g.lo*100)}% 공백)</div>`:'')+
       `<div class="ld-r"><div class="ld-v num">${fmt(v(it))}</div><div class="ld-t"><i style="left:${pos(v(it))}%;background:${RC(it.r)}"></i></div>
-       <div class="ld-n"><b style="color:${RC(it.r)}">${esc(it.r)}</b> ${esc(it.n)}${it.ln!=='일반'?` <span class="pill ${it.ln==='실속'?'p-n':'p-o'}">${it.ln}</span>`:''}${it.sp?` <span class="pill p-w">${it.sp}</span>`:''}</div></div>`;}).join('')).join('');
+       <div class="ld-n"><b style="color:${RC(it.r)}">${esc(RN(it.r))}</b> ${esc(it.n)}${it.ln!=='일반'?` <span class="pill ${it.ln==='실속'?'p-n':'p-o'}">${it.ln}</span>`:''}${it.sp?` <span class="pill p-w">${it.sp}</span>`:''}</div></div>`;}).join('')).join('');
 }
 function fruitCard(b){
   const basis=BASIS[b.cat]||(b.per.length||b.ladP.some(t=>t.pts.length>1)?'per':'kg');
   const unit=unitWord(b.cat);
   let h=`<div class="fc" id="fc-${b.cat}"><div class="fc-h"><span style="font-size:22px">${ICON[b.cat]||'•'}</span><span class="nm">${b.cat}</span>
-    ${b.stage?`<span class="pill" style="background:${STAGE_C[b.stage]||'#EEE'};color:#14402B">${b.stage}</span>`:''}
+    ${b.stage?`<span class="pill" style="background:${SEASON_C[b.stage]||'#EEF0F3'};color:#28362E">${esc(b.stage)}</span>`:''}
     <span style="margin-left:auto">${lt(b.L.price)}</span></div><div class="fc-b">`;
-  if(!b.items.length){return h+`<div class="mini">이번 주 두 매장 모두에서 보이지 않았습니다 — 시즌 종료 가능성</div></div></div>`;}
+  if(!b.items.length){return h+`<div class="mini">이번 주 두 매장 모두에서 보이지 않았습니다${b.season.now?' · 달력상 '+esc(b.season.now):''}</div></div></div>`;}
+  if(b.season.now||b.season.next)h+=`<div style="font-size:13.5px;margin:-2px 0 10px;color:var(--ink2)">${esc(b.season.now)}${b.season.next?`<span class="mini"> · 곧 ${esc(b.season.next)}</span>`:''}</div>`;
   /* 가격 변동 — 같은 상품 vs 구색 */
   h+=`<div class="sec" style="border-top:none;padding-top:0"><div class="lb">가격 변동</div>`;
   if(b.P.pw==null)h+=`<div class="mini">첫 기록이라 비교할 주가 없습니다</div>`;
@@ -902,7 +1097,7 @@ function fruitCard(b){
   else{h+=`<div style="font-size:13.5px">같은 상품 ${b.valid.length}개 ${b.eff==null?'— 짝지을 상품 없음':`평균 <b style="color:${b.eff<0?'var(--down)':b.eff>0?'var(--up)':'inherit'}">${pct(b.eff)}</b>`}</div>
     <div class="mini">구색 변화: 새로 ${b.P.nw.length}종 · 빠짐 ${b.P.gone.length}종 — 가격 변동에서 제외</div>`;
     const top=b.valid.slice().sort((x,y)=>Math.abs(y.d)-Math.abs(x.d)).slice(0,3);
-    if(top.length)h+=`<details><summary>상품별 보기</summary>${top.map(p=>`<div class="kv"><span><b style="color:${RC(p.a.r)}">${esc(p.a.r)}</b> ${esc(p.a.n)}</span><b class="num" style="color:${p.d<0?'var(--down)':'var(--up)'}">${pct(p.d)}</b></div>`).join('')}
+    if(top.length)h+=`<details><summary>상품별 보기</summary>${top.map(p=>`<div class="kv"><span><b style="color:${RC(p.a.r)}">${esc(RN(p.a.r))}</b> ${esc(p.a.n)}</span><b class="num" style="color:${p.d<0?'var(--down)':'var(--up)'}">${pct(p.d)}</b></div>`).join('')}
       ${b.P.pairs.filter(p=>p.doubt).map(p=>`<div class="mini" style="color:var(--warn)">⚠ ${esc(p.b.n)} → ${esc(p.a.n)} 는 다른 상품일 수 있어 뺐습니다</div>`).join('')}</details>`;}
   h+=`</div>`;
   /* 두 매장 비교 */
@@ -912,28 +1107,28 @@ function fruitCard(b){
   if(!cmp.length)h+=`<div class="mini">같은 ${basis==='per'?'크기 등급':'규격대'}에서 두 매장이 함께 잡힌 상품이 없습니다</div>`;
   for(const c of cmp.slice(0,2)){const vl=basis==='per'?c.lo.per:c.lo.ppk,vh=basis==='per'?c.hi.per:c.hi.ppk;
     h+=`${c.tier&&c.tier!=='전체'?`<div class="tier" style="margin-top:2px">${esc(c.tier)}</div>`:''}<div class="vs">
-      <div class="bx win"><div class="r" style="color:${RC(c.lo.r)}">${esc(c.lo.r)}</div><div class="v num">${fmt(vl)}</div><div class="s">${esc(c.lo.n)}<br>${fmt(c.lo.p)}원</div></div>
+      <div class="bx win"><div class="r" style="color:${RC(c.lo.r)}">${esc(RN(c.lo.r))}</div><div class="v num">${fmt(vl)}</div><div class="s">${esc(c.lo.n)}<br>${fmt(c.lo.p)}원</div></div>
       <div class="mid">◀ ${fmt(vh-vl)}원<br><span style="color:var(--ink3);font-weight:600">${Math.round(c.rate*100)}% 저렴</span></div>
-      <div class="bx"><div class="r" style="color:${RC(c.hi.r)}">${esc(c.hi.r)}</div><div class="v num">${fmt(vh)}</div><div class="s">${esc(c.hi.n)}<br>${fmt(c.hi.p)}원</div></div></div>
+      <div class="bx"><div class="r" style="color:${RC(c.hi.r)}">${esc(RN(c.hi.r))}</div><div class="v num">${fmt(vh)}</div><div class="s">${esc(c.hi.n)}<br>${fmt(c.hi.p)}원</div></div></div>
       <div class="mini" style="margin-top:4px">근거: ${esc(c.conf)}</div>`;}
   h+=`</div>`;
   /* 사다리 */
   h+=`<div class="sec"><div class="lb">가격 사다리 · ${basis==='per'?unit+'당':'kg당'}</div><div class="ld">${ladderHTML(basis==='per'?b.ladP:b.ladK,basis,b.cat)}</div></div>`;
   /* 매대 · 할인 · 구색 */
   const mv=b.sh.moves,nowS=Object.entries(b.sh.now);
-  if(mv.length||nowS.length)h+=`<div class="sec"><div class="lb">매대</div>${nowS.map(([r,x])=>`<span class="pill ${RP(r)}">${r} ${x.sp}</span>`).join(' ')}
-    ${mv.length?`<div style="font-size:13px;margin-top:5px">${mv.map(m=>`${m.r} ${m.t==='격상'?`<b style="color:var(--good)">${m.from}→${m.to} 격상</b>`:m.t==='격하'?`${m.from}→${m.to} 격하`:m.t==='신규'?`${m.to} 진열 시작`:`${m.from} 진열 빠짐`}`).join(' · ')}</div>`:''}</div>`;
+  if(mv.length||nowS.length)h+=`<div class="sec"><div class="lb">매대</div>${nowS.map(([r,x])=>`<span class="pill ${RP(r)}">${RN(r)} ${x.sp}</span>`).join(' ')}
+    ${mv.length?`<div style="font-size:13px;margin-top:5px">${mv.map(m=>`${RN(m.r)} ${m.t==='격상'?`<b style="color:var(--good)">${m.from}→${m.to}로 진열 확대</b>`:m.t==='격하'?`${m.from}→${m.to}로 진열 축소`:m.t==='신규'?`${m.to}에 새로 진열`:`${m.from} 진열 빠짐`}`).join(' · ')}</div>`:''}</div>`;
   const mx=Object.entries(b.mix);
-  if(mx.some(([,m])=>m.gov+m.card+m.own))h+=`<div class="sec"><div class="lb">할인 재원</div>${mx.map(([r,m])=>`<div class="kv"><span><b style="color:${RC(r)}">${r}</b> ${m.n}종</span><span>${
+  if(mx.some(([,m])=>m.gov+m.card+m.own))h+=`<div class="sec"><div class="lb">할인 재원</div>${mx.map(([r,m])=>`<div class="kv"><span><b style="color:${RC(r)}">${RN(r)}</b> ${m.n}종</span><span>${
     [m.gov?`<span class="pill p-g">정부 ${m.gov}</span>`:'',m.card?`<span class="pill p-c">카드 ${m.card}</span>`:'',m.own?`<span class="pill p-o">자체 ${m.own}</span>`:'',m.none?`<span class="pill p-n">없음 ${m.none}</span>`:''].join(' ')}</span></div>`).join('')}
     <div class="mini" style="margin-top:4px">자체 재원(포인트·회원·행사)은 매장이 자기 돈을 건 품목입니다</div></div>`;
   const sk=Object.entries(b.sku).filter(([,v])=>v.now!==v.prev&&b.P.pw!=null);
-  if(sk.length)h+=`<div class="sec"><div class="lb">구색</div>${sk.map(([r,v])=>`${r} ${v.prev}→<b>${v.now}</b>종`).join(' · ')}</div>`;
+  if(sk.length)h+=`<div class="sec"><div class="lb">구색</div>${sk.map(([r,v])=>`${RN(r)} ${v.prev}→<b>${v.now}</b>종`).join(' · ')}</div>`;
   /* 공급 */
-  if(b.ns.length||b.ws.length||b.wx){h+=`<div class="sec"><div class="lb">공급</div>`;
+  if(b.ns.length||b.ws.length||(b.wx&&b.wx.list.length)){h+=`<div class="sec"><div class="lb">공급</div>`;
     for(const n of b.ns)h+=`<div style="font-size:13px;margin-bottom:4px">${esc(n.text)} ${n.sig.map(s=>`<span class="pill p-n">${SIG_KO[s]}</span>`).join(' ')}</div>`;
     for(const w of b.ws)h+=`<div class="kv"><span>${esc(w.label)}</span><span class="num"><b>${fmt(w.now)}</b>${w.chg!=null?` <span style="color:${w.chg<0?'var(--down)':'var(--up)'}">${pct(w.chg)}</span>`:''}</span></div>`;
-    if(b.wx&&b.wx.notes.length)h+=`<div class="mini" style="margin-top:4px">☁ ${b.wx.notes.join(' · ')} <br>(${b.wx.from}~${b.wx.to}, 작년 같은 기간 대비)</div>`;
+    if(b.wx&&b.wx.list.length)h+=`<div style="margin-top:6px;font-size:13px"><b>주산지 날씨</b> ${esc(b.wx.summary)}<div class="mini">${esc(b.wx.meaning)}${b.wx.meaning?'. ':''}(${b.wx.from}~${b.wx.to} 30일, 최근 10년 평균과 비교)</div></div>`;
     if(b.pass)h+=`<div style="margin-top:6px;font-size:13px"><b style="color:${b.pass.t==='도매와 같은 흐름'?'var(--ink2)':'var(--brand2)'}">→ ${b.pass.t}</b> <span class="mini">${esc(b.pass.x)}</span></div>`;
     if(b.verdict)h+=`<div style="font-size:13px;margin-top:3px;color:${b.verdict.ok?'var(--good)':'var(--up)'}">→ ${esc(b.verdict.x)}</div>`;
     h+=`</div>`;}
@@ -946,39 +1141,149 @@ function fruitCard(b){
 let LEN='전체';
 function pickLen(el,l){LEN=l;document.querySelectorAll('#lenSeg button').forEach(b=>b.classList.toggle('on',b===el));refreshReport();}
 function refreshReport(){const o=$('repOut');if(o)o.textContent=reportText(CUR,LEN);}
+/* ── 문장 도우미 ── */
+const jo=(w,a,b)=>{const c=String(w).charCodeAt(String(w).length-1);return w+((c>=0xAC00&&c<=0xD7A3&&(c-0xAC00)%28)?a:b);};
+const pctW=v=>Math.abs(v*100).toFixed(Math.abs(v)<.1?1:0)+'%';
+const won=v=>fmt(v)+'원';
+const DISC_W={gov:'농활 할인',card:'카드 할인',own:'자체 할인(회원·포인트)'};
+const TIER_KO={표준:'1~2kg 포장',소포장:'1kg 미만 포장',대용량:'2kg 넘는 포장'};
+const tierKo=t=>TIER_KO[t]||t;
+function labelKo(lb){const m=String(lb||'').match(/^(\d{4})[-.\/](\d{1,2})[-.\/](\d)\s*주?$/);return m?`${m[1]}년 ${+m[2]}월 ${m[3]}주`:String(lb||'');}
+/* 품종 상황을 문장으로 */
+function seasonStory(b){
+  const R=b.season.rows||[],now=b.season;if(!R.length)return'';
+  const by=p=>R.filter(r=>r.p===p).map(r=>r.v);
+  const t=[];
+  const ended=R.filter(r=>!r.seen&&['끝물','종료'].includes(r.p)&&now.now.includes(r.v+' 끝남')).map(r=>r.v);
+  const st=by('출하 시작'),on=by('출하 중'),ed=by('마무리'),late=R.filter(r=>r.seen&&['끝물','저장품'].includes(r.p));
+  if(ended.length&&(st.length||on.length))t.push(`${jo(ended.join('·'),'이','가')} 끝나고 ${jo([...st,...on].join('·'),'으로','로')} 넘어가고 있습니다`);
+  else{if(st.length)t.push(`${jo(st.join('·'),'이','가')} 나오기 시작했습니다`);if(on.length)t.push(`${jo(on.join('·'),'이','가')} 한창 출하되고 있습니다`);}
+  if(ed.length)t.push(`${jo(ed.join('·'),'은','는')} 막바지입니다`);
+  for(const r of late)t.push(r.p==='저장품'?`${jo(r.v,'은','는')} 저장 물량이 나오고 있습니다`:`${jo(r.v,'은','는')} 끝물입니다`);
+  const soon=R.filter(r=>r.p==='곧');for(const r of soon)t.push(`${jo(r.v,'은','는')} ${sunName(r.a)}부터 나올 예정입니다`);
+  return t.join('. ')+(t.length?'.':'');
+}
+function itemStory(b){
+  const u=unitWord(b.cat),S=[];
+  if(!b.items.length)return`이번 주 두 매장 모두 매대에서 보이지 않았습니다. ${seasonStory(b)}`;
+  const ss=seasonStory(b);if(ss)S.push(ss);
+  /* 가격 */
+  const fresh=b.P.pw!=null&&!b.P.pairs.length&&!b.P.gone.length;
+  if(fresh)S.push(`이번 주 처음 매대에 나왔습니다.`);
+  else if(b.P.pw!=null){
+    const n=b.valid.length,ref=`지난 조사(Week ${b.P.pw}) 대비`;
+    if(b.eff==null)S.push(`지난 조사와 같은 상품이 없어 가격 변동은 비교하지 못했습니다.`);
+    else if(b.discEnd.length&&b.eff>=.02){
+      S.push(`${ref} 같은 상품 ${n}개 중 ${b.discEnd.length}개는 농활 등 할인이 끝나면서 값이 올랐습니다.`);
+      if(b.steady.length===1){const x=b.steady[0];
+        S.push(`할인 변화가 없는 ${RN(x.a.r)} '${x.a.n}' 상품은 ${won(x.b.p)}에서 ${won(x.a.p)}${Math.abs(x.d)<.02?'으로 그대로입니다':`으로 ${pctW(x.d)} ${x.d<0?'내렸습니다':'올랐습니다'}`}.`);}
+      else if(b.steady.length>1&&b.effSteady!=null)
+        S.push(`할인 변화가 없는 상품 ${b.steady.length}개만 보면 ${Math.abs(b.effSteady)<.02?'거의 그대로입니다':'평균 '+pctW(b.effSteady)+(b.effSteady<0?' 내렸습니다':' 올랐습니다')}.`);
+    }
+    else if(b.discStart.length&&b.eff<=-.02)S.push(`${ref} 같은 상품 ${n}개 중 ${b.discStart.length}개에 새로 할인이 붙으면서 값이 내렸습니다.`);
+    else if(n===1){const x=b.valid[0];S.push(`${ref} 같은 상품인 ${RN(x.a.r)} '${x.a.n}'은(는) ${Math.abs(x.d)<.02?'가격이 그대로입니다':`${won(x.b.p)}에서 ${won(x.a.p)}으로 ${pctW(x.d)} ${x.d<0?'내렸습니다':'올랐습니다'}`}.`.replace("'은(는)","' 상품은"));}
+    else if(Math.abs(b.eff)<.02)S.push(`${ref} 같은 상품 ${n}개의 가격은 거의 그대로입니다.`);
+    else S.push(`${ref} 같은 상품 ${n}개가 평균 ${pctW(b.eff)} ${b.eff<0?'내렸습니다':'올랐습니다'}.`);
+    const told=new Set([...(b.steady.length===1?[b.steady[0]]:[]),...(n===1?[b.valid[0]]:[])]);
+    const top=b.valid.filter(x=>!told.has(x)).sort((x,y)=>Math.abs(y.d)-Math.abs(x.d))[0];
+    if(top&&Math.abs(top.d)>=.05&&n>1)
+      S.push(`가장 크게 움직인 것은 ${RN(top.a.r)} '${top.a.n}' 상품으로, ${won(top.b.p)}에서 ${won(top.a.p)}이 됐습니다${top.discEnd?'(할인 종료)':top.discStart?'(할인 적용)':''}.`);
+    const nw=b.P.nw.slice(0,2).map(x=>`${RN(x.r)} '${x.n}'`),gn=b.P.gone.slice(0,2).map(x=>`${RN(x.r)} '${x.n}'`);
+    if(nw.length&&gn.length)S.push(`새로 들어온 상품은 ${nw.join(', ')}${b.P.nw.length>2?' 등':''}이고, 빠진 상품은 ${gn.join(', ')}${b.P.gone.length>2?' 등':''}입니다.`);
+    else if(nw.length)S.push(`새로 들어온 상품은 ${nw.join(', ')}${b.P.nw.length>2?' 등':''}입니다.`);
+    else if(gn.length)S.push(`매대에서 빠진 상품은 ${gn.join(', ')}${b.P.gone.length>2?' 등':''}입니다.`);
+  }
+  /* 두 매장 비교 */
+  const c=(b.per[0]&&{bs:'per',c:b.per[0]})||(b.kg[0]&&{bs:'kg',c:b.kg[0]});
+  if(c){const vl=c.bs==='per'?c.c.lo.per:c.c.lo.ppk,vh=c.bs==='per'?c.c.hi.per:c.c.hi.ppk;
+    const tier=c.c.tier&&c.c.tier!=='전체'?(c.bs==='per'?`같은 크기(${c.c.tier}) 상품끼리 보면 `:`${tierKo(c.c.tier)}끼리 보면 `):'';
+    S.push(`${tier}${c.bs==='per'?u+'당':'kg당'} 가격은 ${RN(c.c.lo.r)} ${won(vl)}, ${RN(c.c.hi.r)} ${won(vh)}으로 ${jo(RN(c.c.lo.r),'이','가')} ${won(vh-vl)}(${Math.round(c.c.rate*100)}%) 저렴합니다`
+      +(c.c.conf==='개수 범위로 추정'?' (입수 범위의 가운데 값으로 계산)':c.c.conf==='중량 추정 포함'?' (일부 중량은 추정값)':'')+'.');}
+  /* 진열 */
+  const mv=b.sh.moves.filter(m=>m.t==='격상'||(m.t==='신규'&&m.d>=4));
+  for(const m of mv.slice(0,2)){const it=b.sh.now[m.r];
+    S.push(m.t==='격상'?`${jo(RN(m.r),'은','는')} ${it?`'${it.n}' 상품의 `:''}진열 자리를 ${m.from}에서 ${jo(m.to,'으로','로')} 옮겨 판매에 힘을 실었습니다.`
+                       :`${jo(RN(m.r),'은','는')} ${it?`'${it.n}' 상품을 `:''}${m.to} 자리에 새로 진열했습니다.`);}
+  if(!mv.length){const fr=Object.entries(b.sh.now).filter(([,x])=>x.spv>=4);
+    if(fr.length)S.push(fr.map(([r,x])=>`${jo(RN(r),'은','는')} '${x.n}' 상품을 ${x.sp} 자리에 두었고`).join(', ').replace(/두었고$/,'두었습니다.'));}
+  const dn=b.sh.moves.find(m=>m.t==='격하'||m.t==='빠짐');
+  if(dn)S.push(`${jo(RN(dn.r),'은','는')} ${dn.t==='빠짐'?`${dn.from} 자리 진열을 뺐습니다`:`진열 자리를 ${dn.from}에서 ${jo(dn.to,'으로','로')} 낮췄습니다`}.`);
+  /* 할인 */
+  const mx=Object.entries(b.mix).filter(([,m])=>m.gov+m.card+m.own);
+  if(mx.length)S.push('할인은 '+mx.map(([r,m])=>{const k=['gov','card','own'].filter(x=>m[x]).sort((a,c)=>m[c]-m[a]);
+    return `${jo(RN(r),'이','가')} ${k.map(x=>DISC_W[x]).join('·')} ${m.gov+m.card+m.own}개`;}).join(', ')+'에 걸려 있습니다.');
+  /* 빈 가격대 */
+  const g=b.gaps[0];
+  if(g)S.push(`${g.tier&&g.tier!=='전체'?(g.basis==='per'?g.tier+' 기준 ':tierKo(g.tier)+' 기준 '):''}${g.basis==='per'?u+'당':'kg당'} ${won(g.lo)}~${won(g.hi)} 사이에는 두 매장 모두 상품이 없어 가격대가 비어 있습니다.`);
+  /* 산지 */
+  for(const n of b.ns.slice(0,2))S.push(`산지에서는 "${n.text}"는 소식이 있습니다.`);
+  if(b.verdict&&b.ns.length)S.push(b.verdict.x+'.');
+  /* 도매 */
+  for(const w of b.ws.slice(0,2))S.push(`도매 시세는 ${w.label} ${won(w.now)}${w.chg!=null?`으로 지난번보다 ${pctW(w.chg)} ${w.chg<0?'내렸':'올랐'}습니다`:'입니다'}.`);
+  if(b.pass&&b.pass.t==='소매 인하 여지')S.push(`도매가가 내린 만큼 마트 가격이 아직 따라 내리지 않아, 추가 인하 여지가 있습니다.`);
+  if(b.pass&&b.pass.t==='소매 인상 압력')S.push(`도매가가 오른 만큼 마트 가격이 아직 오르지 않아, 인상 압력이 있습니다.`);
+  /* 날씨 */
+  /* 시사점 */
+  const hint= b.pass&&b.pass.t==='소매 인하 여지'?'다음 주 마트 가격 인하 여부를 지켜볼 만합니다'
+    : b.stage==='품종 교체'?'새 품종으로 매대가 바뀌는 시기라 가격과 진열 변화가 이어질 수 있습니다'
+    : b.stage==='마무리'?'출하가 막바지라 매대가 줄고 가격이 출렁일 수 있습니다'
+    : b.stage==='출하 시작'?'초기 물량이라 가격이 높게 시작해 물량이 늘며 내려갈 수 있습니다'
+    : g?'비어 있는 가격대를 채울 상품을 검토해볼 만합니다':'';
+  if(hint)S.push(`→ ${hint}.`);
+  return S.join(' ');
+}
+function wxSentence(wx){
+  const W=WX[CUR]||{},names=wx.list.map(o=>o.nm),out=[];
+  const rs=names.map(n=>W[n]).filter(Boolean);
+  const kd=wx.ks;
+  if(kd.includes('건조')||kd.includes('다우')){const c=Math.round(rs.reduce((a,x)=>a+x.cur.rain,0)/rs.length),n=Math.round(rs.reduce((a,x)=>a+x.norm.rain,0)/rs.length);
+    out.push(`${names.join('·')} 등 주산지는 최근 30일 비가 ${c}mm로 평년(${n}mm)${c<n?'보다 크게 적었습니다':'보다 크게 많았습니다'}`);}
+  if(kd.includes('고온')||kd.includes('저온')){const c=+(rs.reduce((a,x)=>a+x.cur.tmax,0)/rs.length).toFixed(1),n=+(rs.reduce((a,x)=>a+x.norm.tmax,0)/rs.length).toFixed(1);
+    out.push(`낮 기온은 평균 ${c}℃로 평년(${n}℃)보다 ${Math.abs(c-n).toFixed(1)}℃ ${c>n?'높았습니다':'낮았습니다'}`);}
+  if(kd.includes('폭염'))out.push(`33℃가 넘는 날이 평년보다 많았습니다`);
+  return out.join('. ')+'.'+(wx.meaning?' '+wx.meaning+'.':'');
+}
+function summaryLines(B){
+  const out=[];
+  for(const b of B){if(out.length>=3)break;
+    if(b.pass&&b.pass.t==='소매 인하 여지'){out.push(`${jo(b.cat,'은','는')} 도매가가 내린 만큼 마트 가격이 아직 따라 내리지 않았습니다.`);continue;}
+    if(b.stage==='품종 교체'&&b.season.now){const st=seasonStory(b).split('. ')[0];out.push(`${jo(b.cat,'은','는')} ${st.replace(/[.]$/,'')}.`);continue;}
+    if(b.L.price[0]==='할인 끝나 오름'){out.push(`${b.cat}는 농활 등 할인이 끝나 매대 가격이 올랐습니다${b.effSteady!=null&&b.effSteady<-.02?`(할인과 무관한 상품은 ${pctW(b.effSteady)} 내림)`:''}.`.replace(/^(.+?)는/,(m,c)=>jo(c,'은','는')));continue;}
+    const up=b.sh.moves.find(m=>m.t==='격상');if(up){out.push(`${jo(RN(up.r),'이','가')} ${b.cat} 진열을 더 좋은 자리로 옮겼습니다.`);continue;}
+    if(b.eff!=null&&Math.abs(b.eff)>=.05){out.push(`${b.cat} 가격은 같은 상품 기준 ${pctW(b.eff)} ${b.eff<0?'내렸습니다':'올랐습니다'}.`);continue;}
+    if(b.stage==='출하 시작'){out.push(`${b.cat} 출하가 시작됐습니다.`);continue;}
+    if(b.stage==='마무리'){out.push(`${jo(b.cat,'은','는')} 출하가 막바지입니다.`);continue;}
+  }
+  return out.length?out:['큰 변화 없이 안정적인 한 주였습니다.'];
+}
 function reportText(wk,len){
   const d=DB[wk];if(!d)return'';const B=bundles(wk).filter(b=>b.cat!=='기타'),pw=prevWeek(wk),gap=realGap(wk);
-  const hl=headline(B);
-  if(len==='한 줄')return`[JJ 과일 레이더 W${wk}] ${hl}`;
-  const L='━'.repeat(14),rs=[...new Set(d.items.map(x=>x.r))].join('·');
-  let o=`📊 JJ 과일 레이더 · Week ${wk}\n${d.label||''} · ${rs} 현장조사 · ${d.items.length}품목${pw!=null?`\nWeek ${pw} 대비${gap>1?' (조사 '+gap+'주 간격)':''}`:''}\n\n`;
-  o+=`▶ 이번 주 한 줄\n${hl}\n\n▶ 신호등  가격 / 공급 / 매대\n`;
-  for(const b of B)o+=`${ICON[b.cat]||'•'} ${b.cat}  ${b.L.price[0]} / ${b.L.supply[0]} / ${b.L.shelf[0]}\n`;
+  const sum=summaryLines(B),rs=[...new Set(d.items.map(x=>RN(x.r)))].join('·');
+  const title=`JJ 과일 시장 리포트 · ${labelKo(d.label)}`;
+  if(len==='한 줄')return`[${title}] ${sum[0]}`;
+  const L='────────────';
+  let o=`${title}\n${rs} 현장조사 · ${d.items.length}개 상품 (Week ${wk})${pw!=null?`\n비교 기준: 지난 조사 Week ${pw}${gap>1?` (${gap}주 전)`:''}`:''}\n\n`;
+  o+=`■ 이번 주 요약\n${sum.join('\n')}\n`;
   const opp=opportunities(B);
-  if(opp.length){o+=`\n▶ 기회\n`;for(const x of opp.slice(0,6))o+=`· ${x.cat} ${x.t} — ${x.x}\n`;}
-  if(len==='요약')return o+`\n자세한 내용은 전체본을 참고하세요.\nJJ 과일 레이더`;
-  for(const b of B){
-    o+=`\n${L}\n${ICON[b.cat]||'•'} ${b.cat}${b.stage?' · '+b.stage+'기':''}\n`;
-    if(!b.items.length){o+=`이번 주 매대에서 보이지 않음 — 시즌 종료 가능성\n`;continue;}
-    const firstSeen=b.P.pw!=null&&!b.P.pairs.length&&!b.P.gone.length;
-    if(firstSeen)o+=`가격  이번 주 첫 등장 — 비교할 지난 상품 없음\n`;
-    else if(b.P.pw!=null)o+=`가격  같은 상품 ${b.valid.length}개 ${b.eff==null?'짝 없음':'평균 '+pct(b.eff)} (새로 ${b.P.nw.length} · 빠짐 ${b.P.gone.length})\n`;
-    const u=unitWord(b.cat);
-    for(const[bs,arr]of[['per',b.per],['kg',b.kg]])for(const c of arr.slice(0,1)){const vl=bs==='per'?c.lo.per:c.lo.ppk,vh=bs==='per'?c.hi.per:c.hi.ppk;
-      o+=`비교  ${bs==='per'?u+'당':'kg당'}${c.tier&&c.tier!=='전체'?'('+c.tier+')':''} ${c.lo.r} ${fmt(vl)} / ${c.hi.r} ${fmt(vh)} → ${c.lo.r} ${fmt(vh-vl)}원 저렴 [${c.conf}]\n`;}
-    for(const g of b.gaps.slice(0,2))o+=`공백  ${g.basis==='per'?u+'당':'kg당'}${g.tier&&g.tier!=='전체'?' '+g.tier:''} ${fmt(g.lo)}~${fmt(g.hi)}원 상품 없음\n`;
-    if(b.sh.moves.length)o+=`매대  ${b.sh.moves.map(m=>m.t==='격상'?`${m.r} ${m.from}→${m.to} 격상`:m.t==='격하'?`${m.r} ${m.from}→${m.to} 격하`:m.t==='신규'?`${m.r} ${m.to} 시작`:`${m.r} ${m.from} 빠짐`).join(' · ')}\n`;
-    const mx=Object.entries(b.mix).filter(([,m])=>m.gov+m.card+m.own);
-    if(mx.length)o+=`할인  ${mx.map(([r,m])=>`${r} ${[m.gov?'정부'+m.gov:'',m.card?'카드'+m.card:'',m.own?'자체'+m.own:''].filter(Boolean).join('·')}`).join(' / ')}\n`;
-    for(const w of b.ws)o+=`도매  ${w.label} ${fmt(w.now)}${w.chg!=null?' ('+pct(w.chg)+')':''}\n`;
-    for(const n of b.ns)o+=`산지  ${n.text}${n.sig.length?' ['+n.sig.map(s=>SIG_KO[s]).join('·')+']':''}\n`;
-    if(b.wx&&b.wx.notes.length)o+=`기상  ${b.wx.notes.join(' · ')}\n`;
-    if(b.pass&&b.pass.t!=='도매와 같은 흐름')o+=`→ ${b.pass.t}: ${b.pass.x}\n`;
-    if(b.verdict)o+=`→ ${b.verdict.x}\n`;
+  const seasonTxt=B.filter(b=>b.items.length&&b.season.now).map(b=>`· ${b.cat} — ${b.season.now}${b.season.next?` (곧 ${b.season.next})`:''}`);
+  if(len!=='요약'){
+    o+=`\n■ 품목별 동향\n`;
+    for(const b of B.filter(x=>x.items.length))o+=`\n[${b.cat}]${b.stage&&b.stage!=='—'?' '+b.stage:''}\n${itemStory(b)}\n`;
+    const gone=B.filter(x=>!x.items.length).map(x=>x.cat);
+    if(gone.length)o+=`\n이번 주 매대에서 빠진 품목: ${gone.join(', ')}\n`;
   }
+  if(opp.length){o+=`\n■ 기회\n`;for(const x of opp.slice(0,6))o+=`· ${x.cat}: ${x.x}\n`;}
+  if(seasonTxt.length)o+=`\n■ 시즌 현황\n${seasonTxt.join('\n')}\n`;
+  const wxs=B.filter(b=>b.items.length&&b.wx&&b.wx.list.length);
+  if(wxs.length){o+=`\n■ 주산지 날씨 (최근 30일, 10년 평균과 비교)\n`;
+    const means=new Set();
+    for(const b of wxs){const t=wxSentence(b.wx);const m=b.wx.meaning?b.wx.meaning+'.':'';
+      o+=`· ${b.cat}: ${m?t.replace(' '+m,''):t}\n`;if(m)means.add(m);}
+    for(const m of means)o+=`→ ${m}\n`;}
+  else if(B.some(b=>b.items.length&&b.wx))o+=`\n■ 주산지 날씨\n주요 산지 날씨는 평년과 큰 차이가 없습니다.\n`;
   const gen=parseNotes(d.notes).notes.filter(n=>!n.cat);
-  if(gen.length){o+=`\n${L}\n▶ 시장 전반\n`;for(const n of gen)o+=`· ${n.text}\n`;}
-  o+=`\n※ 가격 변동은 같은 상품끼리만 비교했습니다. 가격 수준은 참고용입니다.\n※ 할인가 기준 · 할인 재원: 정부(농활) / 카드사 / 유통사 자체(포인트·회원·행사)\n※ 빈 가격대는 같은 크기 등급 안에서만 찾았습니다.\nJJ 과일 레이더`;
+  if(gen.length&&len!=='요약'){o+=`\n■ 시장 전반\n`;for(const n of gen)o+=`· ${n.text}\n`;}
+  o+=`\n${L}\n조사 기준: 매장에 표시된 판매가(할인가 포함). 가격 변동은 지난 조사와 같은 상품끼리만 비교했고, 날씨는 주산지 최근 30일을 지난 10년 평균과 비교했습니다.\nJJ 과일 레이더`;
   return o;
 }
 function copyReport(){const t=reportText(CUR,LEN);
@@ -1002,10 +1307,10 @@ async function buildCards(){
   cards.push({t:'표지',h:shell(`
     <div style="position:absolute;left:84px;top:120px;color:#E9B8CE;font-size:32px;font-weight:800;letter-spacing:3px">JJ FRUIT RADAR</div>
     <div style="position:absolute;left:84px;top:200px;color:#fff;font-size:104px;font-weight:900;line-height:1.08;letter-spacing:-4px">Week ${wk}</div>
-    <div style="position:absolute;left:84px;top:330px;color:#F3D3E1;font-size:38px">${esc(d.label||'')}</div>
+    <div style="position:absolute;left:84px;top:330px;color:#F3D3E1;font-size:38px">${esc(labelKo(d.label))}</div>
     <div style="position:absolute;left:84px;top:430px;width:150px;height:8px;background:#fff"></div>
     <div style="position:absolute;left:84px;right:84px;top:490px;color:#fff;font-size:62px;font-weight:800;line-height:1.3;letter-spacing:-2px">${esc(headline(B))}</div>
-    <div style="position:absolute;left:84px;bottom:110px;color:#E9B8CE;font-size:30px;line-height:1.6">${[...new Set(d.items.map(x=>x.r))].join(' · ')} 현장조사<br>${d.items.length}품목 · 매주 목·금</div>`,CC.brand,ph('__cover')||null)});
+    <div style="position:absolute;left:84px;bottom:110px;color:#E9B8CE;font-size:30px;line-height:1.6">${[...new Set(d.items.map(x=>RN(x.r)))].join(' · ')} 현장조사<br>${d.items.length}품목 · 매주 목·금</div>`,CC.brand,ph('__cover')||null)});
   /* 신호등 */
   cards.push({t:'신호등',h:shell(`
     <div style="position:absolute;left:80px;top:96px;font-size:30px;color:${CC.sub};font-weight:800">WEEK ${wk} · 신호등</div>
@@ -1015,16 +1320,17 @@ async function buildCards(){
       ${B.slice(0,8).map(b=>`<div style="display:flex;align-items:center;font-size:40px;font-weight:800;padding:26px 0;border-bottom:2px solid ${CC.line}">
         <div style="flex:1.3;color:${CC.ink}">${b.cat}</div>${[b.L.price,b.L.supply,b.L.shelf].map(([t,c])=>`<div style="flex:1;text-align:center;color:${toneC[c]}">${esc(t)}</div>`).join('')}</div>`).join('')}
     </div>
-    <div style="position:absolute;left:80px;bottom:80px;font-size:24px;color:${CC.sub}">가격은 같은 상품끼리의 변동 · 파랑 하락·과잉 · 빨강 상승·부족 · 초록 밀기</div>`)});
+    <div style="position:absolute;left:80px;bottom:80px;font-size:24px;color:${CC.sub}">가격은 지난 조사와 같은 상품끼리 비교 · 파랑 내림·물량 많음 · 빨강 오름·물량 적음 · 초록 진열 확대</div>`)});
   /* 품목별 */
   for(const b of B.slice(0,6)){
     const P=ph(b.cat),dark=!!P,fg=dark?'#fff':CC.ink,sub=dark?'#D9DEE6':CC.sub,u=unitWord(b.cat);
     const c=(b.per[0]&&{bs:'per',c:b.per[0]})||(b.kg[0]&&{bs:'kg',c:b.kg[0]});
     const facts=[];
-    if(b.eff!=null)facts.push(`같은 상품 가격 ${pct(b.eff)} (${b.valid.length}개)`);
-    const up=b.sh.moves.find(m=>m.t==='격상'||m.t==='신규');if(up)facts.push(`${up.r} ${up.to} 진열${up.t==='격상'?' 격상':''}`);
-    if(b.gaps[0])facts.push(`빈 가격대 ${fmt(b.gaps[0].lo)}~${fmt(b.gaps[0].hi)}원`);
-    if(b.pass&&b.pass.t!=='도매와 같은 흐름')facts.push(b.pass.t);
+    if(b.season.now)facts.push(b.season.now.split(' · ').slice(0,2).join(' · '));
+    if(b.eff!=null&&Math.abs(b.eff)>=.02)facts.push(`같은 상품 가격 ${pctW(b.eff)} ${b.eff<0?'내림':'오름'}`);
+    const up=b.sh.moves.find(m=>m.t==='격상'||m.t==='신규');if(up)facts.push(`${RN(up.r)} ${up.to} 진열${up.t==='격상'?'로 확대':''}`);
+    if(b.gaps[0])facts.push(`${fmt(b.gaps[0].lo)}~${fmt(b.gaps[0].hi)}원 가격대 비어 있음`);
+    if(b.pass&&b.pass.t==='소매 인하 여지')facts.push('도매가 대비 마트 인하 여지');
     if(b.ns[0])facts.push(b.ns[0].text.length>30?b.ns[0].text.slice(0,30)+'…':b.ns[0].text);
     cards.push({t:b.cat,h:shell(`
       <div style="position:absolute;left:80px;top:96px;font-size:30px;color:${sub};font-weight:800">WEEK ${wk}${b.stage?' · '+b.stage+'기':''}</div>
@@ -1032,16 +1338,16 @@ async function buildCards(){
       <div style="position:absolute;right:80px;top:170px;font-size:64px;font-weight:900;color:${dark?'#fff':toneC[b.L.price[1]]}">${esc(b.L.price[0])}</div>
       ${c?`<div style="position:absolute;left:80px;right:80px;top:${dark?560:340}px;display:flex;gap:20px;align-items:center">
         ${[c.c.lo,c.c.hi].map((x,i)=>`<div style="flex:1;border-radius:22px;padding:26px 10px;text-align:center;background:${dark?'rgba(255,255,255,.14)':(i===0?'#E8F3EC':'#F4F6F9')}">
-          <div style="font-size:28px;font-weight:900;color:${dark?'#fff':ccR(x.r)}">${esc(x.r)}</div>
+          <div style="font-size:28px;font-weight:900;color:${dark?'#fff':ccR(x.r)}">${esc(RN(x.r))}</div>
           <div style="font-size:66px;font-weight:900;color:${fg};margin-top:4px">${fmt(c.bs==='per'?x.per:x.ppk)}</div>
           <div style="font-size:22px;color:${sub}">${c.bs==='per'?u+'당':'kg당'} · ${fmt(x.p)}원</div></div>`).join('')}</div>
-        <div style="position:absolute;left:80px;top:${dark?790:570}px;font-size:28px;color:${sub}">${c.c.tier&&c.c.tier!=='전체'?c.c.tier+' · ':''}${esc(c.c.lo.r)} ${fmt((c.bs==='per'?c.c.hi.per:c.c.hi.ppk)-(c.bs==='per'?c.c.lo.per:c.c.lo.ppk))}원 저렴 · ${esc(c.c.conf)}</div>`:''}
+        <div style="position:absolute;left:80px;top:${dark?790:570}px;font-size:28px;color:${sub}">${c.c.tier&&c.c.tier!=='전체'?c.c.tier+' · ':''}${esc(RN(c.c.lo.r))} ${fmt((c.bs==='per'?c.c.hi.per:c.c.hi.ppk)-(c.bs==='per'?c.c.lo.per:c.c.lo.ppk))}원 저렴 · ${esc(c.c.conf)}</div>`:''}
       <div style="position:absolute;left:80px;right:80px;bottom:110px">${facts.slice(0,4).map(f=>`<div style="font-size:38px;line-height:1.4;color:${fg};padding:16px 0;border-top:2px solid ${dark?'rgba(255,255,255,.25)':CC.line}">${esc(f)}</div>`).join('')}</div>`,'#fff',P)});
   }
   /* 기회 */
   const opp=opportunities(B);
   if(opp.length)cards.push({t:'기회',h:shell(`
-    <div style="position:absolute;left:80px;top:96px;font-size:30px;color:${CC.sub};font-weight:800">WEEK ${wk} · OPPORTUNITY</div>
+    <div style="position:absolute;left:80px;top:96px;font-size:30px;color:${CC.sub};font-weight:800">${esc(labelKo(d.label))} · 기회</div>
     <div style="position:absolute;left:80px;top:146px;font-size:76px;font-weight:900;color:${CC.ink};letter-spacing:-3px">비어 있는 자리</div>
     <div style="position:absolute;left:80px;right:80px;top:300px">${opp.slice(0,5).map(o=>`<div style="padding:28px 0;border-bottom:2px solid ${CC.line}">
       <div style="font-size:26px;font-weight:900;color:${CC.brand}">${esc(o.t)} · ${esc(o.cat)}</div><div style="font-size:38px;line-height:1.4;color:${CC.ink};margin-top:6px">${esc(o.x)}</div></div>`).join('')}</div>`)});
@@ -1086,6 +1392,9 @@ function renderHistory(){
     <tr><th style="text-align:left;padding:4px;color:var(--ink3)">품목</th>${rw.map(w=>`<th style="padding:4px;color:var(--ink3);text-align:right">W${w}</th>`).join('')}</tr>
     ${Object.keys(T).sort().map(k=>{const[c,r]=k.split('|');return`<tr><td style="padding:4px;white-space:nowrap"><b>${c}</b> <span style="color:${RC(r)}">${r}</span></td>${rw.map(w=>`<td class="num" style="padding:4px;text-align:right">${T[k][w]?fmt(T[k][w]):'·'}</td>`).join('')}</tr>`;}).join('')}
     </table></div><div class="mini" style="margin-top:6px">kg당 가장 싼 상품 기준</div>`;
+  const ct=$('calTxt');if(ct&&document.activeElement!==ct){ct.value=SET.cal||CAL_DEFAULT;autoGrow(ct);}
+  const pc=parseCal(SET.cal||CAL_DEFAULT);
+  $('calState').innerHTML=`${pc.list.length}개 품종${SET.cal?' · 직접 고친 달력':' · 처음 값'}${pc.bad.length?` · <span style="color:var(--up)">못 읽은 줄 ${pc.bad.length}개: ${pc.bad.slice(0,2).map(esc).join(' / ')}</span>`:''}`;
   $('gsUrl').value=SET.gsUrl||'';$('gsKey').value=SET.gsKey||GS_KEY_DEFAULT;
   $('gsState').innerHTML=!SET.gsUrl?'<span style="color:var(--warn)">아직 연결 안 됨</span> — 아래 설정 순서를 따라 한 번만 연결하세요'
     :SET.gsOk===false?`<span style="color:var(--up)">마지막 시도 실패 — ${esc(SET.gsWhy||'')}</span>`
@@ -1134,6 +1443,12 @@ function importData(inp){const f=inp.files[0];inp.value='';if(!f)return;const fr
 function importText(){const t=$('impTxt').value.trim();if(!t){toast('붙여넣은 내용이 없습니다');return;}
   try{importObj(JSON.parse(t));$('impTxt').value='';}catch(e){toast('형식이 맞지 않습니다. 옛 앱에서 복사한 내용 전체를 붙여넣어 주세요');}}
 
+function saveCal(){const t=$('calTxt').value.trim();const pc=parseCal(t);
+  if(!pc.list.length){toast('읽을 수 있는 줄이 없습니다');return;}
+  SET.cal=t;lsSet(K.SET,SET);loadCal();renderHistory();
+  toast(pc.bad.length?`${pc.list.length}개 품종 저장 · ${pc.bad.length}줄은 형식이 맞지 않아 뺐습니다`:`${pc.list.length}개 품종으로 저장했습니다`);}
+function resetCal(){if(!confirm('직접 고친 달력을 지우고 처음 값으로 되돌릴까요?'))return;delete SET.cal;lsSet(K.SET,SET);loadCal();renderHistory();toast('처음 값으로 되돌렸습니다');}
+
 /* ════════════════ 구글 드라이브 자동 백업 ════════════════
    저장할 때마다 선생님 구글 드라이브 '과일레이더_백업' 폴더로 보낸다 */
 const GS_KEY_DEFAULT='jjfr-85ef90b35814';
@@ -1170,7 +1485,11 @@ function ago(t){if(!t)return'';const m=Math.round((Date.now()-t)/60000);return m
 function boot(){
   DB=lsGet(K.DB,{});for(const k in DB)if(DB[k]&&Array.isArray(DB[k].items))DB[k].items=DB[k].items.map(enrich);else delete DB[k];
   const own=lsGet(K.DICT,{});DICT={...DICT_BASE,...own};for(const k in own)if(own[k]==null)delete DICT[k];
-  WX=lsGet(K.WX,{});WS=lsGet(K.WS,{});SET=lsGet(K.SET,{});
+  WX=lsGet(K.WX,{});WS=lsGet(K.WS,{});SET=lsGet(K.SET,{});loadCal();
+  /* 읽기 규칙이 바뀌면 원문이 남아 있는 주차를 다시 읽어 잘못 저장된 값을 바로잡는다 */
+  let fixed=0;
+  for(const k in DB){const d=DB[k];if(d.raw&&d.pv!==PARSER_VER){const r=parseRaw(d.raw);if(r.items.length){d.items=r.items;d.pv=PARSER_VER;fixed++;}}}
+  if(fixed)lsSet(K.DB,DB);
   header();loadDraft();renderInput();
   for(const id of['inRaw','inNotes']){const el=$(id);el.addEventListener('input',()=>{autoGrow(el);draftLater();});el.addEventListener('focus',()=>autoGrow(el));}
   window.addEventListener('pagehide',saveDraft);document.addEventListener('visibilitychange',()=>{if(document.hidden)saveDraft();});
