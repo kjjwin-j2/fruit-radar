@@ -161,6 +161,22 @@ pre.rep{white-space:pre-wrap;word-break:break-word;font:inherit;font-size:13.5px
 <section class="pane" id="pg-hs">
   <h2>저장된 주차</h2><div class="card" id="hsWeeks"></div>
   <h2>품목 흐름</h2><div class="card" id="hsTrend"></div>
+  <h2>구글 드라이브 자동 백업</h2>
+  <div class="card">
+    <div id="gsState" style="font-size:13.5px;margin-bottom:10px"></div>
+    <input id="gsUrl" placeholder="웹 앱 주소 (https://script.google.com/macros/s/…/exec)" style="margin-bottom:8px;font-size:14px">
+    <input id="gsKey" placeholder="비밀번호" style="margin-bottom:8px;font-size:14px">
+    <div class="row"><button onclick="backupNow(this)">지금 백업</button><button class="ghost" onclick="restoreGs(this)">드라이브에서 복원</button></div>
+    <details style="margin-top:6px"><summary>처음 한 번 연결하는 법 (컴퓨터에서 10분)</summary>
+      <div class="help" style="margin:8px 0 0;line-height:1.75">
+      ① <b>script.google.com</b> → 새 프로젝트<br>
+      ② 드라이브 <b>태현데이터센터 › 과일레이더_백업 › 자동백업_스크립트_코드.gs</b> 내용을 전부 복사해 붙여넣기 → 저장<br>
+      ③ 위쪽 함수 목록에서 <b>setupFolder</b> 선택 → 실행 → 권한 허용<br>
+      ④ <b>배포 → 새 배포</b> → 유형 <b>웹 앱</b> · 실행 사용자 <b>나</b> · 액세스 <b>모든 사용자</b> → 배포<br>
+      ⑤ 나온 <b>웹 앱 URL</b> 을 위 칸에 붙여넣고 <b>지금 백업</b><br>
+      비밀번호는 이미 맞춰져 있으니 그대로 두시면 됩니다. 연결 뒤에는 저장할 때마다 자동으로 백업됩니다.</div>
+    </details>
+  </div>
   <h2>도매 시세 자동 연결 (KAMIS)</h2>
   <div class="card">
     <p class="help" style="margin:0 0 10px">kamis.or.kr 회원가입 후 발급받은 인증키와 아이디를 넣으면 저장할 때 서울 도매가를 자동으로 가져옵니다. 연결이 막히면 메모에 직접 적으신 시세를 씁니다.</p>
@@ -172,8 +188,14 @@ pre.rep{white-space:pre-wrap;word-break:break-word;font:inherit;font-size:13.5px
   <h2>백업</h2>
   <div class="card">
     <p class="help" style="margin:0 0 10px">데이터는 이 폰 브라우저에만 저장됩니다. 한 달에 한 번 내려받아 카톡 나에게 보내기로 보관하세요. 사진은 포함되지 않습니다.</p>
-    <div class="row"><button class="ghost" onclick="exportData()">내려받기</button><button class="ghost" onclick="$('impIn').click()">불러오기</button></div>
-    <input type="file" id="impIn" accept=".json,application/json" style="display:none" onchange="importData(this)">
+    <div class="row"><button class="ghost" onclick="exportData()">백업 파일 만들기</button><button class="ghost" onclick="$('impIn').click()">파일 불러오기</button></div>
+    <input type="file" id="impIn" accept=".json,application/json,text/plain" style="display:none" onchange="importData(this)">
+    <details style="margin-top:6px"><summary>다른 앱으로 옮기기 (복사·붙여넣기)</summary>
+      <p class="help" style="margin:6px 0 8px">파일이 잘 안 될 때 씁니다. 옛 앱에서 <b>복사</b>를 누르고, 새 앱에서 아래 칸에 붙여넣은 뒤 <b>가져오기</b>를 누르세요.</p>
+      <button class="ghost" style="width:100%;margin-bottom:8px" onclick="copyBackup()">이 앱의 데이터 전체 복사</button>
+      <textarea id="impTxt" style="min-height:90px;font-size:13px" placeholder="여기에 붙여넣기"></textarea>
+      <button style="width:100%;margin-top:8px" onclick="importText()">붙여넣은 데이터 가져오기</button>
+    </details>
   </div>
   <h2>중량 사전</h2><div class="card" id="hsDict"></div>
   <h2>정보</h2><div class="card" id="hsInfo"></div>
@@ -191,7 +213,7 @@ pre.rep{white-space:pre-wrap;word-break:break-word;font:inherit;font-size:13.5px
 <script>
 /* ════════════════ 저장소 ════════════════
    기존 키를 그대로 읽어 지난 기록이 이어진다. */
-const APP_VER='3.0.1';
+const APP_VER='3.0.3';
 const K={DB:'jjfr_v1',DICT:'jjfr_dict_v2',WX:'jjfr_wx_v2',WS:'jjfr_ws_v3',SET:'jjfr_set_v3',DRAFT:'jjfr_draft_v3'};
 const lsGet=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch(e){return d;}};
 const lsSet=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));return true;}
@@ -763,9 +785,11 @@ async function saveAll(btn){busy(btn,'저장 중…',async()=>{
   $('inRaw').value='';$('inNotes').value='';$('inLabel').value='';delete $('wkBadge').dataset.wk;EDIT=null;
   CUR=w;header();go('wk');toast(`✓ Week ${w} 저장 · ${r.items.length}품목`);
   /* 기상·도매는 저장 뒤 조용히 가져온다 */
-  Promise.allSettled([loadWeather(w),kamisFetch(w)]).then(([a,b])=>{
+  Promise.allSettled([loadWeather(w),kamisFetch(w)]).then(async([a,b])=>{
     const msg=[];if(a.status==='fulfilled'&&a.value)msg.push(`산지 기상 ${a.value}곳`);
     if(b.status==='fulfilled'&&b.value.ok)msg.push(`도매 ${b.value.n}건`);
+    /* 기상·도매까지 담아 드라이브에 자동 백업 */
+    if(SET.gsUrl){const g=await gsBackup();msg.push(g.ok?'드라이브 백업':'드라이브 백업 실패');}
     if(msg.length){toast('반영: '+msg.join(' · '));if(CUR===w&&$('pg-wk').classList.contains('on'))renderWeek();}
   });
 });}
@@ -814,7 +838,13 @@ function renderWeek(){
   $('wkSub').textContent=`${d.label||''}${pw!=null?` · Week ${pw} 대비${gap>1?' ('+gap+'주 간격)':''}`:' · 첫 기록'}`;
   const nt=parseNotes(d.notes),opp=opportunities(B);
   const rs=Object.entries(groupBy(d.items,x=>x.r)).map(([k,v])=>`${k} ${v.length}`).join(' · ');
-  let h=`<div class="card" style="background:var(--brand);color:#fff;border:none">
+  let h='';
+  const last=Math.max(SET.gsLast||0,SET.bkLast||0);
+  if(!SET.gsUrl&&(!last||Date.now()-last>7*864e5))
+    h+=`<div class="card" style="border-color:#E8C98A;background:#FFFBF2;padding:12px 14px"><div class="row" style="align-items:center">
+      <div style="font-size:13px"><b>백업이 ${last?ago(last):'아직 없습니다'}</b><div class="mini">데이터는 이 폰에만 있습니다. 기록 탭에서 드라이브 자동 백업을 켜두세요.</div></div>
+      <button class="sm" style="flex:0 0 auto" onclick="go('hs')">설정</button></div></div>`;
+  h+=`<div class="card" style="background:var(--brand);color:#fff;border:none">
     <div style="font-size:12px;color:#F3D3E1;font-weight:700">이번 주 한 줄</div>
     <div style="font-size:17px;font-weight:800;line-height:1.45;margin-top:4px">${esc(headline(B))}</div>
     <div style="font-size:12px;color:#F3D3E1;margin-top:8px">${esc(rs)} · ${d.items.length}품목</div></div>`;
@@ -1056,6 +1086,10 @@ function renderHistory(){
     <tr><th style="text-align:left;padding:4px;color:var(--ink3)">품목</th>${rw.map(w=>`<th style="padding:4px;color:var(--ink3);text-align:right">W${w}</th>`).join('')}</tr>
     ${Object.keys(T).sort().map(k=>{const[c,r]=k.split('|');return`<tr><td style="padding:4px;white-space:nowrap"><b>${c}</b> <span style="color:${RC(r)}">${r}</span></td>${rw.map(w=>`<td class="num" style="padding:4px;text-align:right">${T[k][w]?fmt(T[k][w]):'·'}</td>`).join('')}</tr>`;}).join('')}
     </table></div><div class="mini" style="margin-top:6px">kg당 가장 싼 상품 기준</div>`;
+  $('gsUrl').value=SET.gsUrl||'';$('gsKey').value=SET.gsKey||GS_KEY_DEFAULT;
+  $('gsState').innerHTML=!SET.gsUrl?'<span style="color:var(--warn)">아직 연결 안 됨</span> — 아래 설정 순서를 따라 한 번만 연결하세요'
+    :SET.gsOk===false?`<span style="color:var(--up)">마지막 시도 실패 — ${esc(SET.gsWhy||'')}</span>`
+    :SET.gsLast?`<span style="color:var(--good)">● 자동 백업 켜짐</span> · 마지막 ${ago(SET.gsLast)}${SET.gsOk===null?' (보냄)':''}`:'연결됨 · 아직 백업 전';
   $('kKey').value=SET.kKey||'';$('kId').value=SET.kId||'';
   $('kState').textContent=SET.kKey?`설정됨${SET.kOk===false?' · 마지막 시험: 연결 안 됨 ('+(SET.kWhy||'')+')':SET.kOk?' · 연결 확인됨':''}`:'설정 안 됨 — 메모에 적은 시세만 씁니다';
   const dk=Object.keys(DICT).sort();
@@ -1068,13 +1102,69 @@ function delWeek(w){if(!confirm(`Week ${w} 을 지울까요?`))return;delete DB[
 function saveKamis(){SET.kKey=$('kKey').value.trim();SET.kId=$('kId').value.trim();lsSet(K.SET,SET);renderHistory();toast('저장했습니다');}
 function testKamis(btn){busy(btn,'시험 중…',async()=>{saveKamis();const w=latest();if(!w){toast('먼저 주차를 저장하세요');return;}
   const r=await kamisFetch(w);SET.kOk=r.ok;SET.kWhy=r.why||'';lsSet(K.SET,SET);renderHistory();toast(r.ok?`연결됨 · 도매 ${r.n}건`:`연결 안 됨 — ${r.why}`);});}
-function exportData(){const o={app:'jj-fruit-radar',ver:APP_VER,at:new Date().toISOString(),__dict:lsGet(K.DICT,{}),__wx:WX,__ws:WS,...DB};
-  const b=new Blob([JSON.stringify(o)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`jj_fruit_radar_${ymd(new Date())}.json`;a.click();toast('백업 파일을 내려받았습니다');}
-function importData(inp){const f=inp.files[0];inp.value='';if(!f)return;const fr=new FileReader();fr.onload=()=>{try{const o=JSON.parse(fr.result);let n=0;
-  if(o.__dict){const own={...lsGet(K.DICT,{}),...o.__dict};lsSet(K.DICT,own);DICT={...DICT_BASE,...own};for(const k in own)if(own[k]==null)delete DICT[k];}
+function backupObj(){return{app:'jj-fruit-radar',ver:APP_VER,at:new Date().toISOString(),__dict:lsGet(K.DICT,{}),__wx:WX,__ws:WS,...DB};}
+async function exportData(){
+  const json=JSON.stringify(backupObj()),name=`jj_fruit_radar_${ymd(new Date())}.json`;
+  const f=new File([json],name,{type:'application/json'});
+  /* 아이폰 홈 화면 앱에서는 내려받기가 막힐 수 있어 공유창을 먼저 쓴다 */
+  if(navigator.canShare&&navigator.canShare({files:[f]})){
+    try{await navigator.share({files:[f],title:'과일레이더 백업'});SET.bkLast=Date.now();lsSet(K.SET,SET);toast(`백업 ${weeks().length}개 주차 — 카톡이나 파일에 저장하세요`);return;}
+    catch(e){if(e.name==='AbortError')return;}
+  }
+  const a=document.createElement('a');a.href=URL.createObjectURL(f);a.download=name;a.click();SET.bkLast=Date.now();lsSet(K.SET,SET);toast('백업 파일을 내려받았습니다');
+}
+function copyBackup(){
+  const t=JSON.stringify(backupObj());
+  const done=()=>toast(`${weeks().length}개 주차 복사됨 — 새 앱의 붙여넣기 칸에 넣으세요`);
+  (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(done).catch(()=>{
+    const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();document.execCommand('copy');a.remove();done();});
+}
+function importObj(o){
+  let n=0;const before=weeks().length;
+  if(o.__dict){const own={...lsGet(K.DICT,{}),...o.__dict};for(const k in own)if(DICT_BASE[k]===own[k])delete own[k];
+    lsSet(K.DICT,own);DICT={...DICT_BASE,...own};for(const k in own)if(own[k]==null)delete DICT[k];}
   if(o.__wx)WX={...WX,...o.__wx};if(o.__ws)WS={...WS,...o.__ws};
   for(const k in o)if(o[k]&&Array.isArray(o[k].items)){o[k].items=o[k].items.map(enrich);DB[k]=o[k];n++;}
-  lsSet(K.DB,DB);lsSet(K.WX,WX);lsSet(K.WS,WS);header();renderHistory();toast(`${n}개 주차를 불러왔습니다`);}catch(e){toast('파일을 읽지 못했습니다');}};fr.readAsText(f);}
+  if(!n){toast('주차 데이터가 없는 파일입니다');return;}
+  lsSet(K.DB,DB);lsSet(K.WX,WX);lsSet(K.WS,WS);header();renderHistory();
+  const ws=weeks();toast(`${n}개 주차를 불러왔습니다 · 지금 ${ws.length}개 (W${ws[0]}~W${ws[ws.length-1]})`);
+}
+function importData(inp){const f=inp.files[0];inp.value='';if(!f)return;const fr=new FileReader();
+  fr.onload=()=>{try{importObj(JSON.parse(fr.result));}catch(e){toast('파일을 읽지 못했습니다');}};fr.readAsText(f);}
+function importText(){const t=$('impTxt').value.trim();if(!t){toast('붙여넣은 내용이 없습니다');return;}
+  try{importObj(JSON.parse(t));$('impTxt').value='';}catch(e){toast('형식이 맞지 않습니다. 옛 앱에서 복사한 내용 전체를 붙여넣어 주세요');}}
+
+/* ════════════════ 구글 드라이브 자동 백업 ════════════════
+   저장할 때마다 선생님 구글 드라이브 '과일레이더_백업' 폴더로 보낸다 */
+const GS_KEY_DEFAULT='jjfr-85ef90b35814';
+async function gsBackup(){
+  if(!SET.gsUrl)return{ok:false,why:'주소 없음'};
+  const body=JSON.stringify({key:SET.gsKey||GS_KEY_DEFAULT,data:backupObj(),weeks:weeks().length});
+  try{
+    const r=await fetch(SET.gsUrl,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body,redirect:'follow'});
+    const j=await r.json();
+    if(j.ok){SET.gsLast=Date.now();SET.gsOk=true;SET.gsWhy='';lsSet(K.SET,SET);return{ok:true,at:j.at};}
+    SET.gsOk=false;SET.gsWhy=j.error||'실패';lsSet(K.SET,SET);return{ok:false,why:SET.gsWhy};
+  }catch(e){
+    /* 응답을 못 읽는 환경이면 보내기만 하고 '보냄'으로 표시 */
+    try{await fetch(SET.gsUrl,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body});
+      SET.gsLast=Date.now();SET.gsOk=null;lsSet(K.SET,SET);return{ok:true,unsure:true};}
+    catch(e2){SET.gsOk=false;SET.gsWhy='인터넷 연결 확인';lsSet(K.SET,SET);return{ok:false,why:SET.gsWhy};}
+  }
+}
+async function gsGet(q){const u=SET.gsUrl+(SET.gsUrl.includes('?')?'&':'?')+'key='+encodeURIComponent(SET.gsKey||GS_KEY_DEFAULT)+(q||'');
+  const j=await fetch(u,{redirect:'follow'}).then(r=>r.json());if(!j.ok)throw new Error(j.error||'실패');return j;}
+function saveGs(){SET.gsUrl=$('gsUrl').value.trim();SET.gsKey=$('gsKey').value.trim()||GS_KEY_DEFAULT;lsSet(K.SET,SET);renderHistory();}
+function backupNow(btn){busy(btn,'백업 중…',async()=>{saveGs();if(!SET.gsUrl){toast('웹 앱 주소를 먼저 넣어주세요');return;}
+  const r=await gsBackup();renderHistory();toast(r.ok?(r.unsure?'드라이브로 보냈습니다':`✓ 드라이브 백업 완료 · ${weeks().length}개 주차`):`백업 실패 — ${r.why}`);});}
+function restoreGs(btn){busy(btn,'불러오는 중…',async()=>{saveGs();if(!SET.gsUrl){toast('웹 앱 주소를 먼저 넣어주세요');return;}
+  try{const L=await gsGet('&list=1');const days=L.days||[];
+    const pick=prompt(`복원할 날짜 (비워두면 가장 최근)\n최근 백업: ${days.slice(0,6).join(', ')||'없음'}`,'');
+    if(pick===null)return;const j=await gsGet(pick.trim()?'&day='+pick.trim():'');
+    const n=Object.keys(j.data||{}).filter(k=>j.data[k]&&Array.isArray(j.data[k].items)).length;
+    if(!confirm(`${j.name} 에서 ${n}개 주차를 불러올까요? 같은 주차는 백업 내용으로 바뀝니다.`))return;
+    importObj(j.data);}catch(e){toast('복원 실패 — '+e.message);}});}
+function ago(t){if(!t)return'';const m=Math.round((Date.now()-t)/60000);return m<1?'방금':m<60?m+'분 전':m<1440?Math.round(m/60)+'시간 전':Math.round(m/1440)+'일 전';}
 
 /* ════════════════ 시작 ════════════════ */
 function boot(){
