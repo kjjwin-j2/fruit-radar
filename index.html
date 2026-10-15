@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#16202E">
 <title>JJ 과일 레이더</title>
-<meta name="app-version" content="2026.09.22c">
+<meta name="app-version" content="2026.10.15b">
 <style>
 :root{
   --ink:#16202E; --ink2:#4A5568; --ink3:#8A96A6;
@@ -42,10 +42,12 @@ h2:first-child{margin-top:4px}
 p.help{color:var(--ink2);font-size:13px;margin:0 0 12px;line-height:1.6}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:12px}
 textarea,input,select{
-  width:100%;font:inherit;color:var(--ink);background:#fff;
-  border:1.5px solid var(--line);border-radius:10px;padding:11px 12px;
+  width:100%;font:inherit;font-size:16px;color:var(--ink);background:#fff;
+  border:1.5px solid var(--line);border-radius:10px;padding:12px 13px;
 }
-textarea{min-height:210px;resize:vertical;line-height:1.5;font-size:14px}
+textarea{min-height:200px;resize:vertical;line-height:1.75;font-size:16px;overflow:hidden}
+textarea#inRaw{letter-spacing:.01em}
+/* 폰에서 16px 미만이면 사파리가 화면을 확대해 커서가 튄다 */
 textarea:focus,input:focus,select:focus{outline:none;border-color:var(--ink)}
 .row{display:flex;gap:8px;align-items:center}
 .row>*{flex:1}
@@ -144,14 +146,14 @@ summary{font-size:13.5px;font-weight:600;cursor:pointer}
 <section class="panel on" id="p-input">
   <h2>이번 주 조사 입력</h2>
   <p class="help">카톡에 보낸 텍스트를 그대로 붙여넣으세요. 매장 이름을 한 줄에 쓰고 그 아래 품목을 나열하면 됩니다.<br>
-  매대 위치는 줄 끝에 한 글자만 띄어 적으세요. <b>전</b>=전면 <b>엔</b>=엔드 <b>평</b>=평대 <b>특</b>=특설 <b>일</b>=일반. 안 적으셔도 됩니다.</p>
+  매대 위치는 줄 끝에 한 글자만 띄어 적으세요. <b>전</b>=전면 <b>엔</b>=엔드 <b>독</b>=독립매대 <b>평</b>=평대 <b>특</b>=특설 <b>일</b>=일반. 안 적으셔도 됩니다.</p>
 
   <div class="card">
     <div class="row" style="margin-bottom:10px">
       <div style="flex:0 0 92px">
-        <input id="inWeek" type="number" inputmode="numeric" placeholder="주차">
+        <input id="inWeek" type="number" inputmode="numeric" placeholder="주차" title="직전 주차 +1 로 자동 입력됩니다">
       </div>
-      <input id="inLabel" placeholder="2026-09-2 (연-월-주)">
+      <input id="inLabel" placeholder="2026-10-3주">
     </div>
     <textarea id="inRaw" placeholder="롯데&#10;홍로사과 4-8봉 5960 농활 전&#10;추희자두800 9990&#10;샤인1.5박스 11920 농활&#10;&#10;이마트&#10;샤인1.5 8991 농활&#10;보조개사과2.5키로 9980"></textarea>
     <div id="draftNote"></div>
@@ -282,7 +284,7 @@ summary{font-size:13.5px;font-weight:600;cursor:pointer}
 <script>
 /* ===================== 저장소 ===================== */
 const KEY='jjfr_v1';
-const APP_VER='2026.09.22c';
+const APP_VER='2026.10.15b';
 let DB={};
 function load(){
   try{const s=localStorage.getItem(KEY); DB = s? JSON.parse(s) : JSON.parse(SEED);}
@@ -291,6 +293,32 @@ function load(){
 function save(){ try{localStorage.setItem(KEY,JSON.stringify(DB));}catch(e){toast('저장 공간이 부족합니다');} }
 function weeks(){ return Object.keys(DB).map(Number).sort((a,b)=>a-b); }
 function latest(){ const w=weeks(); return w.length? w[w.length-1] : null; }
+/* 조사를 거른 주가 있어도 비교가 끊기지 않도록, 번호가 아니라 '직전에 저장된 주차'를 찾는다 */
+function prevWeek(wk){
+  const w=weeks().filter(x=>x<wk);
+  return w.length? w[w.length-1] : null;
+}
+function weekGap(wk){ const p=prevWeek(wk); return p==null? null : wk-p; }
+/* 라벨 날짜로 실제 간격을 센다. 주차 번호는 조사 횟수라 거른 주를 반영하지 못한다. */
+function realGap(wk){
+  const p=prevWeek(wk); if(p==null) return null;
+  const a=surveyDate(p), b=surveyDate(wk);
+  if(!a||!b) return null;
+  const d=Math.round((b-a)/(7*864e5));
+  return d>0? d : null;
+}
+/* 오늘이 그 달의 몇 번째 목요일인지로 라벨을 만든다 (조사일이 목·금) */
+function todayLabel(){
+  const now=new Date();
+  const dow=now.getDay();
+  const base=new Date(now);
+  if(dow>=0&&dow<4) base.setDate(now.getDate()-((dow+3)%7));  // 지난 목요일 쪽으로
+  const y=base.getFullYear(), mo=base.getMonth();
+  const first=new Date(y,mo,1);
+  const firstThu=1+((4-first.getDay()+7)%7);
+  const nth=Math.floor((base.getDate()-firstThu)/7)+1;
+  return `${y}-${mo+1}-${Math.max(nth,1)}주`;
+}
 
 /* ===================== 분류 ===================== */
 const CATS=[
@@ -357,6 +385,10 @@ const SPOT=[
 ];
 const SPOT1={};                       // 한 글자 대응표
 for(const [name,score,,ch] of SPOT) SPOT1[ch]={spot:name,score};
+SPOT1['독']={spot:'독립',score:4};     // 독립매대
+SPOT1['섬']={spot:'평대',score:3};     // 아일랜드
+SPOT1['벽']={spot:'벽면',score:2};
+SPOT1['냉']={spot:'냉장',score:2};
 
 function parseSpot(line){
   const x=String(line).trim();
@@ -372,13 +404,54 @@ function parseSpot(line){
     return {spot:tok.slice(0,6),score:2};
   }
   /* ② # 없이 줄 맨 끝 한 글자 — 앞에 공백이 있어야 품목명과 섞이지 않는다 */
-  const t=x.match(/\s([전엔평특일])\s*$/);
-  if(t) return SPOT1[t[1]];
+  const t=x.match(/\s([전엔평특일독섬벽냉])\s*$/);
+  if(t) return SPOT1[t[1]] || {spot:t[1],score:2,unknown:true};
   /* ③ 줄 끝 단어 전체가 위치명인 경우 */
   const w=x.match(/\s(\S+)\s*$/);
   if(w) for(const [name,score,keys] of SPOT)
     for(const k of keys) if(w[1]===k) return {spot:name,score};
   return null;
+}
+
+/* ── 기존 입력에서 더 뽑아내는 정보 (추가 타이핑 불필요) ── */
+
+/* 입수. "4-8봉" "5~10입" → 평균 6개. 과당 단가와 과 크기를 낸다. */
+function countOf(name){
+  const f=String(name).replace(/\s/g,'');
+  let m=f.match(/(\d{1,2})\s*[~\-]\s*(\d{1,2})\s*(입|봉|과|알|개)/);
+  if(m) return {lo:+m[1],hi:+m[2],avg:(+m[1]+ +m[2])/2};
+  m=f.match(/(\d{1,2})\s*(입|과|알|개)(?!월)/);
+  if(m) return {lo:+m[1],hi:+m[1],avg:+m[1]};
+  m=f.match(/(\d{1,2})\s*[~\-]\s*(\d{1,2})(?!\d)/);
+  if(m&&+m[2]<=30) return {lo:+m[1],hi:+m[2],avg:(+m[1]+ +m[2])/2};
+  return null;
+}
+/* 과 하나의 무게로 크기를 가른다 */
+function fruitSize(g){
+  if(g==null) return '';
+  if(g>=330) return '대과'; if(g>=230) return '중대과';
+  if(g>=160) return '중과'; if(g>=90) return '소과';
+  return '소립';
+}
+/* 상품 라인. 같은 사과라도 실속형과 프리미엄형은 다른 시장이다. */
+const LINE=[
+  ['실속',['상생','보조개','못난이','실속','한입','알뜰','5k','프라이스','작아도','반전','꼬마','자투리']],
+  ['프리미엄',['고당도','당도선별','황금당도','gap','저탄소','프리미엄','갓따온','비파괴','유명산지',
+             '국산의힘','한가득','명품','특선','선물','친환경','무농약','유기농']],
+];
+function lineOf(name){
+  const f=String(name).toLowerCase().replace(/\s/g,'');
+  for(const [k,ws] of LINE) for(const w of ws) if(f.includes(w)) return k;
+  return '일반';
+}
+/* 산지명. 표기 비율 자체가 차별화 전략의 강도를 보여준다. */
+const ORIGIN_NAMES=['성주','청도','나주','무주','남원','거제','상주','영천','청송','영주','안동','거창',
+  '의성','함안','고창','영암','경산','진주','사천','창녕','보은','논산','담양','제주','길안','충주',
+  '밀양','김천','봉화','양구','예산','천안','아산','완주','순창','하동','산청','문경','영동','이천','송산'];
+function originOf(name){
+  const f=String(name).replace(/\s/g,'');
+  for(const o of ORIGIN_NAMES) if(f.includes(o)) return o;
+  return '';
 }
 
 /* 규격 표기를 사전 키로 정규화. "4-8봉" "4 ~ 8 봉" → "4~8봉" */
@@ -438,7 +511,7 @@ function parseLine(line,RET){
   const sp=parseSpot(s);
   if(sp){
     s=s.replace(/#[^\s#]+/g,' ')
-       .replace(/\s([전엔평특일])\s*$/,' ')
+       .replace(/\s([전엔평특일독섬벽냉])\s*$/,' ')
        .replace(/\s(전면|입구|정문|전방|메인|노출|엔드|매대끝|끝단|코너|평대|평매|아일랜드|특설|기획|행사대|판매대|일반|곤도라|선반|정상)\s*$/,' ');
   }
   let tags=[];
@@ -477,7 +550,11 @@ function parseLine(line,RET){
   let src=kg!=null?'표기':null;
   if(kg==null&&per100&&per100>0){ kg=Math.round(pm.v/(per100*10)*1000)/1000; src='100g단가'; }
   if(kg==null){ const d=dictLookup(cat,name,RET); if(d!=null){ kg=d; src='사전'; } }
-  return {n:name, p:pm.v, kg, ks:src, c:cat, sp:sp?sp.spot:'', spv:sp?sp.score:0, g:tags.includes('농활')?'농활':'',
+  const ct=countOf(name);
+  const per = ct&&ct.avg>0 ? Math.round(pm.v/ct.avg) : null;          // 과당 단가
+  const gpf = (kg&&ct&&ct.avg>0) ? Math.round(kg*1000/ct.avg) : null; // 과 하나 무게
+  return {n:name, p:pm.v, kg, ks:src, c:cat, sp:sp?sp.spot:'', spv:sp?sp.score:0,
+          cnt:ct?ct.avg:null, per, gpf, sz:fruitSize(gpf), ln:lineOf(name), og:originOf(name), g:tags.includes('농활')?'농활':'',
           s:tags.filter(t=>t!=='농활').join(' ')};
 }
 function parseRaw(text){
@@ -521,7 +598,7 @@ function catView(wk){
 function groupBy(arr,fn){ const o={}; for(const x of arr){ const k=fn(x); (o[k]=o[k]||[]).push(x);} return o; }
 
 function detect(wk){
-  const ev=[], prev=wk-1, hasPrev=!!DB[prev];
+  const ev=[], prev=prevWeek(wk), hasPrev=prev!=null&&!!DB[prev];
   const cur=catView(wk), prv=hasPrev? catView(prev):[];
   const gc=groupBy(cur,x=>x.cat+'|'+x.band+'|'+x.ch), gp=groupBy(prv,x=>x.cat+'|'+x.band+'|'+x.ch);
 
@@ -563,10 +640,10 @@ function detect(wk){
         x:`${r} ${c.n} ${fmt(Math.round(cmpVal(c)))}${unitOf(band(c.kg,c.n))} — 관측 ${g.length}주 중 최저`});
     }
     let st=1;
-    for(let i=g.length-2;i>=0;i--){ if(g[i].p===c.p&&g[i].w===g[i+1].w-1) st++; else break; }
+    for(let i=g.length-2;i>=0;i--){ if(g[i].p===c.p&&g[i].w===prevWeek(g[i+1].w)) st++; else break; }
     if(st>=3) ev.push({t:'가격동결',w:6,c:cat,x:`${r} ${c.n} ${fmt(c.p)}원 — ${st}주 연속 같은 값`});
     const pr=g[g.length-2];
-    if(pr&&pr.w===wk-1){
+    if(pr&&pr.w===prevWeek(wk)){
       const d=(c.p-pr.p)/pr.p;
       if(Math.abs(d)>=0.08) ev.push({t:'급변동',w:8,c:cat,
         x:`${d>0?'▲':'▼'} ${r} ${c.n} ${fmt(pr.p)} → ${fmt(c.p)}원 (${d>0?'+':''}${pct(d)})`});
@@ -619,16 +696,23 @@ function loadDraft(){
   if(!d||!d.raw||!d.raw.trim()) return;
   if($('inRaw').value.trim()) return;
   $('inRaw').value=d.raw;
+  autoGrow($('inRaw'));
   if(d.wk) $('inWeek').value=d.wk;
   if(d.lb) $('inLabel').value=d.lb;
-  const ago=Math.round((Date.now()-(d.at||0))/60000);
-  $('draftNote').innerHTML='<div class="mini" style="color:var(--calm);margin-top:6px">'
-    +'입력하던 내용을 되살렸습니다'+(ago>=1? ' ('+(ago<60? ago+'분 전':Math.round(ago/60)+'시간 전')+')':'')
-    +' · <a href="#" onclick="clearRaw();return false" style="color:var(--ink2)">지우고 새로 쓰기</a></div>';
+  const mins=Math.round((Date.now()-(d.at||0))/60000);
+  const when = mins<60? mins+'분 전'
+             : mins<1440? Math.round(mins/60)+'시간 전'
+             : Math.round(mins/1440)+'일 전';
+  const old = mins>=4320;          // 3일 넘으면 지난 주차 것일 가능성
+  $('draftNote').innerHTML='<div class="mini" style="margin-top:6px;color:'
+    +(old?'var(--hot)':'var(--calm)')+'">'
+    +(old? '⚠ 오래된 입력이 남아 있습니다 ('+when+') — 지난 조사분일 수 있으니 확인하세요'
+         : '입력하던 내용을 되살렸습니다 ('+when+')')
+    +' · <a href="#" onclick="clearRaw();return false" style="color:var(--ink2)"><b>지우고 새로 쓰기</b></a></div>';
 }
 function dropDraft(){ try{ localStorage.removeItem(DRAFT); }catch(e){} $('draftNote').innerHTML=''; }
 
-function clearRaw(){ $('inRaw').value=''; $('parseOut').innerHTML=''; PARSED=null; dropDraft(); }
+function clearRaw(){ $('inRaw').value=''; $('parseOut').innerHTML=''; PARSED=null; dropDraft(); autoGrow($('inRaw')); }
 
 function doParse(){
   const txt=$('inRaw').value.trim();
@@ -644,12 +728,18 @@ function doParse(){
   for(const rt in byR){
     h+='<div style="margin-top:10px"><span class="pill '+(rt==='롯데'?'p-lotte':'p-emart')+'">'+esc(rt)+'</span></div><table><tbody>';
     for(const it of byR[rt]){
-      h+='<tr><td style="width:34%"><span style="color:var(--ink3);font-size:11px">'+esc(bigCat(it.c))+'</span></td>'
-       +'<td>'+esc(it.n)+(it.g?' <span class="pill p-nh">농활</span>':'')+'</td>'
-       +'<td class="n num" style="width:22%">'+fmt(it.p)+'</td>'
-       +'<td style="width:13%;font-size:11px;color:var(--warm)">'+(it.sp?esc(it.sp):'')+'</td>'
-       +'<td class="n num" style="width:17%;font-size:12px;color:'+(it.kg?(it.ks==='표기'?'var(--ink3)':'var(--calm)'):'#C9D2DC')+'">'
-       +(it.kg? it.kg+'kg'+(it.ks&&it.ks!=='표기'?'<div style="font-size:9.5px">'+it.ks+'</div>':'') : '—')+'</td></tr>';
+      h+='<tr><td style="padding:8px 4px">'
+       +'<div style="font-size:13px;line-height:1.35">'+esc(it.n)
+       +(it.g?' <span class="pill p-nh">농활</span>':'')
+       +(it.sp?' <span class="pill" style="background:#FDF0DC;color:#8A5A00">'+esc(it.sp)+'</span>':'')
+       +'</div>'
+       +'<div class="mini" style="margin-top:2px">'+esc(bigCat(it.c))
+       +(it.ln&&it.ln!=='일반'? ' · '+it.ln : '')
+       +(it.og? ' · '+it.og : '')
+       +(it.kg? ' · '+it.kg+'kg'+(it.ks&&it.ks!=='표기'?'('+it.ks+')':'') : ' · 중량없음')
+       +(it.per? ' · 개당 '+fmt(it.per)+'원'+(it.sz?'('+it.sz+')':'') : '')
+       +'</div></td>'
+       +'<td class="n num" style="width:76px;font-size:15px;font-weight:700;vertical-align:middle">'+fmt(it.p)+'</td></tr>';
     }
     h+='</tbody></table>';
   }
@@ -707,7 +797,7 @@ function saveWeek(){
   const w=parseInt($('inWeek').value,10);
   if(!w){ toast('주차 번호를 입력하세요'); return; }
   DB[w]={week:w,label:$('inLabel').value.trim()||('Week '+w),
-         items:PARSED.items.map(x=>({r:x.r,c:x.c,n:x.n,s:x.s||'',kg:x.kg,ks:x.ks||'',p:x.p,g:x.g,sp:x.sp||'',spv:x.spv||0}))};
+         items:PARSED.items.map(x=>({r:x.r,c:x.c,n:x.n,s:x.s||'',kg:x.kg,ks:x.ks||'',p:x.p,g:x.g,sp:x.sp||'',spv:x.spv||0,cnt:x.cnt||null,per:x.per||null,gpf:x.gpf||null,sz:x.sz||'',ln:x.ln||'일반',og:x.og||''}))};
   save(); dropDraft(); renderAll(); go('events');
   toast('Week '+w+' 저장 완료');
 }
@@ -837,7 +927,9 @@ function renderAll(){
   const wk=latest();
   const lb=wk? String(DB[wk].label||'').trim():'';
   $('hdWeek').textContent = wk? ('Week '+wk+(lb&&lb!=='Week '+wk? ' · '+lb:'')) : '데이터 없음';
-  if(wk){ $('inWeek').value=wk+1; }
+  if(wk && !$('inWeek').value) $('inWeek').value=wk+1;
+  if(!$('inWeek').value) $('inWeek').value=1;
+  if(!$('inLabel').value) $('inLabel').value=todayLabel();
   renderEvents(); renderWeeks(); renderSupply();
   const lastWk=latest();
   $('firstRun').innerHTML = weeks().length ?
@@ -1023,7 +1115,7 @@ function ymd(d){
 function surveyDate(wk){
   const d=DB[wk];
   const lb=(d&&d.label||'').trim();
-  let m=lb.match(/^(\d{4})-(\d{1,2})-(\d)$/);
+  let m=lb.match(/^(\d{4})[-.\/](\d{1,2})[-.\/](\d)\s*주?$/);
   if(m){
     const y=+m[1], mo=+m[2]-1, nth=+m[3];
     const first=new Date(y,mo,1);
@@ -1186,8 +1278,8 @@ function repBy(wk,keyFn){
   return m;
 }
 function wowTable(wk){
-  const rows=[]; if(!DB[wk-1]) return rows;
-  const A=repBy(wk,matchKey), B=repBy(wk-1,matchKey);
+  const rows=[]; const pw=prevWeek(wk); if(pw==null||!DB[pw]) return rows;
+  const A=repBy(wk,matchKey), B=repBy(pw,matchKey);
   for(const k in A){
     const b=B[k]; if(!b) continue;
     const a=A[k];
@@ -1266,6 +1358,59 @@ function wxSignal(cat,wk){
   return {press,notes,msg};
 }
 
+/* ---------- 상품 라인 분석 ----------
+   같은 품목이라도 실속형과 프리미엄형은 다른 시장이다.
+   어느 쪽에 가짓수를 늘렸는지가 그 주의 전략을 보여준다. */
+function lineView(wk){
+  const d=DB[wk]; if(!d) return [];
+  const out=[];
+  for(const [k,g] of Object.entries(groupBy(d.items,x=>x.r+'|'+bigCat(x.c)))){
+    const [ret,cat]=k.split('|');
+    const by=groupBy(g,x=>x.ln||'일반');
+    const row={r:ret,cat,n:g.length};
+    for(const ln of ['실속','일반','프리미엄']){
+      const a=by[ln]||[];
+      row[ln]=a.length;
+      const ps=a.map(x=>x.kg? x.p/x.kg : null).filter(v=>v);
+      row[ln+'가']=ps.length? Math.round(ps.reduce((x,y)=>x+y,0)/ps.length) : null;
+    }
+    out.push(row);
+  }
+  return out.filter(x=>x.실속||x.프리미엄);
+}
+/* 과당 단가 비교. 소비자는 kg이 아니라 한 알 값으로 체감한다. */
+function perFruit(wk){
+  const d=DB[wk]; if(!d) return [];
+  const m={};
+  for(const it of d.items){
+    if(!it.per) continue;
+    const k=bigCat(it.c)+'|'+(it.sz||'기타');
+    (m[k]=m[k]||[]).push(it);
+  }
+  const out=[];
+  for(const k in m){
+    const g=m[k], rs=[...new Set(g.map(x=>x.r))];
+    if(rs.length<2) continue;
+    const [cat,sz]=k.split('|');
+    const best={};
+    for(const r of rs){ const a=g.filter(x=>x.r===r).sort((x,y)=>x.per-y.per)[0]; best[r]=a; }
+    const sorted=Object.entries(best).sort((a,b)=>a[1].per-b[1].per);
+    out.push({cat,sz,win:sorted[0][0],
+      rows:sorted.map(([r,x])=>({r,per:x.per,n:x.n,p:x.p})),
+      gap:sorted.length>1? sorted[sorted.length-1][1].per-sorted[0][1].per : 0});
+  }
+  return out.sort((a,b)=>b.gap-a.gap);
+}
+/* 산지 표기 비율 = 차별화 전략 강도 */
+function originRate(wk){
+  const d=DB[wk]; if(!d) return [];
+  return Object.entries(groupBy(d.items,x=>x.r)).map(([r,g])=>({
+    r, n:g.length, og:g.filter(x=>x.og).length,
+    rate:Math.round(g.filter(x=>x.og).length/g.length*100),
+    names:[...new Set(g.filter(x=>x.og).map(x=>x.og))]
+  }));
+}
+
 /* ---------- 진열 분석 ----------
    매대 위치는 매장이 한정된 공간을 어디에 배분했는지를 드러낸다.
    가격은 따라 할 수 있지만 전면 진열은 그 주의 판단이 걸린 결정이다. */
@@ -1283,7 +1428,8 @@ function shelfView(wk){
 /* 지난주 대비 진열이 올라갔는지 내려갔는지 */
 function shelfMoves(wk){
   const A=groupBy(shelfView(wk),x=>x.r+'|'+x.cat);
-  const B=groupBy(shelfView(wk-1),x=>x.r+'|'+x.cat);
+  const pw=prevWeek(wk);
+  const B=groupBy(pw==null?[]:shelfView(pw),x=>x.r+'|'+x.cat);
   const out=[];
   for(const k in A){
     const a=A[k][0], b=B[k]&&B[k][0];
@@ -1396,6 +1542,11 @@ function planningView(wk){
       if(n.sig.includes('시즌진입')) imply.push(`${L2} 신규 편성 검토 구간`);
       if(n.sig.includes('출하지연')) imply.push(`${L2} 출하 기간 연장 — 종료 시점 늦춰질 가능성`);
     }
+    /* 개당 가격 · 라인 구성 */
+    for(const x of perFruit(wk).filter(z=>z.cat===cat).slice(0,1))
+      if(x.gap>0) facts.push(`개당 ${x.win} ${fmt(x.gap)}원 우위`);
+    for(const x of lineView(wk).filter(z=>z.cat===cat))
+      if(x.실속&&x.프리미엄) facts.push(`${x.r} 실속 ${x.실속}종·프리미엄 ${x.프리미엄}종`);
     /* 진열 */
     for(const sp of shelfView(wk).filter(x=>x.cat===cat))
       facts.push(`${sp.r} ${sp.spot} 진열`);
@@ -1444,7 +1595,8 @@ function buildReport(){
   if(!wk){ $('repOut').textContent='주차를 저장하면 리포트가 만들어집니다.'; return; }
   const d=DB[wk], ev=detect(wk), idx=priceIndex(wk), cv=catView(wk);
   const rc=reconcile(wk), wow=wowTable(wk), tr=trendOf(wk), wl=watchList(wk);
-  const prevCats=DB[wk-1]? new Set(catView(wk-1).map(x=>x.cat)) : null;
+  const pw0=prevWeek(wk);
+  const prevCats=(pw0!=null&&DB[pw0])? new Set(catView(pw0).map(x=>x.cat)) : null;
   const curCats=new Set(cv.map(x=>x.cat));
   const L='\u2501'.repeat(15);
   const sgn=v=>(v>0?'+':'')+pct(v);
@@ -1491,8 +1643,10 @@ function buildReport(){
   }
 
   /* ── 전주 대비 ── */
-  o+=`${L}\n\u25a0 전주 대비 가격 변동\n${L}\n\n`;
-  if(!DB[wk-1]) o+=`전주 데이터 없음\n\n`;
+  const gp=realGap(wk)||weekGap(wk);
+  o+=`${L}\n\u25a0 ${pw0!=null? ('Week '+pw0+' 대비 가격 변동'):'이전 대비 가격 변동'}`
+    +`${gp&&gp>1? ' (조사 '+gp+'주 간격)':''}\n${L}\n\n`;
+  if(pw0==null||!DB[pw0]) o+=`이전 조사 데이터 없음\n\n`;
   else{
     const moved=wow.filter(x=>Math.abs(x.d)>=0.03);
     if(!moved.length) o+=`3% 이상 움직인 품목 없음 (${wow.length}건 대조)\n\n`;
@@ -1537,6 +1691,56 @@ function buildReport(){
         +`\u2192 ${win} ${fmt(diff)}${x.perKg?'원/kg':'원'} 우위\n`;
     }
     o+=`\n우위 집계 : ${idx[0].baseR} ${lw}건 \u00b7 상대 ${rw}건\n\n`;
+  }
+
+  /* ── 과당 단가 ── */
+  const pf=perFruit(wk);
+  if(pf.length){
+    o+=`${L}\n\u25a0 개당 가격 비교\n${L}\n\n`;
+    for(const x of pf.slice(0,8)){
+      o+=`\u3010${x.cat}${x.sz&&x.sz!=='기타'?' '+x.sz:''}\u3011\n`;
+      x.rows.forEach(r=>o+=`  ${r.r} 개당 ${fmt(r.per)}원  (${esc(r.n)} ${fmt(r.p)}원)\n`);
+      if(x.gap>0) o+=`  \u2192 ${x.win} 우위 · 개당 ${fmt(x.gap)}원 차이\n`;
+      o+='\n';
+    }
+    o+=`\u203b 소비자 체감가는 kg보다 한 알 값에 가깝습니다.\n\n`;
+  }
+
+  /* ── 상품 라인 ── */
+  const lv=lineView(wk);
+  if(lv.length){
+    o+=`${L}\n\u25a0 실속형 · 프리미엄 구성\n${L}\n\n`;
+    for(const r of [...new Set(lv.map(x=>x.r))]){
+      o+=`${r}\n`;
+      lv.filter(x=>x.r===r).forEach(x=>{
+        const parts=[];
+        if(x.실속) parts.push(`실속 ${x.실속}종${x.실속가?' ('+fmt(x.실속가)+'원/kg)':''}`);
+        if(x.일반) parts.push(`일반 ${x.일반}종${x.일반가?' ('+fmt(x.일반가)+'원/kg)':''}`);
+        if(x.프리미엄) parts.push(`프리미엄 ${x.프리미엄}종${x.프리미엄가?' ('+fmt(x.프리미엄가)+'원/kg)':''}`);
+        o+=`  ${x.cat} : ${parts.join(' · ')}\n`;
+        if(x.실속가&&x.프리미엄가){
+          const r2=(x.프리미엄가/x.실속가);
+          o+=`    \u2192 프리미엄이 실속의 ${r2.toFixed(1)}배\n`;
+        }
+      });
+    }
+    o+='\n';
+  }
+
+  /* ── 산지 브랜딩 ── */
+  const orr=originRate(wk);
+  if(orr.some(x=>x.og)){
+    o+=`${L}\n\u25a0 산지 표기\n${L}\n\n`;
+    orr.forEach(x=>{
+      o+=`${x.r} ${x.og}/${x.n}품목 (${x.rate}%)`;
+      if(x.names.length) o+=` \u00b7 ${x.names.slice(0,6).join(' ')}`;
+      o+='\n';
+    });
+    const hi=orr.slice().sort((a,b)=>b.rate-a.rate)[0];
+    const lo=orr.slice().sort((a,b)=>a.rate-b.rate)[0];
+    if(hi&&lo&&hi.r!==lo.r&&hi.rate-lo.rate>=15)
+      o+=`\n\u2192 ${hi.r}가 산지 브랜딩 중심, ${lo.r}는 가격 중심으로 갈림\n`;
+    o+='\n';
   }
 
   /* ── 진열 ── */
@@ -1730,7 +1934,8 @@ function buildCards(){
 
   // 5 마무리
   const nh=d.items.filter(x=>x.g==='농활').length;
-  const inn=DB[wk-1]? [...new Set(cv.map(x=>x.cat))].filter(c=>!new Set(catView(wk-1).map(x=>x.cat)).has(c)):[];
+  const pwc=prevWeek(wk);
+  const inn=(pwc!=null&&DB[pwc])? [...new Set(cv.map(x=>x.cat))].filter(c=>!new Set(catView(pwc).map(x=>x.cat)).has(c)):[];
   cards.push({t:'요약',h:cardShell(`
     <div style="position:absolute;inset:0;background:${CC.ink}"></div>
     <div style="position:absolute;left:80px;top:130px;color:#7E93AC;font-size:32px;font-weight:700">SUMMARY</div>
@@ -1845,6 +2050,17 @@ async function postInstagram(){
 
 /* ===================== 시작 ===================== */
 load(); loadDict(); loadWx(); renderAll();
+/* 입력칸이 내용만큼 늘어나야 폰에서 커서를 원하는 줄에 바로 짚을 수 있다 */
+function autoGrow(el){
+  if(!el) return;
+  el.style.height='auto';
+  el.style.height=Math.max(200, el.scrollHeight+4)+'px';
+}
+const rawEl=$('inRaw');
+if(rawEl){
+  rawEl.addEventListener('input',()=>autoGrow(rawEl));
+  rawEl.addEventListener('focus',()=>autoGrow(rawEl));
+}
 let dtimer=null;
 for(const id of ['inRaw','inWeek','inLabel']){
   const el=$(id); if(!el) continue;
@@ -1853,6 +2069,7 @@ for(const id of ['inRaw','inWeek','inLabel']){
 window.addEventListener('pagehide',saveDraft);
 document.addEventListener('visibilitychange',()=>{ if(document.hidden) saveDraft(); });
 loadDraft();
+autoGrow($('inRaw'));
 </script>
 </body>
 </html>
